@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.List;
+
 public interface Controller {
-  int setOptions(String[] options);
+  int setOptions(List<String> options);
 }

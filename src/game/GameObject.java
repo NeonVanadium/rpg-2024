@@ -5,22 +5,27 @@ import java.awt.Point;
 public abstract class GameObject {
   protected String name;
 
-  protected Point position = new Point(10,10);
+  private double exactX = 10.0;
+  private double exactY = 10.0;
 
   public String getName() {
     return name;
   }
 
   public Point getPosition() {
-    return position;
+    return new Point((int) exactX, (int) exactY);
   }
 
-  public void setPosition(int x, int y) {
-    position.x = x;
-    position.y = y;
+  public double getX() { return exactX; }
+
+  public double getY() { return exactY; }
+
+  public void setPosition(double x, double y) {
+    exactX = x;
+    exactY = y;
   }
 
   public String toString() {
-    return String.format("Name: %s, Location: %s, %s", name, position.getX(), position.getY());
+    return String.format("Name: %s, Location: %s, %s", name, exactX, exactY);
   }
 }

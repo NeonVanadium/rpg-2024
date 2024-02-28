@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.List;
 import java.util.Scanner;
 import view.View;
 
@@ -8,15 +9,15 @@ public class ConsoleController implements Controller {
   private View view;
   private Scanner input = new Scanner(System.in);
 
-  private String[] options;
+  private List<String> options;
 
   public ConsoleController(View view) {
     this.view = view;
   }
 
-  public int setOptions(String[] options) {
+  public int setOptions(List<String> options) {
     this.options = options;
-    if (options != null && options.length != 0) {
+    if (options != null && options.size() != 0) {
       return pickOption();
     }
     return -1;
@@ -30,12 +31,12 @@ public class ConsoleController implements Controller {
         view.print("Not a valid input.");
       }
     }
-    view.print("Picked " + options[selected - 1]);
+    view.print("Picked " + options.get(selected - 1));
     return selected - 1;
   }
 
   private boolean isValidSelection(int s) {
-    return s > 0 && s < options.length + 1;
+    return s > 0 && s < options.size() + 1;
   }
 
 }
