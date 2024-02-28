@@ -1,7 +1,8 @@
-package map;
+package game.map;
 
+import game.GameCharacter;
 import java.awt.Rectangle;
-import src.GameCharacter;
+
 
 public class GameMap {
   private Rectangle area = new Rectangle(50, 50);

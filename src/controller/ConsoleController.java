@@ -1,12 +1,18 @@
 package controller;
 
 import java.util.Scanner;
+import view.View;
 
 public class ConsoleController implements Controller {
 
+  private View view;
   private Scanner input = new Scanner(System.in);
 
   private String[] options;
+
+  public ConsoleController(View view) {
+    this.view = view;
+  }
 
   public int setOptions(String[] options) {
     this.options = options;
@@ -17,14 +23,19 @@ public class ConsoleController implements Controller {
   }
 
   public int pickOption() {
-    //System.out.println("Option picker started.");
     int selected = -1;
-    while (!(selected > 0 && selected < options.length + 1)) {
+    while (!isValidSelection(selected)) {
       selected = input.nextInt();
-      //System.out.println("Selected is " + selected);
+      if (!isValidSelection(selected)) {
+        view.print("Not a valid input.");
+      }
     }
-    System.out.println("Picked " + options[selected - 1]);
+    view.print("Picked " + options[selected - 1]);
     return selected - 1;
+  }
+
+  private boolean isValidSelection(int s) {
+    return s > 0 && s < options.length + 1;
   }
 
 }

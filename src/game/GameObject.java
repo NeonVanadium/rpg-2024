@@ -1,13 +1,11 @@
+package game;
+
 import java.awt.Point;
 
-public class GameCharacter {
-  private String name;
+public abstract class GameObject {
+  protected String name;
 
-  private Point position = new Point(10,10);
-
-  public GameCharacter(String name) {
-    this.name = name;
-  }
+  protected Point position = new Point(10,10);
 
   public String getName() {
     return name;

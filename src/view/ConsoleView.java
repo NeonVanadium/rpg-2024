@@ -1,6 +1,6 @@
 package view;
 
-public class ConsoleInterface implements UserInterface {
+public class ConsoleView implements View {
 
   private static final int CHAR_PRINT_DELAY = 100;
 

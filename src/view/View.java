@@ -1,6 +1,6 @@
 package view;
 
-public interface UserInterface {
+public interface View {
 
   public void wait(int ms);
 
