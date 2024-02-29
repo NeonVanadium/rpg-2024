@@ -2,20 +2,20 @@ package game.Prompts;
 
 public class PromptOption {
   String label;
-  Object object;
+  Selectable object;
 
-  public PromptOption(String label, Object o) {
+  public PromptOption(String label, Selectable o) {
     this.label = label;
     this.object = o;
   }
 
-  public PromptOption(Object o) {
+  public PromptOption(Selectable o) {
     this.label = o.toString();
     this.object = o;
   }
 
   public String getLabel() { return label; }
 
-  public Object getObject() { return object; }
+  public Selectable getObject() { return object; }
 }
 

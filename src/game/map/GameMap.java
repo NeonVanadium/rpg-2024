@@ -1,6 +1,6 @@
 package game.map;
 
-import game.GameCharacter;
+import game.characters.GameCharacter;
 import game.GameObject;
 import java.awt.Point;
 import java.util.LinkedList;

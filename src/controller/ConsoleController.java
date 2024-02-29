@@ -20,6 +20,9 @@ public class ConsoleController implements Controller {
     if (options != null && options.size() != 0) {
       return pickOption();
     }
+    if (options == null) {
+      input.nextLine();
+    }
     return -1;
   }
 
