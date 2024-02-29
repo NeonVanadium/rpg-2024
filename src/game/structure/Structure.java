@@ -1,10 +1,17 @@
 package game.structure;
 
 import game.GameObject;
+import game.Prompts.PromptOption;
+import game.Prompts.SelectableInt;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Structure extends GameObject {
 
-  private Room[] rooms = new Room[]{ new Room("Vine-touched Platform", "A circular, stone platform high atop a strange, vine-covered tower.") };
+  private Room[] rooms = new Room[]{
+      new Room("Tower", "The base of a stone tower overgrown with green vines.", new int[]{-1, 1}),
+      new Room("Vine-touched Platform", "A circular, stone platform high atop a strange, vine-covered tower.", new int[]{0})
+  };
   String distantName; // the name shown to the player when viewed from a distance.
 
   public Structure(String name) {
@@ -25,8 +32,7 @@ public class Structure extends GameObject {
   }
 
   public String getName() {
-    // because this is used in navigation.
-    return getDistantName();
+    return name;
   }
 
   public boolean isEnterable() {
@@ -45,6 +51,25 @@ public class Structure extends GameObject {
       return rooms[id].getDescription();
     }
     return "INVALID ROOM";
+  }
+
+  public List<PromptOption> getRoomExits(int id) {
+    if (isValidRoomId(id)) {
+      int[] exits = rooms[id].getExits();
+      if (exits == null) {
+        return null;
+      }
+      LinkedList<PromptOption> exitPOs = new LinkedList<>();
+      for (int i = 0; i < exits.length; i++) {
+        if (exits[i] == -1) {
+          exitPOs.add(new PromptOption("The open world", new SelectableInt(-1)));
+        } else {
+          exitPOs.add(new PromptOption(rooms[exits[i]].getName(), new SelectableInt(exits[i])));
+        }
+      }
+      return exitPOs;
+    }
+    return null;
   }
 
   private boolean isValidRoomId(int id) {

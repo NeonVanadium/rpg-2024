@@ -42,7 +42,6 @@ public class ConsoleController implements Controller {
         view.print("Not a valid input.");
       }
     }
-    view.print("Picked " + options.get(selected));
     return selected;
   }
 

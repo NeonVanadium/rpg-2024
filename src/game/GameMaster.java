@@ -4,6 +4,7 @@ import controller.Controller;
 import game.Prompts.Direction;
 import game.Prompts.PromptOption;
 import game.Prompts.Selectable;
+import game.Prompts.SelectableInt;
 import game.characters.GameCharacter;
 import game.characters.Gender;
 import game.map.GameMap;
@@ -203,14 +204,22 @@ public class GameMaster {
   private void leaveStructure() {
     player.currentStructure = null;
     player.currentRoom = -1;
+    enterToContinue();
   }
 
   private void StructureLoop() {
     while (player.currentStructure != null) {
       view.setTitle(player.currentStructure.getRoomName(player.currentRoom));
       view.print(player.currentStructure.getRoomDescription(player.currentRoom));
-      enterToContinue();
-      leaveStructure();
+
+      PromptOption option =
+          getChoiceFromOptions(player.currentStructure.getRoomExits(player.currentRoom));
+
+      player.currentRoom = ((SelectableInt)option.getObject()).value;
+
+      if (player.currentRoom == -1) {
+        leaveStructure();
+      }
     }
   }
 
