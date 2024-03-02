@@ -1,20 +1,20 @@
 package view.window;
 
-public class Zone implements IRectangle {
+public class PanelZone implements IRectangle {
 
 	private WolgonPanel panel;
-	private Zone parent; // the parent of this Zone. Can be null.
-	private Zone[] children; // all the direct children of this Zone
+	private PanelZone parent; // the parent of this Zone. Can be null.
+	private PanelZone[] children; // all the direct children of this Zone
 	private boolean isSplitHorizontally; // if there is a division (eg children isn't null), determines if the cut was horz.
 	private double splitStartFraction; // at what fraction (of the x or why axis) is the zone split
 
-	public Zone(WolgonPanel panel) {
+	public PanelZone(WolgonPanel panel) {
 		this.parent = null;
 		this.panel = panel;
 		this.panel.addZone("WHOLE", this);
 	}
 
-	public Zone(Zone parent, String name) {
+	public PanelZone(PanelZone parent, String name) {
 		this.parent = parent;
 		this.panel = parent.panel;
 		this.panel.addZone(name, this);
@@ -98,9 +98,9 @@ public class Zone implements IRectangle {
 
 	// abstraction helper for the above two methods
 	private void splitHelper(double splitStartFraction, String name1, String name2) {
-		this.children = new Zone[2];
+		this.children = new PanelZone[2];
 		this.splitStartFraction = splitStartFraction;
-		this.children[0] = new Zone(this, name1);
-		this.children[1] = new Zone(this, name2);
+		this.children[0] = new PanelZone(this, name1);
+		this.children[1] = new PanelZone(this, name2);
 	}
 }

@@ -17,7 +17,7 @@ class Label implements IRectangle {
 	private float fontSize;
 	private int width; //how wide the label is (set by wrapText())
 	private int height; //how tall the label is (set by wrapText())
-	private Zone zone;
+	private PanelZone zone;
 	
 	// Has the text changed since the previous wrapping?  If true, wrapText will be called.
 	// This system is in place is because wrapText requires a graphics object which will not be present
@@ -191,9 +191,9 @@ class Label implements IRectangle {
 
 		switch(vert) {
 		case Top:
-			return zone.getY() + 2 * WolgonPanel.BUFFER;
+			return zone.getY() + (4 * WolgonPanel.BUFFER);
 		case Bottom:
-			return (zone.getY() + zone.getHeight()) - (halfLineHeight + 2 * WolgonPanel.BUFFER);
+			return (zone.getY() + zone.getHeight()) - (halfLineHeight + 4 * WolgonPanel.BUFFER);
 		case VCenter:
 			return zone.getY() + (zone.getHeight() / 2) - halfLineHeight;
 		default:

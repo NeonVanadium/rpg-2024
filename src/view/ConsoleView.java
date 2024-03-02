@@ -2,8 +2,6 @@ package view;
 
 public class ConsoleView implements View {
 
-  private static final int CHAR_PRINT_DELAY = 100;
-
   @Override
   public void wait(int ms) {
     try {
@@ -20,10 +18,6 @@ public class ConsoleView implements View {
 
   @Override
   public void print(String msg) {
-    /*for (int i = 0; i < msg.length(); i++) {
-      System.out.print(msg.charAt(i));
-      wait(CHAR_PRINT_DELAY);
-    }*/
     System.out.println(msg);
   }
 

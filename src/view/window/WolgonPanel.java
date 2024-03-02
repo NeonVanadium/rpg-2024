@@ -5,14 +5,15 @@ import java.awt.event.*;
 import java.util.*;
 
 import javax.swing.*;
+import view.View;
 
 // an abstract panel designed for a specific portion of gameplay (world, menu, etc)
-abstract class WolgonPanel extends JPanel implements IRectangle {
+abstract class WolgonPanel extends JPanel implements IRectangle, View {
 
 	private static final long serialVersionUID = 1L;
 	public static final Dimension MIN_SIZE = new Dimension(800, 500);
 
-	private HashMap<String, Zone> zones = new HashMap<String, Zone>();
+	private HashMap<String, PanelZone> zones = new HashMap<String, PanelZone>();
 	private HashMap<String, Label> labels = new HashMap<String, Label>();
 	
 	// initialized by other classes only. Names of the labels that need to be removed on update
@@ -36,7 +37,7 @@ abstract class WolgonPanel extends JPanel implements IRectangle {
 		this.setBackground(Color.DARK_GRAY);
 
 		// this zone represents the entire panel
-		new Zone(this);
+		new PanelZone(this);
 
 		/*this.addMouseListener( new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {	
@@ -91,11 +92,11 @@ abstract class WolgonPanel extends JPanel implements IRectangle {
 		}		
 	}
 
-	protected void addZone(String key, Zone value) {
+	protected void addZone(String key, PanelZone value) {
 		zones.put(key, value);
 	}
 
-	protected Zone getZone(String key) {
+	protected PanelZone getZone(String key) {
 		return zones.get(key);
 	}
 
@@ -127,10 +128,6 @@ abstract class WolgonPanel extends JPanel implements IRectangle {
 	protected void setLastMousePosition(Point to) {
 		lastMousePosition = to;
 	}*/
-
-	public void setLabelText(String labelName, String newText){
-		labels.get(labelName).setText(newText);
-	}
 
 	public void removeTemporaryLabels() {
 		if (tempLabelNames != null) for (String name : tempLabelNames) {
