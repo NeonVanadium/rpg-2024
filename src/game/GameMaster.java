@@ -82,6 +82,7 @@ public class GameMaster {
     }
 
     while (player.currentStructure == null) {
+      view.clear();
       view.print("The land stretches out before you...");
       determineOptionsForPlayer(options);
       //view.print("You are at " + player.character.getPosition().x + ", " + player.character.getPosition().y);
@@ -104,7 +105,7 @@ public class GameMaster {
     if (visible != null) {
       options.removeIf((PromptOption o) -> visible.contains(o.getObject()));
     }
-    visible = map.visibleObjects(player.character, 50);
+    visible = map.visibleObjects(player.character, 30);
     interactable = map.visibleObjects(player.character, 10);
 
     if (visible != null && visible.size() > 0) {
@@ -209,6 +210,7 @@ public class GameMaster {
 
   private void StructureLoop() {
     while (player.currentStructure != null) {
+      view.clear();
       view.setTitle(player.currentStructure.getRoomName(player.currentRoom));
       view.print(player.currentStructure.getRoomDescription(player.currentRoom));
 
@@ -227,6 +229,7 @@ public class GameMaster {
    * Conversations
    */
   public void ConversationLoop(GameCharacter c) {
+    view.clear();
     view.print(c.name + " looks at you.");
     enterToContinue();
   }

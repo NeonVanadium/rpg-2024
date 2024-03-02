@@ -20,7 +20,7 @@ public class GameMap {
 
     if (newX < 0) {
       System.out.println("West boundary hit.");
-      newY = 0;
+      newX = 0;
     } else if (newX > width) {
       System.out.println("East boundary hit.");
       newX = width;

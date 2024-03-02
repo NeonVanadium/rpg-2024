@@ -2,10 +2,12 @@ package view;
 
 public interface View {
 
-  public void wait(int ms);
+  void wait(int ms);
 
-  public void setTitle(String s);
+  void setTitle(String s);
 
-  public void print(String s);
+  void print(String s);
+
+  void clear();
 
 }

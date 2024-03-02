@@ -4,6 +4,7 @@ public class ConsoleView implements View {
 
   private static final int CHAR_PRINT_DELAY = 100;
 
+  @Override
   public void wait(int ms) {
     try {
       Thread.sleep(ms);
@@ -12,6 +13,12 @@ public class ConsoleView implements View {
     }
   }
 
+  @Override
+  public void setTitle(String msg) {
+    print("<<<" + msg + ">>>");
+  }
+
+  @Override
   public void print(String msg) {
     /*for (int i = 0; i < msg.length(); i++) {
       System.out.print(msg.charAt(i));
@@ -20,7 +27,10 @@ public class ConsoleView implements View {
     System.out.println(msg);
   }
 
-  public void setTitle(String msg) {
-    print("<<<" + msg + ">>>");
+  @Override
+  public void clear() {
+    // nothing.
   }
+
+
 }

@@ -13,7 +13,7 @@ public class GameCharacter extends GameObject {
   }
 
   public String getGenericDescription() {
-    return gender.name().toLowerCase();
+    return "a " + gender.name().toLowerCase();
   }
 
 }
