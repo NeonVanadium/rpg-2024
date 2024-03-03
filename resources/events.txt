@@ -1,0 +1,23 @@
+>> INTRO
+You awaken on hard stone, high atop a tower that overlooks an unfamiliar landscape.
+You have no memory--no idea who you are, nor why you're in this place.
+Whatever is going on, whatever you choose to do, you gain nothing by staying put. You rise to your feet and survey your surroundings.
+
+>> MEET_BEYN
+Ahead of you, a man stands amidst a dazzling display of light.
+He is hunched, eyes shut and temples bulging as if under considerable physical duress. A flurry of mostly-unfamiliar symbols in gleaming blue shift and flow like a storm behind him.
+> CHOICE ; Approach the man > _MEETBEYN1; Leave - Not dealing with this today. > END;
+
+>> _MEETBEYN1
+He opens his eyes and looks at you. His irises seem almost hollow, like tunnels filled with yet more of the glowing symbols that surround him. The lights calm and slow, but not completely.
+"Ah. Hello."
+> CHOICE ; "Are you alright?" > _MEETBEYN2; "What are those symbols? > _MEETBEYN3 ;
+
+>> _MEETBEYN2
+"Unclear. I admit I can't remember... much of anything, really, about myself, or where in the world I--we--are."
+"I can't help but notice that you don't also have an unending storm of formulae and obscura dancing around you."
+
+> CHOICE ; "What are those symbols?" > _MEETBEYN3;
+
+>> _MEETBEYN3
+"Truths. Whether I want them or not."

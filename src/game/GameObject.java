@@ -1,7 +1,7 @@
 package game;
 
-import game.Prompts.Direction;
-import game.Prompts.Selectable;
+import game.prompts.Direction;
+import game.prompts.Selectable;
 import java.awt.Point;
 
 public abstract class GameObject implements Selectable {

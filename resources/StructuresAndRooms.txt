@@ -1,0 +1,6 @@
+>> ARENA_TOWER
+0 ; abc
+1 ; def
+
+>> TRAPEZOIDAL_PYRAMID
+1 ; The inside of the trapezoidal prism. The walls are featureless metal. There is a faint, deep hum. |

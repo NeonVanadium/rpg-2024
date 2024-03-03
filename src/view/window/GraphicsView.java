@@ -51,4 +51,9 @@ public class GraphicsView implements View {
   public void clear() {
     panel.clear();
   }
+
+  @Override
+  public void promptAnyInput() {
+    panel.promptAnyInput();
+  }
 }

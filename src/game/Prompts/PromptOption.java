@@ -1,4 +1,4 @@
-package game.Prompts;
+package game.prompts;
 
 public class PromptOption {
   String label;

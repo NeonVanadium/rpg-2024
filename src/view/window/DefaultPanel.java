@@ -5,7 +5,7 @@ import view.View;
 
 public class DefaultPanel extends WolgonPanel implements View {
 
-  private Label title, body;
+  private final Label title, body;
 
   public DefaultPanel() {
     title = new Label("Title", "", Color.WHITE, 60f, AlignmentLocation.Left,
@@ -39,5 +39,11 @@ public class DefaultPanel extends WolgonPanel implements View {
     title.setText("");
     body.setText("");
     update();
+  }
+
+  @Override
+  public void promptAnyInput() {
+    // TODO  replae with little animated blip or something.
+    print("<Enter to continue...>");
   }
 }

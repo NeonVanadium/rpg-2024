@@ -1,8 +1,8 @@
 package game.structure;
 
 import game.GameObject;
-import game.Prompts.PromptOption;
-import game.Prompts.SelectableInt;
+import game.prompts.PromptOption;
+import game.prompts.SelectableInt;
 import java.util.LinkedList;
 import java.util.List;
 

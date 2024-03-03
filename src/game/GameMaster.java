@@ -1,12 +1,13 @@
 package game;
 
 import controller.Controller;
-import game.Prompts.Direction;
-import game.Prompts.PromptOption;
-import game.Prompts.Selectable;
-import game.Prompts.SelectableInt;
+import game.prompts.Direction;
+import game.prompts.PromptOption;
+import game.prompts.Selectable;
+import game.prompts.SelectableInt;
 import game.characters.GameCharacter;
 import game.characters.Gender;
+import game.events.EventHandler;
 import game.map.GameMap;
 import game.structure.Structure;
 import java.util.ArrayList;
@@ -16,36 +17,46 @@ import view.View;
 
 public class GameMaster {
 
-  private final View view;
-  private final Controller controller;
-  private GameMap map;
-  private Player player = new Player();
-  private List<GameObject> visible;
-  private List<GameObject> interactable;
-  private boolean running = true;
+  private static View view;
+  private static Controller controller;
+  private static GameMap map;
+  private static Player player = new Player();
+  private static List<GameObject> visible;
+  private static List<GameObject> interactable;
+  private static boolean running = true;
 
-  public GameMaster(View view, Controller controller) {
-    this.view = view;
-    this.controller = controller;
+  public static void init(View v, Controller c) {
+    view = v;
+    controller = c;
   }
 
-  public void start() {
+  public static void start() {
     player.character = new GameCharacter("Amnesiac", Gender.SOMETHING_ELSE);
     GameCharacter beyn = new GameCharacter("Beyn", Gender.MAN);
     GameCharacter senja = new GameCharacter("Senja", Gender.WOMAN);
 
+    EventHandler.loadEvents();
+
+    Structure ARENA_TOWER = new Structure("ARENA_TOWER", "a tower");
+
     map = new GameMap();
-    map.putGameObject(player.character, 25, 25);
-    map.putGameObject(new Structure("Southeast Tower", "a tower"), 50, 50);
+    map.putGameObject(ARENA_TOWER, 50, 50);
     map.putGameObject(beyn, 10, 0);
     map.putGameObject(senja, 42, 8);
 
-    view.setTitle("Untitled game");
+    enterStructure(ARENA_TOWER);
+    player.character.currentRoom = 1;
+
     while (running) {
-      if (player.currentStructure == null) {
-        MapExplorationLoop();
+      if (!EventHandler.hasQueuedEvent()) EventHandler.checkEventTriggers(player);
+      if (EventHandler.hasQueuedEvent()) {
+        view.clear();
+        EventHandler.runQueuedEvent(view, controller);
+      }
+      else if (player.character.currentStructure == null) {
+        mapExplorationLoop();
       } else {
-        StructureLoop();
+        structureLoop();
       }
     }
 
@@ -54,8 +65,7 @@ public class GameMaster {
   /*
    * Handling choices.
    */
-
-  private PromptOption getChoiceFromOptions(List<PromptOption> options) {
+  public static PromptOption getChoiceFromOptions(List<PromptOption> options) {
     List<String> optionLabels = new LinkedList<>();
     int i = 1;
     for (PromptOption o : options) {
@@ -66,26 +76,25 @@ public class GameMaster {
     return options.get(controller.setOptions(optionLabels));
   }
 
-  private void enterToContinue() {
-    view.print("<Enter to continue>");
-    controller.setOptions(null);
+  public static void enterToContinue() {
+    view.promptAnyInput();
+    controller.enterToContinue();
   }
 
   /*
    * Exploring the open world.
    */
 
-  private void MapExplorationLoop() {
+  private static void mapExplorationLoop() {
     ArrayList<PromptOption> options = new ArrayList<>(5);
     for (Direction d : Direction.values()) {
       options.add(new PromptOption(d));
     }
 
-    while (player.currentStructure == null) {
+    while (player.character.currentStructure == null) {
       view.clear();
-      view.print("The land stretches out before you...");
+      view.print(getSurroundingsDescription());
       determineOptionsForPlayer(options);
-      //view.print("You are at " + player.character.getPosition().x + ", " + player.character.getPosition().y);
 
       Selectable selection = getChoiceFromOptions(options).getObject();
 
@@ -94,14 +103,14 @@ public class GameMaster {
       } else if (selection instanceof Structure) {
         enterStructure((Structure) selection);
       } else if (selection instanceof GameCharacter) {
-        ConversationLoop((GameCharacter) selection);
+        conversationLoop((GameCharacter) selection);
       } else {
         view.print("It doesn't respond to you.");
       }
     }
   }
 
-  private void determineOptionsForPlayer(List<PromptOption> options) {
+  private static void determineOptionsForPlayer(List<PromptOption> options) {
     if (visible != null) {
       options.removeIf((PromptOption o) -> visible.contains(o.getObject()));
     }
@@ -124,14 +133,18 @@ public class GameMaster {
     }
   }
 
+  private static String getSurroundingsDescription() {
+    return "The land stretches out before you.";
+  }
+
   /**
    * The description shown when the player can see this object in the open world.
    */
-  private String getSeenDescription(GameObject obj) {
+  private static String getSeenDescription(GameObject obj) {
     return getNameToDisplayAsOption(obj) + " " + getRelativeDirectionString(obj);
   }
 
-  private String getRelativeDirectionString(GameObject obj) {
+  private static String getRelativeDirectionString(GameObject obj) {
     if (obj.isInSameSpotAs(player.character)) {
       return "here.";
     } else {
@@ -157,7 +170,7 @@ public class GameMaster {
     }
   }
 
-  private String getNameToDisplayAsOption(GameObject obj) {
+  private static String getNameToDisplayAsOption(GameObject obj) {
     if (obj instanceof Structure) {
       return ((Structure) obj).getDistantName();
     } else if (obj instanceof GameCharacter) {
@@ -167,7 +180,7 @@ public class GameMaster {
     }
   }
 
-  private void movePlayer(Direction d) {
+  private static void movePlayer(Direction d) {
     int xMod, yMod;
     if (d == Direction.NORTH) {
       xMod = 0;
@@ -191,44 +204,41 @@ public class GameMaster {
    * Exploring structures.
    */
 
-  private boolean enterStructure(Structure s) {
+  private static boolean enterStructure(Structure s) {
     if (s.isEnterable()) {
-      view.print(player.character.name + " enters " + s.name);
-      player.character.setPosition(s.getX(), s.getY());
-      player.currentStructure = s;
-      player.currentRoom = 0;
+      map.putGameObject(player.character, s.getX(), s.getY());
+      player.character.currentStructure = s;
+      player.character.currentRoom = 0;
       return true;
     }
     return false;
   }
 
-  private void leaveStructure() {
-    player.currentStructure = null;
-    player.currentRoom = -1;
+  private static void leaveStructure() {
+    player.character.currentStructure = null;
+    player.character.currentRoom = -1;
     enterToContinue();
   }
 
-  private void StructureLoop() {
-    while (player.currentStructure != null) {
-      view.clear();
-      view.setTitle(player.currentStructure.getRoomName(player.currentRoom));
-      view.print(player.currentStructure.getRoomDescription(player.currentRoom));
+  private static void structureLoop() {
+    view.clear();
+    view.setTitle(player.character.currentStructure.getRoomName(player.character.currentRoom));
+    view.print(player.character.currentStructure.getRoomDescription(player.character.currentRoom));
 
-      PromptOption option =
-          getChoiceFromOptions(player.currentStructure.getRoomExits(player.currentRoom));
+    PromptOption option =
+        getChoiceFromOptions(player.character.currentStructure.getRoomExits(player.character.currentRoom));
 
-      player.currentRoom = ((SelectableInt)option.getObject()).value;
+    player.character.currentRoom = ((SelectableInt) option.getObject()).value;
 
-      if (player.currentRoom == -1) {
-        leaveStructure();
-      }
+    if (player.character.currentRoom == -1) {
+      leaveStructure();
     }
   }
 
   /*
    * Conversations
    */
-  public void ConversationLoop(GameCharacter c) {
+  public static void conversationLoop(GameCharacter c) {
     view.clear();
     view.print(c.name + " looks at you.");
     enterToContinue();

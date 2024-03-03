@@ -26,6 +26,11 @@ public class ConsoleController implements Controller {
     return -1;
   }
 
+  @Override
+  public void enterToContinue() {
+    setOptions(null);
+  }
+
   public int pickOption() {
     int selected = -1;
     while (!isValidSelection(selected)) {
@@ -54,7 +59,7 @@ public class ConsoleController implements Controller {
    * returns -1.
    */
   private int parseInt(String s) {
-    if (Character.isDigit(s.charAt(0))) {
+    if (!s.isEmpty() && Character.isDigit(s.charAt(0))) {
       try {
         return Integer.parseInt(s) - 1;
       } catch (Exception e) {}

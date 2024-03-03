@@ -1,9 +1,6 @@
 package game.structure;
 
-import game.Prompts.PromptOption;
-import game.Prompts.Selectable;
-import java.util.LinkedList;
-import java.util.List;
+import game.prompts.Selectable;
 
 public class Room implements Selectable {
   private final String name, desc;

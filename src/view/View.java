@@ -10,4 +10,6 @@ public interface View {
 
   void clear();
 
+  void promptAnyInput();
+
 }

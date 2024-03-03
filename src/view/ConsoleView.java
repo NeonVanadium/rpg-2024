@@ -26,5 +26,10 @@ public class ConsoleView implements View {
     // nothing.
   }
 
+  @Override
+  public void promptAnyInput() {
+    print("<ENTER to continue>");
+  }
+
 
 }
