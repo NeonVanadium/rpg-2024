@@ -1,6 +1,7 @@
 package game;
 
 import controller.Controller;
+import game.characters.CharacterManager;
 import game.prompts.Direction;
 import game.prompts.PromptOption;
 import game.prompts.Selectable;
@@ -32,17 +33,16 @@ public class GameMaster {
 
   public static void start() {
     player.character = new GameCharacter("Amnesiac", Gender.SOMETHING_ELSE);
-    GameCharacter beyn = new GameCharacter("Beyn", Gender.MAN);
-    GameCharacter senja = new GameCharacter("Senja", Gender.WOMAN);
 
     EventHandler.loadEvents();
+    CharacterManager.loadCharacters();
 
     Structure ARENA_TOWER = new Structure("ARENA_TOWER", "a tower");
 
     map = new GameMap();
     map.putGameObject(ARENA_TOWER, 50, 50);
-    map.putGameObject(beyn, 10, 0);
-    map.putGameObject(senja, 42, 8);
+    map.putGameObject(CharacterManager.getCharacterByLabel("BEYN"), 10, 0);
+    map.putGameObject(CharacterManager.getCharacterByLabel("SENJA"), 42, 8);
 
     enterStructure(ARENA_TOWER);
     player.character.currentRoom = 1;
@@ -217,7 +217,6 @@ public class GameMaster {
   private static void leaveStructure() {
     player.character.currentStructure = null;
     player.character.currentRoom = -1;
-    enterToContinue();
   }
 
   private static void structureLoop() {

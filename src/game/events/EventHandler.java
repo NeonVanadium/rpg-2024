@@ -3,6 +3,7 @@ package game.events;
 import controller.Controller;
 import game.GameMaster;
 import game.Player;
+import game.Util;
 import game.prompts.PromptOption;
 import game.prompts.SelectableString;
 import java.io.BufferedReader;
@@ -19,11 +20,11 @@ import view.View;
  */
 public class EventHandler {
 
-  protected static final String EVENT_START_SYMBOL = ">> ";
-  protected static final String SPECIAL_PART_SYMBOL = "> ";
+
   private static Map<String, Event> events;
   private static Collection<String> completedEvents;
 
+  private static Event eventBeingBuilt; // only used in loadevents/processline.
   private static String eventToRun;
 
   /**
@@ -32,29 +33,24 @@ public class EventHandler {
   public static void loadEvents() {
     events = new HashMap<>();
     completedEvents = new HashSet<>();
-    Event curEvent = null;
-    try {
-      BufferedReader br = new BufferedReader(new FileReader("resources\\events.txt"));
+    eventBeingBuilt = null;
+    Util.parseFileAndDoEachLine("resources\\events.txt", (line) -> processLine(line));
+    if (eventBeingBuilt != null) {
+      events.put(eventBeingBuilt.title, eventBeingBuilt);
+      eventBeingBuilt = null;
+    }
+  }
 
-      String line;
-      while((line = br.readLine()) != null) {// Reads lines of text until there are no more
-        if (!line.isBlank()) {
-          if (line.startsWith(EVENT_START_SYMBOL)) {
-            if (curEvent != null) {
-              events.put(curEvent.title, curEvent);
-            }
-            curEvent = new Event(line.substring(EVENT_START_SYMBOL.length()));
-          } else if (curEvent != null) {
-            curEvent.addPart(line);
-          }
+  private static void processLine(String line) {
+    if (!line.isBlank() && !line.startsWith("//")) {
+      if (line.startsWith(Util.ENTRY_START_SYMBOL)) {
+        if (eventBeingBuilt != null) {
+          events.put(eventBeingBuilt.title, eventBeingBuilt);
         }
+        eventBeingBuilt = new Event(line.substring(Util.ENTRY_START_SYMBOL.length()));
+      } else if (eventBeingBuilt != null) {
+        eventBeingBuilt.addPart(line);
       }
-      br.close();
-      if (curEvent != null) {
-        events.put(curEvent.title, curEvent);
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
     }
   }
 
@@ -76,6 +72,7 @@ public class EventHandler {
       if (eventPart instanceof TextEventPart) {
         view.clear();
         view.print(((TextEventPart) eventPart).text);
+        // TODO if next event is a choice don't show do the enter to continue
         GameMaster.enterToContinue();
       } else if (eventPart instanceof ChoiceEventPart) {
         // TODO : I really don't want this method to be public, find a way to get this

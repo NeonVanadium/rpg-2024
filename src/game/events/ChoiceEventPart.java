@@ -1,5 +1,6 @@
 package game.events;
 
+import game.Util;
 import game.prompts.PromptOption;
 import game.prompts.SelectableString;
 import java.util.LinkedList;
@@ -10,7 +11,7 @@ public class ChoiceEventPart extends EventPart{
   List<PromptOption> choices;
 
   public ChoiceEventPart(String rawLineText) {
-    if (!rawLineText.startsWith(EventHandler.SPECIAL_PART_SYMBOL)) {
+    if (!rawLineText.startsWith(Util.SPECIAL_PART_SYMBOL)) {
       throw new IllegalArgumentException("raw line text passed to Choice event part doesn't start with the special part symbol.");
     }
     String[] unprocessedChoices = rawLineText.split(";");
