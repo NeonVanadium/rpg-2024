@@ -12,6 +12,7 @@ public class Util {
    */
   public static final String ENTRY_START_SYMBOL = ">> ";
   public static final String SPECIAL_PART_SYMBOL = "> ";
+  public static final String COMPONENT_DELINIATOR = ";";
 
   /**
    * Reads each line from a file, and calls the provided consumer on each line.

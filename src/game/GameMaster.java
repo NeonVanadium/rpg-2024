@@ -11,6 +11,7 @@ import game.characters.Gender;
 import game.events.EventHandler;
 import game.map.GameMap;
 import game.structure.Structure;
+import game.structure.StructureManager;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,16 +37,15 @@ public class GameMaster {
 
     EventHandler.loadEvents();
     CharacterManager.loadCharacters();
-
-    Structure ARENA_TOWER = new Structure("ARENA_TOWER", "a tower");
+    StructureManager.loadStructures();
 
     map = new GameMap();
-    map.putGameObject(ARENA_TOWER, 50, 50);
-    map.putGameObject(CharacterManager.getCharacterByLabel("BEYN"), 10, 0);
-    map.putGameObject(CharacterManager.getCharacterByLabel("SENJA"), 42, 8);
+    map.putGameObject(StructureManager.getStructure("ARENA_TOWER"), 50, 50);
+    map.putGameObject(CharacterManager.get("SENJA"), 42, 8);
 
-    enterStructure(ARENA_TOWER);
-    player.character.currentRoom = 1;
+    Structure startTower = StructureManager.getStructure("ARENA_TOWER");
+    enterStructure(player.character, startTower, 5);
+    enterStructure(CharacterManager.get("BEYN"), startTower, 3);
 
     while (running) {
       if (!EventHandler.hasQueuedEvent()) EventHandler.checkEventTriggers(player);
@@ -101,7 +101,7 @@ public class GameMaster {
       if (selection instanceof Direction) {
         movePlayer((Direction) selection);
       } else if (selection instanceof Structure) {
-        enterStructure((Structure) selection);
+        enterStructure(player.character, (Structure) selection);
       } else if (selection instanceof GameCharacter) {
         conversationLoop((GameCharacter) selection);
       } else {
@@ -121,10 +121,18 @@ public class GameMaster {
       if (visible.size() == 1) {
         view.print("You see " + getSeenDescription(visible.get(0)));
       } else {
-        view.print("In the distance, you see:");
+        StringBuilder youSee = new StringBuilder("You see ");
+        boolean first = true;
         for (GameObject o : visible) {
-          view.print(" - " + getSeenDescription(o));
+          if (first) {
+            first = false;
+          } else {
+            youSee.append(", ");
+          }
+          youSee.append(getSeenDescription(o));
         }
+        youSee.append(".");
+        view.print(youSee.toString());
       }
     }
 
@@ -146,26 +154,26 @@ public class GameMaster {
 
   private static String getRelativeDirectionString(GameObject obj) {
     if (obj.isInSameSpotAs(player.character)) {
-      return "here.";
+      return "here";
     } else {
       if (obj.isFartherThan(Direction.NORTH, player.character)) {
         if (obj.isFartherThan(Direction.EAST, player.character)) {
-          return "to the Northeast.";
+          return "to the Northeast";
         } else if (obj.isFartherThan(Direction.WEST, player.character)) {
-          return "to the Northwest.";
+          return "to the Northwest";
         }
         return "to the North";
       } else if (obj.isFartherThan(Direction.SOUTH, player.character)) {
         if (obj.isFartherThan(Direction.EAST, player.character)) {
-          return "to the Southeast.";
+          return "to the Southeast";
         } else if (obj.isFartherThan(Direction.WEST, player.character)) {
-          return "to the Southwest.";
+          return "to the Southwest";
         }
         return "to the South";
       } else if (obj.isFartherThan(Direction.EAST, player.character)) {
-        return "to the East.";
+        return "to the East";
       } else { // if (obj.isFartherThan(Direction.WEST, player.character)) {
-        return "to the West.";
+        return "to the West";
       }
     }
   }
@@ -203,15 +211,16 @@ public class GameMaster {
   /*
    * Exploring structures.
    */
-
-  private static boolean enterStructure(Structure s) {
+  private static void enterStructure(GameCharacter c, Structure s, int roomId) {
     if (s.isEnterable()) {
-      map.putGameObject(player.character, s.getX(), s.getY());
-      player.character.currentStructure = s;
-      player.character.currentRoom = 0;
-      return true;
+      map.putGameObject(c, s.getX(), s.getY());
+      c.currentStructure = s;
+      c.currentRoom = roomId;
     }
-    return false;
+  }
+
+  private static void enterStructure(GameCharacter c, Structure s) {
+    enterStructure(c, s, 0);
   }
 
   private static void leaveStructure() {

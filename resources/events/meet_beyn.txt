@@ -53,7 +53,7 @@ He opens his eyes and looks at you. His irises seem almost hollow, like tunnels 
 > GOTO _MEETBEYN_2.2.1
 
 >> _MEETBEYN_2.2.1
-"I don't suppose, then, you'd object to staying together for a while, then?"
+"I don't suppose, then, you'd object to staying together for a while?"
 > CHOICE ; "Not at all. Let's join up." > _MEETBEYN_3a ; "For now, sure." > _MEETBEYN_3a ; "No, thanks. I'd rather go it alone." > _MEETBEYN_3b ; "I don't want whatever's going on with those lights anywhere near me." > _MEETBEYN_3b
 
 >> _MEETBEYN_3a

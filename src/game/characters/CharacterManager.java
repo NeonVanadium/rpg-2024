@@ -19,7 +19,7 @@ public class CharacterManager {
     characters.put(label, new GameCharacter(label, gender));
   }
 
-  public static GameCharacter getCharacterByLabel(String label) {
+  public static GameCharacter get(String label) {
     return characters.get(label);
   }
 

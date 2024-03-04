@@ -4,6 +4,7 @@ import controller.Controller;
 import game.GameMaster;
 import game.Player;
 import game.Util;
+import game.characters.CharacterManager;
 import game.prompts.PromptOption;
 import game.prompts.SelectableString;
 import java.io.File;
@@ -27,7 +28,7 @@ public class EventHandler {
   private static final String eventFilesPath = "resources\\events\\";
 
   /**
-   * Load events from meet_beyn.txt.
+   * Load events from all files in resources/events.
    */
   public static void loadEvents() {
     events = new HashMap<>();
@@ -104,8 +105,10 @@ public class EventHandler {
   // to do this from the text file! jank!
   public static void checkEventTriggers(Player player) {
     if (!completedEvents.contains("INTRO")) queueEvent("INTRO");
-    else if (player.character.inStructure("ARENA_TOWER") && player.character.currentRoom != 1) {
+    else if (player.character.inStructure("ARENA_TOWER") && player.character.currentRoom == CharacterManager.get("BEYN").currentRoom) {
       queueEvent("MEET_BEYN");
+    } else if (player.character.currentStructure == null) {
+      queueEvent("INTO_THE_WILDERNESS");
     }
   }
 }

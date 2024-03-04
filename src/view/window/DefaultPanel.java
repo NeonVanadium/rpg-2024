@@ -12,7 +12,7 @@ public class DefaultPanel extends WolgonPanel implements View {
   private final static String continuePromptText = "\\/";
 
   public DefaultPanel() {
-    title = new Label("Title", "", Color.WHITE, 60f, AlignmentLocation.Left,
+    title = new Label("Title", "", Color.WHITE, 30f, AlignmentLocation.Left,
         AlignmentLocation.Top, "WHOLE", this);
     body = new TypewriterLabel("Body", "", Color.WHITE, 30f,
         "Title", this);

@@ -1,0 +1,10 @@
+>> ARENA_TOWER - a tower
+0 ; Base of the tower ; A spiraling staircase lets out at the base of the tower. Beyond the moss-covered stonework, wilderness surrounds.; Take the stairs > 1 / Exit to the wilderness > -1;
+1 ; Spiral staircase ; A winding staircase between the four large pillars supporting the platforms above. The stairs and the pillars are covered in vines and moss. ; Ascend > 2 / Descend > 0;
+2 ; Lower platform ; A very wide, circular platform. Four pillars support a smaller one above it. Between the pillars, a spiral staircase leads downwards, and a ladder goes up.; Ladder up > 3 / Stairs down > 1 ;
+3 ; Tower sanctum ; A circular room. The walls are made of stone. Though otherwise featureless, here-and-there are scratchings that appear to be writing--perhaps names or short phrases--but you don't recognize any of the scripts. A ladder sits in the center of the room, going down.; Doors outside > 4 / Ladder down > 2;
+4 ; Middle platform ; A circular platform. A similar one about half the size is above it, supported by a wide cylinder in the center. The cylinder has multiple openings, revealing a room inside. Two railing-less staircase on opposite sides of the platform curve up to the one above.; Left staircase > 5 / Right staircase > 5 / Doors into the cylinder > 3 ;
+5 ; Top platform ; A circular, stone platform high atop a strange, vine-covered tower. A four-legged arch rises overhead. On opposide sides of the platform are the tops of two open staircase ; Left staircase > 4 / Right staircase > 4;
+
+>> TRAPEZOIDAL_PYRAMID - a flat-topped metal pyramid
+1 ; Interior ; The inside of the trapezoidal prism. The walls are featureless metal. There is a faint, deep hum. ; Exit > -1;
