@@ -1,0 +1,65 @@
+>> MEET_BEYN
+Ahead of you, a man stands amidst a dazzling display of light.
+He's on one knee, eyes shut and temples bulging as if under considerable physical duress. A flurry of mostly-unfamiliar symbols in gleaming blue shifts and flows like a storm behind him.
+> CHOICE ; Approach the man. > _MEETBEYN1; Leave - Looks like something you don't want to get involved with. > END;
+
+>> _MEETBEYN1
+He opens his eyes and looks at you. His irises seem almost hollow, like tunnels filled with yet more of the glowing symbols that surround him. The lights calm and slow, but not completely.
+"Ah. Hello."
+> CHOICE ; Ask if he's alright. > _MEETBEYN2; "What are all those symbols?" > _MEETBEYN3 ; Ask if he knows where you are. > _MEETBEYN4;
+
+>> _MEETBEYN2
+"Unclear. I admit I can't remember much of anything, really, about myself, or where in the world I--we--are. I was trying to figure that out, though."
+"I can't help but notice that you don't also have an unending storm of formulae and obscura dancing around you."
+> CHOICE ; "No. What are those symbols?" > _MEETBEYN3; "Quite observant of you." > _MEETBEYN5;
+
+>> _MEETBEYN3
+"I don't exactly know. I don't know if they are what I hear in my head or a symptom of it, but I have... information in my head. Knowledge that I can search at will. Though it hurts to do so. And when I search through it all, you get the light show you saw."
+"It's all strangely intuitive to me, but I gather from your expression that it's rather strange. Hmm."
+> GOTO _MEETBEYN_SECTION_2
+
+>> _MEETBEYN4
+"Your guess is as good as mine. Whatever this is around me," (He gestures to the floating characters) "doesn't seem to know either. And they don't seem fond of not knowing things, judging by how much noise they're making in my head."
+"I suppose I'll be trying to figure that out, though."
+> GOTO _MEETBEYN_SECTION_2
+
+>> _MEETBEYN5
+"I'd say 'I am known to be,' but I've only known myself for the past few minutes."
+"I don't know exactly what they are, but they're evidently related to the fact that I have an overflowing repository of knowledge in my head. Not in an 'I am very smart and read lots of books' kind of way, mind--there's information that almost forcefully wants into my head, it seems. When I listen to that information, you get the lights."
+> GOTO _MEETBEYN_SECTION_2
+
+//
+// Beyn asks about the player.
+//
+
+>> _MEETBEYN_SECTION_2
+"What about you? Do you know anything about where we are?"
+> CHOICE ; Admit you don't know anything, either. > _MEETBEYN_2.1
+
+>> _MEETBEYN_2.1
+"Is it more or less concerning that not one but two amnesiacs have appeared in this strange place, I wonder?"
+> CHOICE ; "More." > _MEETBEYN_2.2a ; "Less." > _MEETBEYN_2.2b ; "More alarming, but more comforting, I suppose." > _MEETBEYN_2.2c
+
+>> _MEETBEYN_2.2a
+"Yes. Something bigger than any one man's misfortune. But how big, exactly? If there are two of us, I'd wager there's three. And then who knows how many more?"
+> GOTO _MEETBEYN_2.2.1
+
+>> _MEETBEYN_2.2b
+"Perhaps. It does mean we need not figure this out by ourselves. If there are two of us, I'd wager there's three. And then who knows how many more?"
+> GOTO _MEETBEYN_2.2.1
+
+>> _MEETBEYN_2.2c
+"Hmm, yes indeed. There's something bigger going on than just either of us, but it does mean we needn't figure it out alone."
+> GOTO _MEETBEYN_2.2.1
+
+>> _MEETBEYN_2.2.1
+"I don't suppose, then, you'd object to staying together for a while, then?"
+> CHOICE ; "Not at all. Let's join up." > _MEETBEYN_3a ; "For now, sure." > _MEETBEYN_3a ; "No, thanks. I'd rather go it alone." > _MEETBEYN_3b ; "I don't want whatever's going on with those lights anywhere near me." > _MEETBEYN_3b
+
+>> _MEETBEYN_3a
+The man smiles, causing his impossible, gleaming eyes to flash.
+"Then so it shall be. Lead the way."
+
+>> _MEETBEYN_3b
+The man frowns, but nods.
+"Very well, then. Best of luck to you."

@@ -91,26 +91,30 @@ class Label implements IRectangle {
 		String lineAtNextSpace = "";
 
 		//note, these indeces could also be newlines
-		int lastSpace = 0;
+		int curSpace = 0;
 		int nextSpace;
 
 		//based on next space and current index.
 
-		while(indexOfEither(text, ' ', '\n', lastSpace + 1) != -1) {
+		boolean lineTooWide = false;
 
-			nextSpace = indexOfEither(text, ' ', '\n', lastSpace + 1); //index of the next space
+		while(indexOfEither(text, ' ', '\n', curSpace + 1) != -1) {
+
+			nextSpace = indexOfEither(text, ' ', '\n', curSpace + 1); //index of the next space or newline
 			lineAtNextSpace = text.substring(lastNewLineIndex, nextSpace); //the line including the next word
 
+			lineTooWide = (m.stringWidth(lineAtNextSpace) + (WolgonPanel.BUFFER) >= availableSpace);
+
 			//if we need a new line
-			if(text.charAt(lastSpace) == '\n' || m.stringWidth(lineAtNextSpace) + (WolgonPanel.BUFFER) >= availableSpace) {
+			if(text.charAt(curSpace) == '\n' || lineTooWide){
 				newWrappedLine(curLine, g);
-				lastNewLineIndex = lastSpace + 1;
+				lastNewLineIndex = curSpace + 1;
+				curLine = this.text.substring(lastNewLineIndex, nextSpace);
+			} else {
+				curLine = lineAtNextSpace;
 			}
 
-			//preparation for next
-			curLine = lineAtNextSpace;
-			lastSpace = nextSpace;
-
+			curSpace = nextSpace;
 		}
 
 		//fenceposting
@@ -142,13 +146,12 @@ class Label implements IRectangle {
 
 		int lineHeight = (int) g.getFontMetrics().getStringBounds(curLine, g).getHeight(); //the height of the current line of text, in pixels
 
-		if( trueTop == -1 ) {
+		if(trueTop == -1) {
 			trueTop = getY() - lineHeight;
 		}
 
 		height += lineHeight;
 		wrappedText += curLine + "\n";
-		//numLines++;
 	}
 
 	public void setTextColor(Color c) {

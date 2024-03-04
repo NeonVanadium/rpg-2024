@@ -6,6 +6,7 @@ import view.View;
 import view.window.GraphicsView;
 
 public class Main {
+
   public static void main(String[] args) {
     View view = new GraphicsView();
     Controller controller = new ConsoleController(view);

@@ -20,6 +20,8 @@ public class Event {
 
     if (rawPartString.startsWith(Util.SPECIAL_PART_SYMBOL + "CHOICE")) {
       newEventPart = new ChoiceEventPart(rawPartString);
+    } else if (rawPartString.startsWith(Util.SPECIAL_PART_SYMBOL + "GOTO")) {
+      newEventPart = new GotoEventPart(rawPartString);
     } else {
       newEventPart = new TextEventPart(rawPartString);
     }

@@ -5,17 +5,34 @@ import view.View;
 
 public class DefaultPanel extends WolgonPanel implements View {
 
-  private final Label title, body;
+  private final Label title, continuePrompter;
+  private final TypewriterLabel body;
+  private boolean promptingInput = false;
+  private int updatesSinceFlicker = 0;
+  private final static String continuePromptText = "\\/";
 
   public DefaultPanel() {
     title = new Label("Title", "", Color.WHITE, 60f, AlignmentLocation.Left,
         AlignmentLocation.Top, "WHOLE", this);
-    body = new Label("Body", "", Color.WHITE, 30f,
+    body = new TypewriterLabel("Body", "", Color.WHITE, 30f,
         "Title", this);
+    continuePrompter = new Label("Continue Prompter", "", Color.LIGHT_GRAY, 20f, "Body", this);
   }
 
   @Override
   public void update() {
+    if (body.doneTyping() && promptingInput) {
+      updatesSinceFlicker++;
+      int PROMPT_FLICKER_FREQUENCY = 15;
+      if (updatesSinceFlicker == PROMPT_FLICKER_FREQUENCY) {
+        if (continuePrompter.getText().isEmpty()) {
+          continuePrompter.setText(continuePromptText);
+        } else {
+          continuePrompter.setText("");
+        }
+        updatesSinceFlicker = 0;
+      }
+    }
     repaint();
   }
 
@@ -30,7 +47,8 @@ public class DefaultPanel extends WolgonPanel implements View {
 
   @Override
   public void print(String s) {
-    body.setText(body.getText() + s + "\n");
+    if (promptingInput) disableContinuePrompter();
+    body.setText(body.getFullText() + s + "\n\n");
     update();
   }
 
@@ -43,7 +61,12 @@ public class DefaultPanel extends WolgonPanel implements View {
 
   @Override
   public void promptAnyInput() {
-    // TODO  replae with little animated blip or something.
-    print("<Enter to continue...>");
+    // TODO  replace with little animated blip or something.
+    promptingInput = true;
+  }
+
+  private void disableContinuePrompter() {
+    promptingInput = false;
+    if (!continuePrompter.getText().isEmpty()) continuePrompter.setText("");
   }
 }

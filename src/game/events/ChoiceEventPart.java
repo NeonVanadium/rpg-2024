@@ -6,7 +6,7 @@ import game.prompts.SelectableString;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ChoiceEventPart extends EventPart{
+public class ChoiceEventPart implements EventPart{
 
   List<PromptOption> choices;
 

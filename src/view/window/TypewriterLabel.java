@@ -28,13 +28,10 @@ public class TypewriterLabel extends Label {
 	}
 
 	protected void draw(Graphics g) {
-
 		if (typedCharacters <= fullText.length()) {
 			super.setText(fullText.substring(0, typedCharacters));
 			typedCharacters += TYPE_SPEED;
 		}
-
-
 
 		super.draw(g);
 	}
@@ -43,6 +40,14 @@ public class TypewriterLabel extends Label {
 		fullText = s;
 		typedCharacters = 0;
 		super.setText("");
+	}
+
+	public String getFullText() {
+		return fullText;
+	}
+
+	public boolean doneTyping() {
+		return getFullText().length() == getText().length();
 	}
 
 }

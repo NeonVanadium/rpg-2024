@@ -16,7 +16,6 @@ public class CharacterManager {
     String[] lineParts = line.split(" "); // note that 0th will be Util.ENTRY_START_SYMBOL
     String label = lineParts[1].trim();
     Gender gender = Gender.getFromString(lineParts[2].trim());
-    System.out.println("Character label " + label);
     characters.put(label, new GameCharacter(label, gender));
   }
 
