@@ -37,7 +37,7 @@ public class KeyboardMouseController implements Controller, KeyListener {
   }
 
   @Override
-  public void enterToContinue() {
+  public void getAnyInput() {
 
   }
 }

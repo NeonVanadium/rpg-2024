@@ -3,7 +3,10 @@ package game;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class Util {
 
@@ -28,5 +31,30 @@ public class Util {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Given a list of objects and a function to get strings from them, adds commas and ands to make
+   * a nice and readable list of them.
+   */
+  public static <T extends Object> String commasAndAnds(List<T> list, Function<T, String> toStr) {
+    if (list.isEmpty()) return null;
+    if (list.size() == 1) return toStr.apply(list.get(0));
+    if (list.size() == 2) return toStr.apply(list.get(0)) + " and " + toStr.apply(list.get(1));
+
+    StringBuilder builder = new StringBuilder();
+    int i = 0;
+    Iterator<T> iterator = list.listIterator();
+    while (iterator.hasNext()) {
+      i++;
+      if (i != 1) {
+        builder.append(", ");
+      }
+      if (i == list.size()) {
+        builder.append("and ");
+      }
+      builder.append(toStr.apply(iterator.next()));
+    }
+    return builder.toString();
   }
 }

@@ -27,7 +27,7 @@ public class ConsoleController implements Controller {
   }
 
   @Override
-  public void enterToContinue() {
+  public void getAnyInput() {
     setOptions(null);
   }
 
@@ -35,6 +35,9 @@ public class ConsoleController implements Controller {
     int selected = -1;
     while (!isValidSelection(selected)) {
       String resp = input.nextLine();
+      if (resp.isEmpty())  {
+        return -1;
+      }
       selected = parseInt(resp);
       if (selected == -1) { // non-integer response. Try string matching.
         for (int i = 0; i < options.size(); i++) {

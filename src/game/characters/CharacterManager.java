@@ -8,6 +8,7 @@ public class CharacterManager {
   private static Map<String, GameCharacter> characters = new HashMap();
 
   public static void loadCharacters() {
+    characters.put("PLAYER", new GameCharacter("PLAYER", Gender.SOMETHING_ELSE));
     Util.parseFileAndDoEachLine("resources\\characters.txt",
         CharacterManager::makeCharacterFromLine);
   }
@@ -21,6 +22,10 @@ public class CharacterManager {
 
   public static GameCharacter get(String label) {
     return characters.get(label);
+  }
+
+  public static GameCharacter player() {
+    return characters.get("PLAYER");
   }
 
 }

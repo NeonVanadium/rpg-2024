@@ -1,6 +1,7 @@
 package game.events;
 
 import controller.Controller;
+import game.ControlOrb;
 import game.GameMaster;
 import game.Player;
 import game.Util;
@@ -56,18 +57,22 @@ public class EventHandler {
     }
   }
 
-  private static void queueEvent(String title) {
+  private static void queueEventIfNotRunBefore(String title) {
     if (!completedEvents.contains(title)) {
-      eventToRun = title;
-      System.out.println("Queued event " + title);
+      queueEventWithTitle(title);
     }
+  }
+
+  public static void queueEventWithTitle(String title) {
+    eventToRun = title;
+    System.out.println("Queued event " + title);
   }
 
   public static boolean hasQueuedEvent() {
     return eventToRun != null;
   }
 
-  public static void runQueuedEvent(View view, Controller controller) {
+  public static void runQueuedEvent(ControlOrb orb) {
     Event e = events.get(eventToRun);
     completedEvents.add(eventToRun);
 
@@ -76,27 +81,26 @@ public class EventHandler {
     for (EventPart eventPart : e.getEventParts()) {
       if (eventPart instanceof TextEventPart) {
         if (prevType == TextEventPart.class) {
-          GameMaster.enterToContinue();
+          orb.enterToContinue();
         }
-        view.clear();
-        view.print(((TextEventPart) eventPart).text);
+        orb.clear();
+        orb.print(((TextEventPart) eventPart).text);
       } else if (eventPart instanceof ChoiceEventPart) {
-        // TODO : I really don't want this method to be public, find a way to get this without exposing anything on the game master
-        PromptOption chosen = GameMaster.getChoiceFromOptions(((ChoiceEventPart) eventPart).choices);
+        PromptOption chosen = orb.getChoiceFromOptions(((ChoiceEventPart) eventPart).choices);
         String label = ((SelectableString)chosen.getObject()).value;
         if (!label.equals("END")) {
-          queueEvent(label);
+          queueEventIfNotRunBefore(label);
         }
       } else if (eventPart instanceof GotoEventPart) {
         if (prevType == TextEventPart.class) {
-          GameMaster.enterToContinue();
+          orb.enterToContinue();
         }
-        queueEvent(((GotoEventPart) eventPart).nextEvent);
+        queueEventIfNotRunBefore(((GotoEventPart) eventPart).nextEvent);
       }
       prevType = eventPart.getClass();
     }
     if (eventToRun.equals(e.title)) {
-      GameMaster.enterToContinue();
+      orb.enterToContinue();
       eventToRun = null;
     }
   }
@@ -104,11 +108,11 @@ public class EventHandler {
   // jank! gross! jank! this should be automatic! temp until I feel like designing a cool way
   // to do this from the text file! jank!
   public static void checkEventTriggers(Player player) {
-    if (!completedEvents.contains("INTRO")) queueEvent("INTRO");
+    if (!completedEvents.contains("INTRO")) queueEventIfNotRunBefore("INTRO");
     else if (player.character.inStructure("ARENA_TOWER") && player.character.currentRoom == CharacterManager.get("BEYN").currentRoom) {
-      queueEvent("MEET_BEYN");
+      queueEventIfNotRunBefore("MEET_BEYN");
     } else if (player.character.currentStructure == null) {
-      queueEvent("INTO_THE_WILDERNESS");
+      queueEventIfNotRunBefore("INTO_THE_WILDERNESS");
     }
   }
 }
