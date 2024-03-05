@@ -50,4 +50,9 @@ public class TypewriterLabel extends Label {
 		return getFullText().length() == getText().length();
 	}
 
+	public void instacomplete() {
+		typedCharacters = fullText.length();
+		super.setText(fullText);
+	}
+
 }

@@ -75,12 +75,21 @@ public class GameMaster {
       optionLabels.add(o.getLabel());
       i++;
     }
-    return options.get(controller.setOptions(optionLabels));
+    int choice = controller.setOptions(optionLabels);
+    if (!view.isFinishedDrawing()) {
+      view.hurryUp();
+      choice = controller.setOptions(optionLabels);
+    }
+    return options.get(choice);
   }
 
   public static void enterToContinue() {
     view.promptAnyInput();
     controller.enterToContinue();
+    if (!view.isFinishedDrawing()) {
+      view.hurryUp();
+      controller.enterToContinue();
+    }
   }
 
   /*

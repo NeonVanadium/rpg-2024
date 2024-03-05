@@ -12,4 +12,15 @@ public interface View {
 
   void promptAnyInput();
 
+  /**
+   * True if the view has finished drawing or whatever.
+   * @return
+   */
+  boolean isFinishedDrawing();
+
+  /**
+   * Instacomplete typed text etc.
+   */
+  void hurryUp();
+
 }

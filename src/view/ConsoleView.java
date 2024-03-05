@@ -31,5 +31,15 @@ public class ConsoleView implements View {
     print("<ENTER to continue>");
   }
 
+  @Override
+  public boolean isFinishedDrawing() {
+    return true;
+  }
+
+  @Override
+  public void hurryUp() {
+
+  }
+
 
 }

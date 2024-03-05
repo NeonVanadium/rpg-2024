@@ -65,6 +65,16 @@ public class DefaultPanel extends WolgonPanel implements View {
     promptingInput = true;
   }
 
+  @Override
+  public boolean isFinishedDrawing() {
+    return body.doneTyping();
+  }
+
+  @Override
+  public void hurryUp() {
+    body.instacomplete();
+  }
+
   private void disableContinuePrompter() {
     promptingInput = false;
     if (!continuePrompter.getText().isEmpty()) continuePrompter.setText("");
