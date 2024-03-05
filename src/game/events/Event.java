@@ -18,11 +18,16 @@ public class Event {
   public void addPart(String rawPartString) {
     EventPart newEventPart;
 
-    if (rawPartString.startsWith(Util.SPECIAL_PART_SYMBOL + "CHOICE")) {
+    if (rawPartString.startsWith("CHOICE")) {
       newEventPart = new ChoiceEventPart(rawPartString);
-    } else if (rawPartString.startsWith(Util.SPECIAL_PART_SYMBOL + "GOTO")) {
+    }
+    else if (rawPartString.startsWith("GOTO")) {
       newEventPart = new GotoEventPart(rawPartString);
-    } else {
+    }
+    else if (rawPartString.startsWith("JOINPARTY")) {
+      newEventPart = new JoinPartyEventPart(rawPartString);
+    }
+    else {
       newEventPart = new TextEventPart(rawPartString);
     }
 

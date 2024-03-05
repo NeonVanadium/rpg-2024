@@ -11,9 +11,6 @@ public class ChoiceEventPart implements EventPart{
   List<PromptOption> choices;
 
   public ChoiceEventPart(String rawLineText) {
-    if (!rawLineText.startsWith(Util.SPECIAL_PART_SYMBOL)) {
-      throw new IllegalArgumentException("raw line text passed to Choice event part doesn't start with the special part symbol.");
-    }
     String[] unprocessedChoices = rawLineText.split(";");
     choices = new LinkedList<>();
     String[] promptToEvent;

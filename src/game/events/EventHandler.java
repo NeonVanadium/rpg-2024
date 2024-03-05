@@ -85,17 +85,22 @@ public class EventHandler {
         }
         orb.clear();
         orb.print(((TextEventPart) eventPart).text);
-      } else if (eventPart instanceof ChoiceEventPart) {
+      }
+      else if (eventPart instanceof ChoiceEventPart) {
         PromptOption chosen = orb.getChoiceFromOptions(((ChoiceEventPart) eventPart).choices);
         String label = ((SelectableString)chosen.getObject()).value;
         if (!label.equals("END")) {
           queueEventIfNotRunBefore(label);
         }
-      } else if (eventPart instanceof GotoEventPart) {
+      }
+      else if (eventPart instanceof GotoEventPart) {
         if (prevType == TextEventPart.class) {
           orb.enterToContinue();
         }
         queueEventIfNotRunBefore(((GotoEventPart) eventPart).nextEvent);
+      }
+      else if (eventPart instanceof JoinPartyEventPart) {
+        Player.addToParty(((JoinPartyEventPart) eventPart).characterLabel, orb);
       }
       prevType = eventPart.getClass();
     }
