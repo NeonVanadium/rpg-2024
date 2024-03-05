@@ -37,7 +37,7 @@ He opens his eyes and looks at you. His irises seem almost hollow, like tunnels 
 > CHOICE ; Admit you don't know anything, either. > _MEETBEYN_2.1
 
 >> _MEETBEYN_2.1
-"Is it more or less concerning that not one but two amnesiacs have appeared in this strange place, I wonder?"
+"I wonder--Is it more or less concerning that not one but two amnesiacs have appeared in this strange place?"
 > CHOICE ; "More." > _MEETBEYN_2.2a ; "Less." > _MEETBEYN_2.2b ; "More alarming, but more comforting, I suppose." > _MEETBEYN_2.2c
 
 >> _MEETBEYN_2.2a

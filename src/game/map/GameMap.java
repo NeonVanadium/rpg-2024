@@ -3,15 +3,17 @@ package game.map;
 import game.characters.GameCharacter;
 import game.GameObject;
 import java.awt.Point;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class GameMap {
   private int width = 50;
   private int height = 50;
 
-  private List<GameObject>[][] objectsByLocation = new LinkedList[height][width];
-  private List<GameObject> objects = new LinkedList<>();
+  //private List<GameObject>[][] objectsByLocation = new LinkedList[height][width];
+  private Set<GameObject> objects = new HashSet<>();
 
 
   public void moveCharacter(GameCharacter c, int x, int y) {
@@ -35,17 +37,23 @@ public class GameMap {
   }
 
   public void putGameObject(GameObject obj, double x, double y) {
-    if (!objects.contains(obj)) {
-      objects.add(obj);
-    }
+    putGameObject(obj);
     obj.setPosition(x, y);
   }
 
-  public List<GameObject> searchObjects(Point from, int range) {
+  public void putGameObject(GameObject obj) {
+    objects.add(obj);
+  }
+
+  public void removeFromBoard(GameObject obj) {
+    objects.remove(obj);
+  }
+
+  public List<GameObject> searchObjects(Point from, int range, GameObject except) {
     LinkedList<GameObject> found = new LinkedList<>();
     // TODO: dangerous pass by reference.
     for (GameObject o : objects) {
-      if (o.getPosition().distance(from.x, from.y) < range) {
+      if (o != except && o.getPosition().distance(from.x, from.y) < range) {
         found.add(o);
       }
     }
@@ -53,13 +61,6 @@ public class GameMap {
   }
 
   public List<GameObject> visibleObjects(GameCharacter obj, int range) {
-    LinkedList<GameObject> found = new LinkedList<>();
-    // TODO: dangerous pass by reference.
-    for (GameObject o : objects) {
-      if (obj != o && o.getPosition().distance(obj.getPosition().x, obj.getPosition().y) <= range) {
-        found.add(o);
-      }
-    }
-    return found;
+    return searchObjects(obj.getPosition(), range, obj);
   }
 }

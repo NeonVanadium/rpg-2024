@@ -1,16 +1,20 @@
 package game.structure;
 
 import game.GameObject;
+import game.Movable;
 import game.Util;
 import game.prompts.PromptOption;
 import game.prompts.SelectableInt;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class Structure extends GameObject {
 
   private ArrayList<Room> rooms;
+  private Set<Movable> thingsInHere;
   String distantName; // the name shown to the player when viewed from a distance.
 
   public Structure(String name, String distantName) {
@@ -65,6 +69,37 @@ public class Structure extends GameObject {
         exitPOs.add(new PromptOption(exitTags[i], new SelectableInt(exits[i])));
       }
       return exitPOs;
+    }
+    return null;
+  }
+
+  public void putMovableObject(Movable go) {
+    if (thingsInHere == null) {
+      thingsInHere = new HashSet<>();
+    }
+    thingsInHere.add(go);
+  }
+
+  public void removeMovableObject(Movable go) {
+    thingsInHere.remove(go);
+  }
+
+  /*private List<Movable> getGameObjectsInRoom(int id) {
+    return getGameObjectsInRoom(id, null);
+  }*/
+
+  public List<Movable> getGameObjectsInRoom(int id, Movable except) {
+    if (isValidRoomId(id)) {
+      LinkedList<Movable> list = null;
+      for (Movable m : this.thingsInHere) {
+        if (m != except && m.currentRoom == id) {
+          if (list == null) {
+            list = new LinkedList<>();
+          }
+          list.add(m);
+        }
+      }
+      return list;
     }
     return null;
   }

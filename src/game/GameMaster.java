@@ -13,8 +13,10 @@ import game.map.GameMap;
 import game.structure.Structure;
 import game.structure.StructureManager;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 import view.View;
 
 public class GameMaster {
@@ -119,18 +121,10 @@ public class GameMaster {
 
     if (visible != null && visible.size() > 0) {
       if (visible.size() == 1) {
-        view.print("You see " + getSeenDescription(visible.get(0)));
+        view.print("You see " + getSeenDescription(visible.get(0)) + ".");
       } else {
         StringBuilder youSee = new StringBuilder("You see ");
-        boolean first = true;
-        for (GameObject o : visible) {
-          if (first) {
-            first = false;
-          } else {
-            youSee.append(", ");
-          }
-          youSee.append(getSeenDescription(o));
-        }
+        youSee.append(commasAndAnds(visible, GameMaster::getSeenDescription));
         youSee.append(".");
         view.print(youSee.toString());
       }
@@ -139,6 +133,27 @@ public class GameMaster {
     if (interactable != null) for (GameObject o : interactable) {
       options.add(new PromptOption(getNameToDisplayAsOption(o).toUpperCase(), o));
     }
+  }
+
+  private static <T extends Object> String commasAndAnds(List<T> list, Function<T, String> toStr) {
+    if (list.isEmpty()) return null;
+    if (list.size() == 1) return toStr.apply(list.get(0));
+    if (list.size() == 2) return toStr.apply(list.get(0)) + " and " + toStr.apply(list.get(1));
+
+    StringBuilder builder = new StringBuilder();
+    int i = 0;
+    Iterator<T> iterator = list.listIterator();
+    while (iterator.hasNext()) {
+      i++;
+      if (i != 1) {
+        builder.append(", ");
+      }
+      if (i == list.size()) {
+        builder.append("and ");
+      }
+      builder.append(toStr.apply(iterator.next()));
+    }
+    return builder.toString();
   }
 
   private static String getSurroundingsDescription() {
@@ -213,7 +228,9 @@ public class GameMaster {
    */
   private static void enterStructure(GameCharacter c, Structure s, int roomId) {
     if (s.isEnterable()) {
-      map.putGameObject(c, s.getX(), s.getY());
+      c.setPosition(s.getX(), s.getY());
+      map.removeFromBoard(c);
+      s.putMovableObject(c);
       c.currentStructure = s;
       c.currentRoom = roomId;
     }
@@ -223,23 +240,37 @@ public class GameMaster {
     enterStructure(c, s, 0);
   }
 
-  private static void leaveStructure() {
-    player.character.currentStructure = null;
-    player.character.currentRoom = -1;
+  /**
+   * Removes the given character from its current structure, if there is one.
+   * @param c
+   */
+  private static void leaveStructure(GameCharacter c) {
+    c.currentStructure.removeMovableObject(c);
+    c.currentStructure = null;
+    c.currentRoom = -1;
+    map.putGameObject(player.character);
   }
 
   private static void structureLoop() {
+    Structure s = player.character.currentStructure;
+    int roomId = player.character.currentRoom;
     view.clear();
-    view.setTitle(player.character.currentStructure.getRoomName(player.character.currentRoom));
-    view.print(player.character.currentStructure.getRoomDescription(player.character.currentRoom));
+    view.setTitle(s.getRoomName(roomId));
+    view.print(s.getRoomDescription(roomId));
+
+    List<Movable> objectsInRoom = s.getGameObjectsInRoom(roomId, player.character);
+    if (objectsInRoom != null) {
+      view.print("You see " + commasAndAnds(s.getGameObjectsInRoom(roomId, player.character),
+          GameMaster::getSeenDescription));
+    }
 
     PromptOption option =
-        getChoiceFromOptions(player.character.currentStructure.getRoomExits(player.character.currentRoom));
+        getChoiceFromOptions(s.getRoomExits(roomId));
 
     player.character.currentRoom = ((SelectableInt) option.getObject()).value;
 
     if (player.character.currentRoom == -1) {
-      leaveStructure();
+      leaveStructure(player.character);
     }
   }
 

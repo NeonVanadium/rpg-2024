@@ -103,7 +103,7 @@ class Label implements IRectangle {
 			nextSpace = indexOfEither(text, ' ', '\n', curSpace + 1); //index of the next space or newline
 			lineAtNextSpace = text.substring(lastNewLineIndex, nextSpace); //the line including the next word
 
-			lineTooWide = (m.stringWidth(lineAtNextSpace) + (WolgonPanel.BUFFER) >= availableSpace);
+			lineTooWide = (m.stringWidth(lineAtNextSpace) + (2 * WolgonPanel.BUFFER) >= availableSpace);
 
 			//if we need a new line
 			if(text.charAt(curSpace) == '\n' || lineTooWide){
