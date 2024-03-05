@@ -1,6 +1,5 @@
 package game.characters;
 
-import game.GameObject;
 import game.Movable;
 
 public class GameCharacter extends Movable {
@@ -10,7 +9,7 @@ public class GameCharacter extends Movable {
   public Gender gender;
 
   public GameCharacter(String name, Gender gender) {
-    this.name = name; this.gender = gender;
+    this.label = name; this.gender = gender;
   }
 
   public String getGenericDescription() {
@@ -18,6 +17,15 @@ public class GameCharacter extends Movable {
       return "someone";
     }
     return "a " + gender.name().toLowerCase();
+  }
+
+  @Override
+  public String getNameToDisplayAsOption() {
+    if (CharacterManager.getKnownName(this.label).equals(CharacterManager.UNKNOWN_NAME)) {
+      return getGenericDescription();
+    } else {
+      return CharacterManager.getKnownName(this.label);
+    }
   }
 
 }

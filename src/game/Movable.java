@@ -10,6 +10,6 @@ public abstract class Movable extends GameObject {
   public int currentRoom;
 
   public boolean inStructure(String label) {
-    return currentStructure != null && currentStructure.getName().equals(label);
+    return currentStructure != null && currentStructure.getLabel().equals(label);
   }
 }

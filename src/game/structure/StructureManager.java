@@ -3,6 +3,7 @@ package game.structure;
 import game.ControlOrb;
 import game.GameObject;
 import game.Movable;
+import game.Player;
 import game.Util;
 import game.characters.CharacterManager;
 import game.characters.GameCharacter;
@@ -24,7 +25,7 @@ public class StructureManager {
     structBeingBuilt = null;
     Util.parseFileAndDoEachLine(structuresFilePath, StructureManager::processLine);
     if (structBeingBuilt != null) {
-      structures.put(structBeingBuilt.getName(), structBeingBuilt);
+      structures.put(structBeingBuilt.getLabel(), structBeingBuilt);
       structBeingBuilt = null;
     }
   }
@@ -33,7 +34,7 @@ public class StructureManager {
     if (!line.isBlank() && !line.startsWith("//")) {
       if (line.startsWith(Util.ENTRY_START_SYMBOL)) {
         if (structBeingBuilt != null) {
-          structures.put(structBeingBuilt.getName(), structBeingBuilt);
+          structures.put(structBeingBuilt.getLabel(), structBeingBuilt);
         }
         // the label and the distant-name
         String[] splitLine = line.substring(Util.ENTRY_START_SYMBOL.length()).split("-");
@@ -56,6 +57,11 @@ public class StructureManager {
       s.putMovableObject(c);
       c.currentStructure = s;
       c.currentRoom = roomId;
+      if (c == CharacterManager.player()) {
+        for (GameCharacter m : Player.getPartyMembers()) {
+          enterStructure(m, structureLabel, roomId);
+        }
+      }
     }
   }
 
@@ -72,6 +78,20 @@ public class StructureManager {
     c.currentStructure = null;
     c.currentRoom = -1;
     MapManager.putGameObject(c);
+    if (c == CharacterManager.player()) {
+      for (GameCharacter m : Player.getPartyMembers()) {
+        leaveStructure(m);
+      }
+    }
+  }
+
+  private static void setRoom(GameCharacter c, int newRoomId) {
+    c.currentRoom = newRoomId;
+    if (c == CharacterManager.player()) {
+      for (GameCharacter m : Player.getPartyMembers()) {
+        setRoom(m, newRoomId);
+      }
+    }
   }
 
   public static void structureLoop(ControlOrb orb) {
@@ -90,7 +110,7 @@ public class StructureManager {
     PromptOption option =
         orb.getChoiceFromOptions(s.getRoomExits(roomId));
 
-    CharacterManager.player().currentRoom = ((SelectableInt) option.getObject()).value;
+    setRoom(CharacterManager.player(), ((SelectableInt) option.getObject()).value);
 
     if (CharacterManager.player().currentRoom == -1) {
       leaveStructure(CharacterManager.player());

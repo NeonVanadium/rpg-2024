@@ -18,7 +18,7 @@ public class Structure extends GameObject {
   String distantName; // the name shown to the player when viewed from a distance.
 
   public Structure(String name, String distantName) {
-    this.name = name;
+    this.label = name;
     this.distantName = distantName;
     this.rooms = new ArrayList<>();
   }
@@ -35,8 +35,8 @@ public class Structure extends GameObject {
     return distantName;
   }
 
-  public String getName() {
-    return name;
+  public String getLabel() {
+    return label;
   }
 
   public boolean isEnterable() {
@@ -108,4 +108,7 @@ public class Structure extends GameObject {
     return rooms != null && id >= 0 && id < rooms.size();
   }
 
+  public String getNameToDisplayAsOption() {
+    return getDistantName();
+  }
 }

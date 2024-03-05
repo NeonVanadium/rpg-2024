@@ -27,6 +27,12 @@ public class Event {
     else if (rawPartString.startsWith("JOINPARTY")) {
       newEventPart = new JoinPartyEventPart(rawPartString);
     }
+    else if (rawPartString.startsWith("SETNAME")) {
+      newEventPart = new SetNameEventPart(rawPartString);
+    }
+    else if (rawPartString.startsWith("SAY")) {
+      newEventPart = new SayEventPart(rawPartString);
+    }
     else {
       newEventPart = new TextEventPart(rawPartString);
     }

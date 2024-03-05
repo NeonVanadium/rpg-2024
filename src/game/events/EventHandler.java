@@ -1,8 +1,6 @@
 package game.events;
 
-import controller.Controller;
 import game.ControlOrb;
-import game.GameMaster;
 import game.Player;
 import game.Util;
 import game.characters.CharacterManager;
@@ -13,7 +11,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import view.View;
+import java.util.Set;
 
 /**
  * A class to handle event-related tasks, including parsing them from the file.
@@ -80,11 +78,14 @@ public class EventHandler {
 
     for (EventPart eventPart : e.getEventParts()) {
       if (eventPart instanceof TextEventPart) {
-        if (prevType == TextEventPart.class) {
-          orb.enterToContinue();
-        }
+        maybeEnterToContinue(prevType, orb);
         orb.clear();
         orb.print(((TextEventPart) eventPart).text);
+      }
+      else if (eventPart instanceof SayEventPart) {
+        maybeEnterToContinue(prevType, orb);
+        orb.clear();
+        orb.print(((SayEventPart) eventPart).format());
       }
       else if (eventPart instanceof ChoiceEventPart) {
         PromptOption chosen = orb.getChoiceFromOptions(((ChoiceEventPart) eventPart).choices);
@@ -94,19 +95,30 @@ public class EventHandler {
         }
       }
       else if (eventPart instanceof GotoEventPart) {
-        if (prevType == TextEventPart.class) {
-          orb.enterToContinue();
-        }
+        maybeEnterToContinue(prevType, orb);
         queueEventIfNotRunBefore(((GotoEventPart) eventPart).nextEvent);
       }
       else if (eventPart instanceof JoinPartyEventPart) {
         Player.addToParty(((JoinPartyEventPart) eventPart).characterLabel, orb);
+      }
+      else if (eventPart instanceof SetNameEventPart) {
+        SetNameEventPart setNameEventPart = (SetNameEventPart) eventPart;
+        CharacterManager.setKnownName(setNameEventPart.characterLabel, setNameEventPart.newName);
+      }
+      else {
+        System.out.println(eventPart.getClass() + " is missing an implementation in the event handler.");
       }
       prevType = eventPart.getClass();
     }
     if (eventToRun.equals(e.title)) {
       orb.enterToContinue();
       eventToRun = null;
+    }
+  }
+
+  private static void maybeEnterToContinue(Class prevType, ControlOrb orb) {
+    if (prevType == TextEventPart.class || prevType == SayEventPart.class) {
+      orb.enterToContinue();
     }
   }
 

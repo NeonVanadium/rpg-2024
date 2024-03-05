@@ -1,19 +1,17 @@
 package game;
 
-import game.characters.GameCharacter;
 import game.prompts.Direction;
 import game.prompts.Selectable;
-import game.structure.Structure;
 import java.awt.Point;
 
 public abstract class GameObject implements Selectable {
-  protected String name;
+  protected String label;
 
   private double exactX = 10.0;
   private double exactY = 10.0;
 
-  public String getName() {
-    return name;
+  public String getLabel() {
+    return label;
   }
 
   public Point getPosition() {
@@ -30,7 +28,7 @@ public abstract class GameObject implements Selectable {
   }
 
   public String toString() {
-    return String.format("Name: %s, Location: %s, %s", name, exactX, exactY);
+    return String.format("Name: %s, Location: %s, %s", label, exactX, exactY);
   }
 
   public boolean isFartherThan(Direction d, GameObject other) {
@@ -44,14 +42,7 @@ public abstract class GameObject implements Selectable {
     return this.exactX == other.exactX && this.exactY == other.exactY;
   }
 
-  // TODO move these to be overridden by the subclasses I'm being lazy rn when copying
   public String getNameToDisplayAsOption() {
-    if (this instanceof Structure) {
-      return ((Structure) this).getDistantName();
-    } else if (this instanceof GameCharacter) {
-      return ((GameCharacter) this).getGenericDescription();
-    } else {
-      return this.getName();
-    }
+    return this.getLabel();
   }
 }

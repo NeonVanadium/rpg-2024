@@ -1,5 +1,7 @@
 package game.map;
 
+import game.Player;
+import game.characters.CharacterManager;
 import game.characters.GameCharacter;
 import game.GameObject;
 import java.awt.Point;
@@ -34,11 +36,17 @@ public class GameMap {
       newY = height;
     }
     putGameObject(c, newX, newY);
+
   }
 
   public void putGameObject(GameObject obj, double x, double y) {
     putGameObject(obj);
     obj.setPosition(x, y);
+    if (obj == CharacterManager.player()) {
+      for (GameCharacter member : Player.getPartyMembers()) {
+        putGameObject(member, x, y);
+      }
+    }
   }
 
   public void putGameObject(GameObject obj) {

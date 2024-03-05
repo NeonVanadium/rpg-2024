@@ -1,8 +1,8 @@
 package game.map;
 
 import game.ControlOrb;
-import game.GameMaster;
 import game.GameObject;
+import game.Player;
 import game.Util;
 import game.characters.CharacterManager;
 import game.characters.GameCharacter;
@@ -48,7 +48,7 @@ public class MapManager {
       if (selection instanceof Direction) {
         movePlayer((Direction) selection);
       } else if (selection instanceof Structure) {
-        StructureManager.enterStructure(CharacterManager.player(), ((Structure) selection).getName());
+        StructureManager.enterStructure(CharacterManager.player(), ((Structure) selection).getLabel());
       } else if (selection instanceof GameCharacter) {
         EventHandler.queueEventWithTitle("CONV_TEMP");
       } else {
