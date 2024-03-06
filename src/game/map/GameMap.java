@@ -11,10 +11,21 @@ import java.util.List;
 import java.util.Set;
 
 public class GameMap {
-  private int width = 50;
-  private int height = 50;
 
-  //private List<GameObject>[][] objectsByLocation = new LinkedList[height][width];
+  private Terrain[][] map = new Terrain[][]{
+      {Terrain.p, Terrain.p, Terrain.p, Terrain.d, Terrain.d},
+      {Terrain.p, Terrain.p, Terrain.p, Terrain.d, Terrain.d},
+      {Terrain.j, Terrain.p, Terrain.p, Terrain.p, Terrain.p},
+      {Terrain.j, Terrain.j, Terrain.p, Terrain.p, Terrain.p},
+      {Terrain.j, Terrain.j, Terrain.p, Terrain.p, Terrain.p},
+  };
+
+  public final int tileSize = 10;
+
+  private final int width = map[0].length * tileSize;
+  private final int height = map.length * tileSize;
+
+  //private List<GameObject>[][] objectsByTile = new LinkedList[height][width];
   private Set<GameObject> objects = new HashSet<>();
 
 
@@ -25,13 +36,13 @@ public class GameMap {
     if (newX < 0) {
       System.out.println("West boundary hit.");
       newX = 0;
-    } else if (newX > width) {
+    } else if (newX >= width) {
       System.out.println("East boundary hit.");
       newX = width;
     } else if (newY < 0) {
       System.out.println("South boundary hit.");
       newY = 0;
-    } else if (newY > height) {
+    } else if (newY >= height) {
       System.out.println("North boundary hit.");
       newY = height;
     }
@@ -70,5 +81,24 @@ public class GameMap {
 
   public List<GameObject> visibleObjects(GameCharacter obj, int range) {
     return searchObjects(obj.getPosition(), range, obj);
+  }
+
+  public String getTerrainTypeAt(double x, double y) {
+    if (!areValidCoordinates(x, y)) {
+      return "impassable";
+    }
+
+    int roundedX = (int) (x / tileSize);
+    int roundedY = (int) (y / tileSize);
+
+    // the map is flipped on the y axis. Yep I'm doing this.
+
+    int trueY = map.length - roundedY - 1;
+
+    return map[trueY][roundedX].name;
+  }
+
+  private boolean areValidCoordinates(double x, double y) {
+    return !(x < 0 || x >= width || y < 0 || y >= height);
   }
 }

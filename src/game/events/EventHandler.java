@@ -124,11 +124,12 @@ public class EventHandler {
 
   // jank! gross! jank! this should be automatic! temp until I feel like designing a cool way
   // to do this from the text file! jank!
-  public static void checkEventTriggers(Player player) {
+  public static void checkEventTriggers() {
     if (!completedEvents.contains("INTRO")) queueEventIfNotRunBefore("INTRO");
-    else if (player.character.inStructure("ARENA_TOWER") && player.character.currentRoom == CharacterManager.get("BEYN").currentRoom) {
+    else if (Player.character.inStructure("ARENA_TOWER")
+        && Player.character.currentRoom == CharacterManager.get("BEYN").currentRoom) {
       queueEventIfNotRunBefore("MEET_BEYN");
-    } else if (player.character.currentStructure == null) {
+    } else if (Player.character.currentStructure == null) {
       queueEventIfNotRunBefore("INTO_THE_WILDERNESS");
     }
   }

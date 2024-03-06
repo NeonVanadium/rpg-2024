@@ -13,6 +13,7 @@ import game.prompts.Selectable;
 import game.structure.Structure;
 import game.structure.StructureManager;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MapManager {
@@ -20,11 +21,10 @@ public class MapManager {
   private static GameMap map;
   private static List<GameObject> visible;
   private static List<GameObject> interactable;
+  private static String[] terrainLabels = new String[5];
 
   public static void init() {
     map = new GameMap();
-    map.putGameObject(StructureManager.getStructure("ARENA_TOWER"), 50, 50);
-    map.putGameObject(CharacterManager.get("SENJA"), 42, 8);
   }
 
   /*
@@ -77,11 +77,22 @@ public class MapManager {
   }
 
   private static void determineOptionsForPlayer(List<PromptOption> options, ControlOrb orb) {
+    GameCharacter player = CharacterManager.player();
+
     if (visible != null) {
       options.removeIf((PromptOption o) -> visible.contains(o.getObject()));
     }
-    visible = map.visibleObjects(CharacterManager.get("PLAYER"), 30);
-    interactable = map.visibleObjects(CharacterManager.get("PLAYER"), 10);
+    visible = map.visibleObjects(player, 30);
+    interactable = map.visibleObjects(player, 10);
+
+
+    terrainLabels[0] = map.getTerrainTypeAt(player.getX(), player.getY()) + " here";
+    terrainLabels[1] = map.getTerrainTypeAt(player.getX(), player.getY() + map.tileSize) + " to the north";
+    terrainLabels[2] = map.getTerrainTypeAt(player.getX(), player.getY() - map.tileSize) + " to the south";
+    terrainLabels[3] = map.getTerrainTypeAt(player.getX() + map.tileSize, player.getY()) + " to the east";
+    terrainLabels[4] = map.getTerrainTypeAt(player.getX() - map.tileSize, player.getY()) + " to the west";
+
+    orb.print("The terrain is " + Util.commasAndAnds(Arrays.stream(terrainLabels).toList(), String::toString));
 
     if (visible != null && visible.size() > 0) {
       if (visible.size() == 1) {
@@ -142,5 +153,9 @@ public class MapManager {
 
   public static void putGameObject(GameObject go) {
     map.putGameObject(go);
+  }
+
+  public static void putGameObject(GameObject go, double x, double y) {
+    map.putGameObject(go, x, y);
   }
 }
