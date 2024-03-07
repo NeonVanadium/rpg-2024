@@ -42,7 +42,5 @@ public abstract class GameObject implements Selectable {
     return this.exactX == other.exactX && this.exactY == other.exactY;
   }
 
-  public String getNameToDisplayAsOption() {
-    return this.getLabel();
-  }
+  public abstract String getNameToDisplayAsOption();
 }

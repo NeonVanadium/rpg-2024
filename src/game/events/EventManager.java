@@ -4,19 +4,16 @@ import game.ControlOrb;
 import game.Player;
 import game.Util;
 import game.characters.CharacterManager;
-import game.prompts.PromptOption;
-import game.prompts.SelectableString;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * A class to handle event-related tasks, including parsing them from the file.
  */
-public class EventHandler {
+public class EventManager {
 
 
   private static Map<String, Event> events;
@@ -34,7 +31,7 @@ public class EventHandler {
     completedEvents = new HashSet<>();
     eventBeingBuilt = null;
     for (String fileName : new File(eventFilesPath).list()) {
-      Util.parseFileAndDoEachLine(eventFilesPath + fileName, EventHandler::processLine);
+      Util.parseFileAndDoEachLine(eventFilesPath + fileName, EventManager::processLine);
       if (eventBeingBuilt != null) {
         events.put(eventBeingBuilt.title, eventBeingBuilt);
         eventBeingBuilt = null;
@@ -79,14 +76,15 @@ public class EventHandler {
     for (EventPart eventPart : e.getEventParts()) {
       maybeEnterToContinue(eventPart, prevType, orb);
       eventPart.run(orb);
-      if (eventPart instanceof IfEventPart && ((IfEventPart) eventPart).checkCondition()) {
+      if (eventToRun != null && !eventToRun.equals(e.title)) break; //enables Gotos
+      else if (eventPart instanceof IfEventPart && ((IfEventPart) eventPart).checkCondition()) {
         prevType = ((IfEventPart) eventPart).ifYes.getClass();
       } else {
         prevType = eventPart.getClass();
       }
     }
     if (eventToRun.equals(e.title)) {
-      orb.enterToContinue();
+      if (prevType != ChoiceEventPart.class) orb.enterToContinue();
       eventToRun = null;
     }
   }
@@ -110,5 +108,9 @@ public class EventHandler {
     } else if (Player.character.currentStructure == null) {
       queueEventIfNotRunBefore("INTO_THE_WILDERNESS");
     }
+  }
+
+  public static boolean isEventCompleted(String title) {
+    return completedEvents.contains(title);
   }
 }

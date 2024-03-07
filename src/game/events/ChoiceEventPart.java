@@ -1,7 +1,6 @@
 package game.events;
 
 import game.ControlOrb;
-import game.Util;
 import game.prompts.PromptOption;
 import game.prompts.SelectableString;
 import java.util.LinkedList;
@@ -27,7 +26,7 @@ public class ChoiceEventPart implements EventPart{
     PromptOption chosen = orb.getChoiceFromOptions(choices);
     String label = ((SelectableString)chosen.getObject()).value;
     if (!label.equals("END")) {
-      EventHandler.queueEventWithTitle(label);
+      EventManager.queueEventWithTitle(label);
     }
   }
 }

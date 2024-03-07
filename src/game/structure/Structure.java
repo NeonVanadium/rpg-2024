@@ -73,11 +73,13 @@ public class Structure extends GameObject {
     return null;
   }
 
-  public void putMovableObject(Movable go) {
+  public void putMovableObject(Movable m, int roomId) {
     if (thingsInHere == null) {
       thingsInHere = new HashSet<>();
     }
-    thingsInHere.add(go);
+    thingsInHere.add(m);
+    m.currentStructure = this;
+    m.currentRoom = roomId;
   }
 
   public void removeMovableObject(Movable go) {

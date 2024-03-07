@@ -68,4 +68,18 @@ public class Util {
     }
     return result.toString();
   }
+
+  public static String capitalizedAndPerioded(String str) {
+    StringBuilder formatted = null;
+    if (!Character.isUpperCase(str.charAt(0))) {
+      formatted = new StringBuilder();
+      formatted.append((str.charAt(0) + "").toUpperCase());
+      formatted.append(str.substring(1));
+    }
+    if (!str.endsWith(".") && !str.endsWith(".\"") && !str.endsWith("!\"")) {
+      if (formatted == null) formatted = new StringBuilder(str);
+      formatted.append('.');
+    }
+    return formatted == null ? str : formatted.toString();
+  }
 }

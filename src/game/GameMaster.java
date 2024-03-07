@@ -2,8 +2,11 @@ package game;
 
 import controller.Controller;
 import game.characters.CharacterManager;
+import game.characters.GameCharacter;
 import game.map.MapManager;
-import game.events.EventHandler;
+import game.events.EventManager;
+import game.prompts.Selectable;
+import game.structure.Structure;
 import game.structure.StructureManager;
 import view.View;
 
@@ -18,11 +21,11 @@ public class GameMaster {
   public static void init(View v, Controller c) {
     view = v;
     controller = c;
-    orb = new ControlOrb(view, controller);
+    orb = new ControlOrb(view, controller, GameMaster::processPlayerMove);
   }
 
   public static void start() {
-    EventHandler.loadEvents();
+    EventManager.loadEvents();
     CharacterManager.loadCharacters();
     StructureManager.loadStructures();
     MapManager.init();
@@ -38,16 +41,40 @@ public class GameMaster {
 
   public static void gameLoop() {
     while (running) {
-      if (!EventHandler.hasQueuedEvent()) EventHandler.checkEventTriggers();
-      if (EventHandler.hasQueuedEvent()) {
+      if (!EventManager.hasQueuedEvent()) EventManager.checkEventTriggers();
+      if (EventManager.hasQueuedEvent()) {
         view.clear();
-        EventHandler.runQueuedEvent(orb);
+        EventManager.runQueuedEvent(orb);
       }
       else if (Player.character.currentStructure == null) {
         MapManager.mapExplorationLoop(orb);
       } else {
         StructureManager.structureLoop(orb);
       }
+    }
+  }
+
+  /**
+   * Individual handlers may have their own special logic for their own type, but certain
+   * things are shared regardless of whether we're in a structure or open world.
+   * These are accessed through the Orb, but this feels like GameMaster logic to me.
+   */
+  private static void processPlayerMove(Selectable selection) {
+    if (selection instanceof Structure) {
+      StructureManager.enterStructure(CharacterManager.player(), ((Structure) selection).label);
+    }
+    else if (selection instanceof GameCharacter) {
+      EventManager.queueEventWithTitle("CONV_" + ((GameCharacter) selection).getLabel());
+    }
+    else if (selection instanceof Item) {
+      orb.clear();
+      orb.print("Perhaps one day you'll be able to pick up " + ((Item) selection).description + " such as this.");
+      orb.enterToContinue();
+    }
+    else {
+      orb.clear();
+      orb.print("It doesn't respond to you.");
+      orb.enterToContinue();
     }
   }
 }

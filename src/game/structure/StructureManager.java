@@ -2,6 +2,7 @@ package game.structure;
 
 import game.ControlOrb;
 import game.GameObject;
+import game.Item;
 import game.Movable;
 import game.Player;
 import game.Util;
@@ -9,8 +10,10 @@ import game.characters.CharacterManager;
 import game.characters.GameCharacter;
 import game.map.MapManager;
 import game.prompts.PromptOption;
+import game.prompts.Selectable;
 import game.prompts.SelectableInt;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,13 +24,17 @@ public class StructureManager {
   private static Structure structBeingBuilt;
 
   public static void loadStructures() {
-    structures = new HashMap<>();
-    structBeingBuilt = null;
-    Util.parseFileAndDoEachLine(structuresFilePath, StructureManager::processLine);
-    if (structBeingBuilt != null) {
-      structures.put(structBeingBuilt.getLabel(), structBeingBuilt);
+    if (structures == null) {
+      structures = new HashMap<>();
       structBeingBuilt = null;
+      Util.parseFileAndDoEachLine(structuresFilePath, StructureManager::processLine);
+      if (structBeingBuilt != null) {
+        structures.put(structBeingBuilt.getLabel(), structBeingBuilt);
+        structBeingBuilt = null;
+      }
     }
+    structures.get("ARENA_TOWER").putMovableObject(new Item("IRON_SWORD", "Iron Sword",
+        "a rusty iron sword"), 4);
   }
 
   public static void processLine(String line) {
@@ -45,6 +52,38 @@ public class StructureManager {
     }
   }
 
+  public static void structureLoop(ControlOrb orb) {
+    Structure s = CharacterManager.player().currentStructure;
+    int roomId = CharacterManager.player().currentRoom;
+    orb.clear();
+    orb.setTitle(s.getRoomName(roomId));
+    orb.print(s.getRoomDescription(roomId));
+
+    List<Movable> objectsInRoom = s.getGameObjectsInRoom(roomId, CharacterManager.player());
+    if (objectsInRoom != null) {
+      orb.print("You see " + Util.commasAndAnds(s.getGameObjectsInRoom(roomId, CharacterManager.player()),
+          GameObject::getNameToDisplayAsOption) + ".");
+    }
+
+    List<PromptOption> options = s.getRoomExits(roomId);
+
+    if (objectsInRoom != null) for (Movable m : objectsInRoom) {
+      options.add(new PromptOption(m.getNameToDisplayAsOption(), m));
+    }
+
+    Selectable selection = orb.getChoiceFromOptions(options).getObject();
+
+    if (selection instanceof SelectableInt) {
+      setRoom(CharacterManager.player(), ((SelectableInt) selection).value);
+    } else {
+      orb.respondToPlayerChoice(selection);
+    }
+
+    if (CharacterManager.player().currentRoom == -1) {
+      leaveStructure(CharacterManager.player());
+    }
+  }
+
   public static Structure getStructure(String label) {
     return structures.get(label);
   }
@@ -54,9 +93,8 @@ public class StructureManager {
     if (s.isEnterable()) {
       c.setPosition(s.getX(), s.getY());
       MapManager.removeFromBoard(c);
-      s.putMovableObject(c);
-      c.currentStructure = s;
-      c.currentRoom = roomId;
+      s.putMovableObject(c, roomId);
+
       if (c == CharacterManager.player()) {
         for (GameCharacter m : Player.getPartyMembers()) {
           enterStructure(m, structureLabel, roomId);
@@ -93,28 +131,4 @@ public class StructureManager {
       }
     }
   }
-
-  public static void structureLoop(ControlOrb orb) {
-    Structure s = CharacterManager.player().currentStructure;
-    int roomId = CharacterManager.player().currentRoom;
-    orb.clear();
-    orb.setTitle(s.getRoomName(roomId));
-    orb.print(s.getRoomDescription(roomId));
-
-    List<Movable> objectsInRoom = s.getGameObjectsInRoom(roomId, CharacterManager.player());
-    if (objectsInRoom != null) {
-      orb.print("You see " + Util.commasAndAnds(s.getGameObjectsInRoom(roomId, CharacterManager.player()),
-          GameObject::getNameToDisplayAsOption) + ".");
-    }
-
-    PromptOption option =
-        orb.getChoiceFromOptions(s.getRoomExits(roomId));
-
-    setRoom(CharacterManager.player(), ((SelectableInt) option.getObject()).value);
-
-    if (CharacterManager.player().currentRoom == -1) {
-      leaveStructure(CharacterManager.player());
-    }
-  }
-
 }

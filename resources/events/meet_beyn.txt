@@ -1,7 +1,11 @@
 >> MEET_BEYN
 Ahead of you, a man stands amidst a dazzling display of light.
 He's on one knee, eyes shut and temples bulging as if under considerable physical duress. A flurry of mostly-unfamiliar symbols in gleaming blue shifts and flows like a storm behind him.
-CHOICE ; Approach the man. > _MEETBEYN1; Leave him be - Looks like something you don't want to get involved with. > END;
+CHOICE ; Approach the man. > _MEETBEYN0.5; Call out to him. > _MEETBEYN1; Leave him be - Looks like something you don't want to get involved with. > END;
+
+>> _MEETBEYN0.5
+He makes no reaction to your approach.
+CHOICE ; Call out to him. > _MEETBEYN1; Tap him on the shoulder. > _MEETBEYN1; Leave him be. > END;
 
 >> _MEETBEYN1
 He opens his eyes and looks at you. His irises seem almost hollow, like tunnels filled with yet more of the glowing symbols that surround him. The lights calm and slow, but not completely.
@@ -55,7 +59,7 @@ SAY BEYN Hmm, yes indeed. There's something bigger going on than just either of 
 GOTO _MEETBEYN_2.2.1
 
 >> _MEETBEYN_2.2.1
-SAY BEYN I don't suppose, then, you'd object to staying together for a while?
+SAY BEYN I don't suppose, then, you'd object to staying together while we figure out what's happened to us?
 CHOICE ; "Not at all. Let's join up." > _MEETBEYN_3a ; "For now, sure." > _MEETBEYN_3a ; "No, thanks. I'd rather go it alone." > _MEETBEYN_3b ; "I don't want whatever's going on with those lights anywhere near me." > _MEETBEYN_3b
 
 >> _MEETBEYN_3a

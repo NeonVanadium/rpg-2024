@@ -33,6 +33,12 @@ public class IfEventPart implements EventPart {
     if (query.equals("INPARTY")) {
       result = Player.getPartyMembers().contains(CharacterManager.get(subject));
     }
+    else if (query.equals("CURSTRUCT")) {
+      result = Player.character.inStructure(subject);
+    }
+    else if (query.equals("COMPLETE")) {
+      result = EventManager.isEventCompleted(subject);
+    }
     return negated ? !result : result;
   }
 

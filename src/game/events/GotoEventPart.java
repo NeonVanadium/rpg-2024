@@ -10,7 +10,7 @@ public class GotoEventPart implements EventPart {
   }
 
   public void run(ControlOrb orb) {
-    EventHandler.queueEventWithTitle(nextEvent);
+    EventManager.queueEventWithTitle(nextEvent);
   }
 
 }

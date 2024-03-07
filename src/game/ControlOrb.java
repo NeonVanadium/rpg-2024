@@ -2,8 +2,10 @@ package game;
 
 import controller.Controller;
 import game.prompts.PromptOption;
+import game.prompts.Selectable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 import view.View;
 
 /**
@@ -15,17 +17,19 @@ public class ControlOrb implements View, Controller {
 
   View view;
   Controller controller;
+  Consumer<Selectable> processMove;
 
-  public ControlOrb(View view, Controller controller) {
+  public ControlOrb(View view, Controller controller, Consumer<Selectable> processMove) {
     this.view = view;
     this.controller = controller;
+    this.processMove = processMove;
   }
 
   public PromptOption getChoiceFromOptions(List<PromptOption> options) {
     List<String> optionLabels = new LinkedList<>();
     int i = 1;
     for (PromptOption o : options) {
-      view.print(String.format("%d) %s", i, o.getLabel()));
+      view.print(String.format("%d) %s", i, Util.capitalizedAndPerioded(o.getLabel())));
       optionLabels.add(o.getLabel());
       i++;
     }
@@ -47,6 +51,10 @@ public class ControlOrb implements View, Controller {
       view.hurryUp();
       controller.getAnyInput();
     }
+  }
+
+  public void respondToPlayerChoice(Selectable selection) {
+    processMove.accept(selection);
   }
 
   @Override

@@ -2,18 +2,14 @@ package game.map;
 
 import game.ControlOrb;
 import game.GameObject;
-import game.Player;
 import game.Util;
 import game.characters.CharacterManager;
 import game.characters.GameCharacter;
-import game.events.EventHandler;
+import game.events.EventManager;
 import game.prompts.Direction;
 import game.prompts.PromptOption;
 import game.prompts.Selectable;
-import game.structure.Structure;
-import game.structure.StructureManager;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MapManager {
@@ -37,7 +33,7 @@ public class MapManager {
       options.add(new PromptOption(d));
     }
 
-    while (!EventHandler.hasQueuedEvent()
+    while (!EventManager.hasQueuedEvent()
         && CharacterManager.get("PLAYER").currentStructure == null) {
       orb.clear();
       orb.print(getSurroundingsDescription());
@@ -47,12 +43,8 @@ public class MapManager {
 
       if (selection instanceof Direction) {
         movePlayer((Direction) selection);
-      } else if (selection instanceof Structure) {
-        StructureManager.enterStructure(CharacterManager.player(), ((Structure) selection).getLabel());
-      } else if (selection instanceof GameCharacter) {
-        EventHandler.queueEventWithTitle("CONV_" + ((GameCharacter) selection).getLabel());
       } else {
-        orb.print("It doesn't respond to you.");
+        orb.respondToPlayerChoice(selection);
       }
     }
   }
