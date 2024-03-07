@@ -1,5 +1,6 @@
 package game.events;
 
+import game.ControlOrb;
 import game.Util;
 import game.prompts.PromptOption;
 import game.prompts.SelectableString;
@@ -18,6 +19,15 @@ public class ChoiceEventPart implements EventPart{
     for (int i = 1; i < unprocessedChoices.length; i++) {
       promptToEvent = unprocessedChoices[i].split(">");
       choices.add(new PromptOption(promptToEvent[0].trim(), new SelectableString(promptToEvent[1].trim())));
+    }
+  }
+
+  @Override
+  public void run(ControlOrb orb) {
+    PromptOption chosen = orb.getChoiceFromOptions(choices);
+    String label = ((SelectableString)chosen.getObject()).value;
+    if (!label.equals("END")) {
+      EventHandler.queueEventWithTitle(label);
     }
   }
 }

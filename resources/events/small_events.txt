@@ -7,9 +7,32 @@ Whatever is going on, whatever you choose to do, you gain nothing by staying put
 You step off of the stone and onto the soft, grassy soil.
 The wilderness around the tower is all thickly-grown jungle. Yet many trails crisscross the vegetation, providing easy enough means of travel in more or less any direction.
 This doesn't look like any landscape you can recall--but then again, you can't recall much of anything.
+IF BEYN INPARTY; SAY BEYN The wilderness... Such majesty, these trees have, such scale. Where *are* we, I wonder?
 The trails are the only indication of recent activity in the area. It's hard to say, what, exactly, lies down them. Though the tower, at least, appears safe, you have neither food nor water--staying put would eventually become as dangerous as losing your way out there in the jungle.
 You have a strange feeling that you are being watched.
 Once again, you take stock of your surroundings. The wild awaits.
 
 >> CONV_TEMP
 You have a deep and fulfilling conversation with this person.
+
+>> CONV_BEYN
+IF BEYN INPARTY; GOTO BEYN_PARTY_CHAT
+IF BEYN NOT INPARTY; GOTO BEYN_OUT_OF_PARTY
+
+>> BEYN_PARTY_CHAT
+SAY BEYN Yes?
+CHOICE ; "I think we should travel separately for now." > BEYN_DISMISSED; "Nothing, just checking in." > END;
+
+>> BEYN_DISMISSED
+He frowns.
+SAY BEYN Very well, then. Let me know if you change your mind.
+LEAVEPARTY BEYN
+
+>> BEYN_OUT_OF_PARTY
+SAY BEYN Have you changed your mind about travelling together?
+CHOICE ; "Yes. Let's join up." > BEYN_RECRUIT; "No, we'll each go our own way." > END;
+
+>> BEYN_RECRUIT
+He grins slightly.
+SAY BEYN Excellent. Lead the way.
+JOINPARTY BEYN

@@ -77,38 +77,13 @@ public class EventHandler {
     Class prevType = null;
 
     for (EventPart eventPart : e.getEventParts()) {
-      if (eventPart instanceof TextEventPart) {
-        maybeEnterToContinue(prevType, orb);
-        orb.clear();
-        orb.print(((TextEventPart) eventPart).text);
+      maybeEnterToContinue(eventPart, prevType, orb);
+      eventPart.run(orb);
+      if (eventPart instanceof IfEventPart && ((IfEventPart) eventPart).checkCondition()) {
+        prevType = ((IfEventPart) eventPart).ifYes.getClass();
+      } else {
+        prevType = eventPart.getClass();
       }
-      else if (eventPart instanceof SayEventPart) {
-        maybeEnterToContinue(prevType, orb);
-        orb.clear();
-        orb.print(((SayEventPart) eventPart).format());
-      }
-      else if (eventPart instanceof ChoiceEventPart) {
-        PromptOption chosen = orb.getChoiceFromOptions(((ChoiceEventPart) eventPart).choices);
-        String label = ((SelectableString)chosen.getObject()).value;
-        if (!label.equals("END")) {
-          queueEventIfNotRunBefore(label);
-        }
-      }
-      else if (eventPart instanceof GotoEventPart) {
-        maybeEnterToContinue(prevType, orb);
-        queueEventIfNotRunBefore(((GotoEventPart) eventPart).nextEvent);
-      }
-      else if (eventPart instanceof JoinPartyEventPart) {
-        Player.addToParty(((JoinPartyEventPart) eventPart).characterLabel, orb);
-      }
-      else if (eventPart instanceof SetNameEventPart) {
-        SetNameEventPart setNameEventPart = (SetNameEventPart) eventPart;
-        CharacterManager.setKnownName(setNameEventPart.characterLabel, setNameEventPart.newName);
-      }
-      else {
-        System.out.println(eventPart.getClass() + " is missing an implementation in the event handler.");
-      }
-      prevType = eventPart.getClass();
     }
     if (eventToRun.equals(e.title)) {
       orb.enterToContinue();
@@ -116,8 +91,11 @@ public class EventHandler {
     }
   }
 
-  private static void maybeEnterToContinue(Class prevType, ControlOrb orb) {
-    if (prevType == TextEventPart.class || prevType == SayEventPart.class) {
+  private static void maybeEnterToContinue(EventPart curPart, Class prevType, ControlOrb orb) {
+    if ((curPart instanceof TextEventPart || curPart instanceof SayEventPart ||
+        curPart instanceof GotoEventPart ||
+        (curPart instanceof IfEventPart && ((IfEventPart) curPart).checkCondition())) &&
+        (prevType == TextEventPart.class || prevType == SayEventPart.class)) {
       orb.enterToContinue();
     }
   }

@@ -16,28 +16,36 @@ public class Event {
   public List<EventPart> getEventParts() { return parts; }
 
   public void addPart(String rawPartString) {
-    EventPart newEventPart;
+    parts.add(makePartBasedOnLine(rawPartString));
+  }
 
+  private EventPart makePartBasedOnLine(String rawPartString) {
     if (rawPartString.startsWith("CHOICE")) {
-      newEventPart = new ChoiceEventPart(rawPartString);
+      return new ChoiceEventPart(rawPartString);
     }
     else if (rawPartString.startsWith("GOTO")) {
-      newEventPart = new GotoEventPart(rawPartString);
+      return new GotoEventPart(rawPartString);
     }
     else if (rawPartString.startsWith("JOINPARTY")) {
-      newEventPart = new JoinPartyEventPart(rawPartString);
+      return new JoinPartyEventPart(rawPartString);
+    }
+    else if (rawPartString.startsWith("LEAVEPARTY")) {
+      return new LeavePartyEventPart(rawPartString);
     }
     else if (rawPartString.startsWith("SETNAME")) {
-      newEventPart = new SetNameEventPart(rawPartString);
+      return new SetNameEventPart(rawPartString);
     }
     else if (rawPartString.startsWith("SAY")) {
-      newEventPart = new SayEventPart(rawPartString);
+      return new SayEventPart(rawPartString);
+    }
+    else if (rawPartString.startsWith("IF")) {
+      String[] conditionAndBody = rawPartString.split(Util.COMPONENT_DELINIATOR, 2);
+      EventPart nested = makePartBasedOnLine(conditionAndBody[1].trim());
+      return new IfEventPart(conditionAndBody[0], nested);
     }
     else {
-      newEventPart = new TextEventPart(rawPartString);
+      return new TextEventPart(rawPartString);
     }
-
-    parts.add(newEventPart);
   }
 
 }

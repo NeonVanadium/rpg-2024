@@ -1,9 +1,12 @@
 package game.events;
 
-public class TextEventPart implements EventPart {
-  public final String text;
+import game.ControlOrb;
 
-  public TextEventPart(String text) {
-    this.text = text;
+public record TextEventPart(String text) implements EventPart {
+
+  @Override
+  public void run(ControlOrb orb) {
+    orb.clear();
+    orb.print(text);
   }
 }

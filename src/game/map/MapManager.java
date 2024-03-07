@@ -50,7 +50,7 @@ public class MapManager {
       } else if (selection instanceof Structure) {
         StructureManager.enterStructure(CharacterManager.player(), ((Structure) selection).getLabel());
       } else if (selection instanceof GameCharacter) {
-        EventHandler.queueEventWithTitle("CONV_TEMP");
+        EventHandler.queueEventWithTitle("CONV_" + ((GameCharacter) selection).getLabel());
       } else {
         orb.print("It doesn't respond to you.");
       }
@@ -87,12 +87,21 @@ public class MapManager {
 
 
     terrainLabels[0] = map.getTerrainTypeAt(player.getX(), player.getY()) + " here";
-    terrainLabels[1] = map.getTerrainTypeAt(player.getX(), player.getY() + map.tileSize) + " to the north";
-    terrainLabels[2] = map.getTerrainTypeAt(player.getX(), player.getY() - map.tileSize) + " to the south";
-    terrainLabels[3] = map.getTerrainTypeAt(player.getX() + map.tileSize, player.getY()) + " to the east";
-    terrainLabels[4] = map.getTerrainTypeAt(player.getX() - map.tileSize, player.getY()) + " to the west";
+    /*terrainLabels[1] = map.getTerrainTypeAt(player.getX(), player.getY() + map.tileSize);// + " to the north";
+    terrainLabels[3] = map.getTerrainTypeAt(player.getX() + map.tileSize, player.getY());// + " to the east";
+    terrainLabels[2] = map.getTerrainTypeAt(player.getX(), player.getY() - map.tileSize);// + " to the south";
+    terrainLabels[4] = map.getTerrainTypeAt(player.getX() - map.tileSize, player.getY());// + " to the west";
 
-    orb.print("The terrain is " + Util.commasAndAnds(Arrays.stream(terrainLabels).toList(), String::toString));
+    String terrainCompassMiddle = terrainLabels[4] + " <- " + map.getTerrainTypeAt(player.getX(), player.getY()) + " -> " + terrainLabels[3];
+    //String terrainCompassBottom = terrainLabels[2] + "\n\\/"; // (terrainCompassMiddle.length() - terrainLabels[1].length() / 2);
+
+    orb.print(Util.centerText(terrainLabels[1], terrainCompassMiddle));
+    orb.print(Util.centerText("/\\", terrainCompassMiddle));
+    orb.print(terrainCompassMiddle);
+    orb.print(Util.centerText("\\/", terrainCompassMiddle));
+    orb.print(Util.centerText(terrainLabels[2], terrainCompassMiddle));*/
+
+    orb.print("The terrain is " + terrainLabels[0] + ".");
 
     if (visible != null && visible.size() > 0) {
       if (visible.size() == 1) {

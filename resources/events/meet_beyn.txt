@@ -14,7 +14,7 @@ SAY BEYN Say, I can't help but notice that you don't also have an unending storm
 CHOICE ; "No. What are those symbols?" > _MEETBEYN_WHAT_ARE_THE_SYMBOLS; "Quite observant of you." > _MEETBEYN5;
 
 >> _MEETBEYN4
-SAY BEYN Your guess is as good as mine."
+SAY BEYN Your guess is as good as mine.
 He gestures to the floating symbols.
 SAY BEYN These don't seem to know either. And they don't seem fond of not knowing things, judging by how much noise they're making in my head.
 SAY BEYN I suppose I'll be trying to figure that out, though.

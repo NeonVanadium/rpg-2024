@@ -57,4 +57,15 @@ public class Util {
     }
     return builder.toString();
   }
+
+  public static String centerText(String toCenter, String relativeTo) {
+    StringBuilder result = new StringBuilder();
+    for (int i = 0; i < relativeTo.length(); i++) {
+      result.append(' ');
+      if (i == relativeTo.length() / 2) {
+        result.append(toCenter);
+      }
+    }
+    return result.toString();
+  }
 }
