@@ -18,10 +18,6 @@ public class EventManager {
   private static Collection<String> completedEvents;
 
   private static Event eventBeingBuilt; // only used in loadevents/processline.
-  private static String eventPrefix;
-  // to reduce name bloat in complicated event files,
-  // this prefix will be added to all subevents so that they can be, in the file,
-  // called "2" or "DENIED" instead of "MEET_GUY_2" and "MEET_GUY_DENIED" etc.
 
   private static String eventToRun;
   private static final String eventFilesPath = "resources\\events\\";
@@ -49,25 +45,11 @@ public class EventManager {
           events.put(eventBeingBuilt.title, eventBeingBuilt);
         }
 
-        // convenience prefix stuff
-        String eventTitle = line.substring(line.indexOf(" ")).trim();
-        // TODO : This will cause issues when linking to events that don't take the prefix. Need a workaround. This is currently BROKEN.
-        // TODO : Possibly add this convenience just for things in specific files (i.e. not small_events etc) rather than by >> vs >
-        if (line.startsWith(Util.ENTRY_START_SYMBOL)) {
-          eventPrefix = eventTitle + '_';
-        } else if (line.startsWith(Util.SPECIAL_PART_SYMBOL)) {
-          eventTitle = getEventPrefix() + eventTitle;
-        }
-
-        eventBeingBuilt = new Event(eventTitle);
+        eventBeingBuilt = new Event(line.substring(line.indexOf(" ")).trim());
       } else if (eventBeingBuilt != null) {
         eventBeingBuilt.addPart(line);
       }
     }
-  }
-
-  public static String getEventPrefix() {
-    return eventPrefix;
   }
 
   private static void queueEventIfNotRunBefore(String title) {

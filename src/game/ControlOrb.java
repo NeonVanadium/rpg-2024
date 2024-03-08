@@ -18,7 +18,6 @@ public class ControlOrb implements View, Controller {
   View view;
   Controller controller;
   Consumer<Selectable> processMove;
-  private static final boolean ALWAYS_HURRY = true; // always hurry. Should be togglable.
 
   public ControlOrb(View view, Controller controller, Consumer<Selectable> processMove) {
     this.view = view;
@@ -81,7 +80,6 @@ public class ControlOrb implements View, Controller {
   @Override
   public void print(String s) {
     view.print(s);
-    if (ALWAYS_HURRY) hurryUp();
   }
 
   @Override
@@ -92,7 +90,6 @@ public class ControlOrb implements View, Controller {
   @Override
   public void promptAnyInput() {
     view.promptAnyInput();
-    if (ALWAYS_HURRY) hurryUp();
   }
 
   @Override
