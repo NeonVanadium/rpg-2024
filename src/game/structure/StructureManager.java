@@ -3,17 +3,15 @@ package game.structure;
 import game.ControlOrb;
 import game.GameObject;
 import game.Item;
-import game.Movable;
 import game.Player;
 import game.Util;
 import game.characters.CharacterManager;
-import game.characters.GameCharacter;
+import game.characters.Movable;
 import game.map.MapManager;
 import game.prompts.PromptOption;
 import game.prompts.Selectable;
 import game.prompts.SelectableInt;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +36,7 @@ public class StructureManager {
   }
 
   public static void processLine(String line) {
-    if (!line.isBlank() && !line.startsWith("//")) {
+    if (!line.isBlank()) {
       if (line.startsWith(Util.ENTRY_START_SYMBOL)) {
         if (structBeingBuilt != null) {
           structures.put(structBeingBuilt.getLabel(), structBeingBuilt);
@@ -59,7 +57,7 @@ public class StructureManager {
     orb.setTitle(s.getRoomName(roomId));
     orb.print(s.getRoomDescription(roomId));
 
-    List<Movable> objectsInRoom = s.getGameObjectsInRoom(roomId, CharacterManager.player());
+    List<game.Movable> objectsInRoom = s.getGameObjectsInRoom(roomId, CharacterManager.player());
     if (objectsInRoom != null) {
       orb.print("You see " + Util.commasAndAnds(s.getGameObjectsInRoom(roomId, CharacterManager.player()),
           GameObject::getNameToDisplayAsOption) + ".");
@@ -67,7 +65,7 @@ public class StructureManager {
 
     List<PromptOption> options = s.getRoomExits(roomId);
 
-    if (objectsInRoom != null) for (Movable m : objectsInRoom) {
+    if (objectsInRoom != null) for (game.Movable m : objectsInRoom) {
       options.add(new PromptOption(m.getNameToDisplayAsOption(), m));
     }
 
@@ -88,7 +86,7 @@ public class StructureManager {
     return structures.get(label);
   }
 
-  public static void enterStructure(GameCharacter c, String structureLabel, int roomId) {
+  public static void enterStructure(Movable c, String structureLabel, int roomId) {
     Structure s = getStructure(structureLabel);
     if (s.isEnterable()) {
       c.setPosition(s.getX(), s.getY());
@@ -96,14 +94,14 @@ public class StructureManager {
       s.putMovableObject(c, roomId);
 
       if (c == CharacterManager.player()) {
-        for (GameCharacter m : Player.getPartyMembers()) {
+        for (Movable m : Player.getPartyMembers()) {
           enterStructure(m, structureLabel, roomId);
         }
       }
     }
   }
 
-  public static void enterStructure(GameCharacter c, String structureLabel) {
+  public static void enterStructure(Movable c, String structureLabel) {
     enterStructure(c, structureLabel, 0);
   }
 
@@ -111,22 +109,22 @@ public class StructureManager {
    * Removes the given character from its current structure, if there is one.
    * @param c
    */
-  private static void leaveStructure(GameCharacter c) {
+  private static void leaveStructure(Movable c) {
     c.currentStructure.removeMovableObject(c);
     c.currentStructure = null;
     c.currentRoom = -1;
     MapManager.putGameObject(c);
     if (c == CharacterManager.player()) {
-      for (GameCharacter m : Player.getPartyMembers()) {
+      for (Movable m : Player.getPartyMembers()) {
         leaveStructure(m);
       }
     }
   }
 
-  private static void setRoom(GameCharacter c, int newRoomId) {
+  private static void setRoom(Movable c, int newRoomId) {
     c.currentRoom = newRoomId;
     if (c == CharacterManager.player()) {
-      for (GameCharacter m : Player.getPartyMembers()) {
+      for (Movable m : Player.getPartyMembers()) {
         setRoom(m, newRoomId);
       }
     }

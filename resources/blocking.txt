@@ -1,0 +1,4 @@
+// yes the theatre term deal with it
+PLAYER 5 5
+BEYN ARENA_TOWER 3
+ARENA_TOWER 10 10

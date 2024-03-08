@@ -39,7 +39,7 @@ public class Event {
       return new SayEventPart(rawPartString);
     }
     else if (rawPartString.startsWith("IF")) {
-      String[] conditionAndBody = rawPartString.split(Util.COMPONENT_DELINIATOR, 2);
+      String[] conditionAndBody = rawPartString.split(Util.COMPONENT_DELINEATOR, 2);
       EventPart nested = makePartBasedOnLine(conditionAndBody[1].trim());
       return new IfEventPart(conditionAndBody[0], nested);
     }

@@ -1,6 +1,7 @@
 package view.window;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
@@ -13,6 +14,7 @@ public class GraphicsView implements View {
   private final JFrame frame = new JFrame();
   private final int TICK_FREQUENCY = 10; //update is called automatically every this many ms
   protected final Rectangle bounds = new Rectangle(0, 0, 1000, 800);
+  private final Dimension START_SIZE = new Dimension(1000, 800);
 
   private WolgonPanel panel;
 
@@ -28,6 +30,7 @@ public class GraphicsView implements View {
 
   private void setupFrame() {
     frame.setBounds(bounds);
+    frame.setSize(START_SIZE);
     frame.setBackground(Color.BLACK);
     frame.setTitle("Untitled RPG 2024");
     setPanel(new DefaultPanel());

@@ -11,7 +11,6 @@ import view.View;
 abstract class WolgonPanel extends JPanel implements IRectangle, View {
 
 	private static final long serialVersionUID = 1L;
-	public static final Dimension MIN_SIZE = new Dimension(800, 500);
 
 	private HashMap<String, PanelZone> zones = new HashMap<String, PanelZone>();
 	private HashMap<String, Label> labels = new HashMap<String, Label>();
@@ -31,8 +30,6 @@ abstract class WolgonPanel extends JPanel implements IRectangle, View {
 
 
 	public WolgonPanel() {
-
-		this.setMinimumSize(MIN_SIZE);
 		this.setFocusable(true);
 		this.setBackground(new Color(50, 80, 100));
 

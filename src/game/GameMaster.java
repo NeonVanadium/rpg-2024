@@ -2,7 +2,7 @@ package game;
 
 import controller.Controller;
 import game.characters.CharacterManager;
-import game.characters.GameCharacter;
+import game.characters.Movable;
 import game.map.MapManager;
 import game.events.EventManager;
 import game.prompts.Selectable;
@@ -30,11 +30,11 @@ public class GameMaster {
     StructureManager.loadStructures();
     MapManager.init();
 
-    Player.character = CharacterManager.get("PLAYER");
-    MapManager.putGameObject(StructureManager.getStructure("ARENA_TOWER"), 5, 5);
+    /*MapManager.putGameObject(StructureManager.getStructure("ARENA_TOWER"), 5, 5);
     MapManager.putGameObject(CharacterManager.get("SENJA"), 42, 8);
     StructureManager.enterStructure(Player.character, "ARENA_TOWER", 5);
-    StructureManager.enterStructure(CharacterManager.get("BEYN"), "ARENA_TOWER", 3);
+    StructureManager.enterStructure(CharacterManager.get("BEYN"), "ARENA_TOWER", 3);*/
+    Util.parseFileAndDoEachLine("resources/blocking.txt", GameMaster::readLineOfBlocking);
 
     gameLoop();
   }
@@ -54,6 +54,30 @@ public class GameMaster {
     }
   }
 
+  private static void readLineOfBlocking(String str) {
+    String[] parts = str.split(" ");
+    GameObject go = null;
+    String subject = parts[0].trim();
+    String structOrX = parts[1].trim();
+    int lastPart = Integer.parseInt(parts[2].trim());
+
+    // The Subject is placing a Character
+    if (CharacterManager.get(subject) != null) {
+      go = CharacterManager.get("PLAYER");
+      // ...in a structure
+      if (StructureManager.getStructure(structOrX) != null) {
+        StructureManager.enterStructure((CharacterManager.get(subject)),
+            structOrX, lastPart);
+        return;
+      }
+      // the map placement is handled after the structure check.
+    }
+    else if (StructureManager.getStructure(subject) != null) { // subject is a structure
+      go = StructureManager.getStructure(subject);
+    }
+    MapManager.putGameObject(go, Integer.parseInt(structOrX), lastPart);
+  }
+
   /**
    * Individual handlers may have their own special logic for their own type, but certain
    * things are shared regardless of whether we're in a structure or open world.
@@ -63,8 +87,8 @@ public class GameMaster {
     if (selection instanceof Structure) {
       StructureManager.enterStructure(CharacterManager.player(), ((Structure) selection).label);
     }
-    else if (selection instanceof GameCharacter) {
-      EventManager.queueEventWithTitle("CONV_" + ((GameCharacter) selection).getLabel());
+    else if (selection instanceof Movable) {
+      EventManager.queueEventWithTitle("CONV_" + ((Movable) selection).getLabel());
     }
     else if (selection instanceof Item) {
       orb.clear();

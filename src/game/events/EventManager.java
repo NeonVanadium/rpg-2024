@@ -40,7 +40,7 @@ public class EventManager {
   }
 
   private static void processLine(String line) {
-    if (!line.isBlank() && !line.startsWith("//")) {
+    if (!line.isBlank()) {
       if (line.startsWith(Util.ENTRY_START_SYMBOL)) {
         if (eventBeingBuilt != null) {
           events.put(eventBeingBuilt.title, eventBeingBuilt);

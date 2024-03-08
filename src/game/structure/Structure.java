@@ -27,7 +27,7 @@ public class Structure extends GameObject {
    * Used during initialization. Parses a line of text into a room.
    */
   public void addRoom(String rawLine) {
-    String[] parts = rawLine.split(Util.COMPONENT_DELINIATOR);
+    String[] parts = rawLine.split(Util.COMPONENT_DELINEATOR);
     rooms.add(new Room(parts[1].trim(), parts[2].trim(), parts[3].trim()));
   }
 

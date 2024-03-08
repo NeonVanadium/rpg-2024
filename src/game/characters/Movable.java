@@ -1,14 +1,12 @@
 package game.characters;
 
-import game.Movable;
-
-public class GameCharacter extends Movable {
+public class Movable extends game.Movable {
 
   public static int DEFAULT_MOVE_SPEED = 10;
 
   public Gender gender;
 
-  public GameCharacter(String name, Gender gender) {
+  public Movable(String name, Gender gender) {
     this.label = name; this.gender = gender;
   }
 

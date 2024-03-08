@@ -15,7 +15,8 @@ public class Util {
    */
   public static final String ENTRY_START_SYMBOL = ">> ";
   public static final String SPECIAL_PART_SYMBOL = "> ";
-  public static final String COMPONENT_DELINIATOR = ";";
+  public static final String COMPONENT_DELINEATOR = ";";
+  public static final String COMMENT_START = "//";
 
   /**
    * Reads each line from a file, and calls the provided consumer on each line.
@@ -24,8 +25,8 @@ public class Util {
     try {
       BufferedReader br = new BufferedReader(new FileReader(filepath));
       String line;
-      while((line = br.readLine()) != null) {// Reads lines of text until there are no more
-        action.accept(line);
+      while((line = br.readLine()) != null) { // Reads lines of text until there are no more
+        if (!line.startsWith(COMMENT_START)) action.accept(line);
       }
       br.close();
     } catch (IOException e) {

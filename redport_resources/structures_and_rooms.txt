@@ -1,0 +1,3 @@
+>> REDPORT_SQUARE - A lively town square with a chapel in its center.
+0 ; Redport Square ; A bustling town square. There is a large, sturdy tavern here with a notice board outside. A chapel stands in the exact center of the square. ; Exit to the streets. > -1; Approach the Order Chapel > 1 ;
+1 ; Red Moon Chapel - Patio ; A raised stone platfrom in front of a small red moon chapel, right in the center of the town plaza. The downward-facing crescent of the Red Moon glistens in the sunlight. ; Walk out into the plaza > 0;
