@@ -1,4 +1,8 @@
 // yes the theatre term deal with it
-PLAYER 5 5
-BEYN ARENA_TOWER 3
+
+// Structures
 ARENA_TOWER 10 10
+
+// PLAYER ARENA_TOWER 5
+PLAYER ARENA_TOWER 3
+BEYN ARENA_TOWER 3

@@ -26,7 +26,7 @@ public class Util {
       BufferedReader br = new BufferedReader(new FileReader(filepath));
       String line;
       while((line = br.readLine()) != null) { // Reads lines of text until there are no more
-        if (!line.startsWith(COMMENT_START)) action.accept(line);
+        if (!line.isEmpty() && !line.startsWith(COMMENT_START)) action.accept(line);
       }
       br.close();
     } catch (IOException e) {

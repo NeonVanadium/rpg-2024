@@ -14,12 +14,15 @@ import java.util.Map;
  * A class to handle event-related tasks, including parsing them from the file.
  */
 public class EventManager {
-
-
   private static Map<String, Event> events;
   private static Collection<String> completedEvents;
 
   private static Event eventBeingBuilt; // only used in loadevents/processline.
+  private static String eventPrefix;
+  // to reduce name bloat in complicated event files,
+  // this prefix will be added to all subevents so that they can be, in the file,
+  // called "2" or "DENIED" instead of "MEET_GUY_2" and "MEET_GUY_DENIED" etc.
+
   private static String eventToRun;
   private static final String eventFilesPath = "resources\\events\\";
 
@@ -41,15 +44,30 @@ public class EventManager {
 
   private static void processLine(String line) {
     if (!line.isBlank()) {
-      if (line.startsWith(Util.ENTRY_START_SYMBOL)) {
+      if (line.startsWith(Util.ENTRY_START_SYMBOL) || line.startsWith(Util.SPECIAL_PART_SYMBOL)) {
         if (eventBeingBuilt != null) {
           events.put(eventBeingBuilt.title, eventBeingBuilt);
         }
-        eventBeingBuilt = new Event(line.substring(Util.ENTRY_START_SYMBOL.length()));
+
+        // convenience prefix stuff
+        String eventTitle = line.substring(line.indexOf(" ")).trim();
+        // TODO : This will cause issues when linking to events that don't take the prefix. Need a workaround. This is currently BROKEN.
+        // TODO : Possibly add this convenience just for things in specific files (i.e. not small_events etc) rather than by >> vs >
+        if (line.startsWith(Util.ENTRY_START_SYMBOL)) {
+          eventPrefix = eventTitle + '_';
+        } else if (line.startsWith(Util.SPECIAL_PART_SYMBOL)) {
+          eventTitle = getEventPrefix() + eventTitle;
+        }
+
+        eventBeingBuilt = new Event(eventTitle);
       } else if (eventBeingBuilt != null) {
         eventBeingBuilt.addPart(line);
       }
     }
+  }
+
+  public static String getEventPrefix() {
+    return eventPrefix;
   }
 
   private static void queueEventIfNotRunBefore(String title) {
@@ -101,8 +119,8 @@ public class EventManager {
   // jank! gross! jank! this should be automatic! temp until I feel like designing a cool way
   // to do this from the text file! jank!
   public static void checkEventTriggers() {
-    if (!completedEvents.contains("INTRO")) queueEventIfNotRunBefore("INTRO");
-    else if (Player.character.inStructure("ARENA_TOWER")
+    //if (!completedEvents.contains("INTRO")) queueEventIfNotRunBefore("INTRO");
+    if (Player.character.inStructure("ARENA_TOWER")
         && Player.character.currentRoom == CharacterManager.get("BEYN").currentRoom) {
       queueEventIfNotRunBefore("MEET_BEYN");
     } else if (Player.character.currentStructure == null) {

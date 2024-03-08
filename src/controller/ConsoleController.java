@@ -6,14 +6,11 @@ import view.View;
 
 public class ConsoleController implements Controller {
 
-  private View view;
   private Scanner input = new Scanner(System.in);
+  private final int EMPTY_SELECTION = -1;
+  private final int INVALID_SELECTION = -2;
 
   private List<String> options;
-
-  public ConsoleController(View view) {
-    this.view = view;
-  }
 
   public int setOptions(List<String> options) {
     this.options = options;
@@ -36,7 +33,7 @@ public class ConsoleController implements Controller {
     while (!isValidSelection(selected)) {
       String resp = input.nextLine();
       if (resp.isEmpty())  {
-        return -1;
+        return EMPTY_SELECTION;
       }
       selected = parseInt(resp);
       if (selected == -1) { // non-integer response. Try string matching.
@@ -47,7 +44,7 @@ public class ConsoleController implements Controller {
         }
       }
       if (!isValidSelection(selected)) {
-        view.print("Not a valid input.");
+        return INVALID_SELECTION;
       }
     }
     return selected;

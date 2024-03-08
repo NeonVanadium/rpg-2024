@@ -1,73 +1,73 @@
 >> MEET_BEYN
 Ahead of you, a man stands amidst a dazzling display of light.
 He's on one knee, eyes shut and temples bulging as if under considerable physical duress. A flurry of mostly-unfamiliar symbols in gleaming blue shifts and flows like a storm behind him.
-CHOICE ; Approach the man. > _MEETBEYN0.5; Call out to him. > _MEETBEYN1; Leave him be - Looks like something you don't want to get involved with. > END;
+CHOICE ; Approach the man. > 0.5; Call out to him. > 1; Leave him be - Looks like something you don't want to get involved with. > END;
 
->> _MEETBEYN0.5
+> 0.5
 He makes no reaction to your approach.
-CHOICE ; Call out to him. > _MEETBEYN1; Tap him on the shoulder. > _MEETBEYN1; Leave him be. > END;
+CHOICE ; Call out to him. > 1; Tap him on the shoulder. > 1; Leave him be. > END;
 
->> _MEETBEYN1
+> 1
 He opens his eyes and looks at you. His irises seem almost hollow, like tunnels filled with yet more of the glowing symbols that surround him. The lights calm and slow, but not completely.
 SAY BEYN Ah. Hello.
-CHOICE ; Ask if he's alright. > _MEETBEYN2; "What are all those symbols?" > _MEETBEYN_WHAT_ARE_THE_SYMBOLS ; Ask if he knows where you are. > _MEETBEYN4;
+CHOICE ; Ask if he's alright. > 2; "What are all those symbols?" > WHAT_ARE_THE_SYMBOLS ; Ask if he knows where you are. > 4;
 
->> _MEETBEYN2
+> 2
 SAY BEYN Unclear. I admit I can't remember much of anything about myself or where in the world I--we--are. I was trying to figure that out, though.
 SAY BEYN Say, I can't help but notice that you don't also have an unending storm of formulae and obscura dancing around you.
-CHOICE ; "No. What are those symbols?" > _MEETBEYN_WHAT_ARE_THE_SYMBOLS; "Quite observant of you." > _MEETBEYN5;
+CHOICE ; "No. What are those symbols?" > WHAT_ARE_THE_SYMBOLS; "Quite observant of you." > 5;
 
->> _MEETBEYN4
+> 4
 SAY BEYN Your guess is as good as mine.
 He gestures to the floating symbols.
 SAY BEYN These don't seem to know either. And they don't seem fond of not knowing things, judging by how much noise they're making in my head.
 SAY BEYN I suppose I'll be trying to figure that out, though.
-GOTO _MEETBEYN_SECTION_2
+GOTO SECTION_2
 
->> _MEETBEYN5
+> 5
 SAY BEYN I'd say 'I am known to be,' but I've only known myself for the past few minutes.
-GOTO _MEETBEYN_WHAT_ARE_THE_SYMBOLS
+GOTO WHAT_ARE_THE_SYMBOLS
 
->> _MEETBEYN_WHAT_ARE_THE_SYMBOLS
+> WHAT_ARE_THE_SYMBOLS
 SAY BEYN I don't know exactly what they are, but they're evidently related to the overflowing repository of knowledge in my head. Not in an 'I am very smart and read lots of books' kind of way; There's information that almost forcefully wants into my head. When I listen to that information, the lights appear.
 SAY BEYN They're quite intuitive to me. Until you appeared, I hadn't considered they weren't... normal. Hmm.
 SAY BEYN When you walked in, I was trying to figure out these scratchings on the wall, see if I couldn't place where we are. But no luck.
-GOTO _MEETBEYN_SECTION_2
+GOTO SECTION_2
 
 //
 // Beyn asks about the player.
 //
 
->> _MEETBEYN_SECTION_2
+> SECTION_2
 SAY BEYN What about you? Do you know anything about where we are?
-CHOICE ; Admit you don't know anything, either. > _MEETBEYN_2.1
+CHOICE ; Admit you don't know anything, either. > 2.1
 
->> _MEETBEYN_2.1
+> 2.1
 SAY BEYN I wonder--Is it more or less concerning that not one but two amnesiacs have appeared in this strange place?
-CHOICE ; "More." > _MEETBEYN_2.2a ; "Less." > _MEETBEYN_2.2b ; "More alarming, but more comforting, I suppose." > _MEETBEYN_2.2c
+CHOICE ; "More." > 2.2a ; "Less." > 2.2b ; "More alarming, but more comforting, I suppose." > 2.2c
 
->> _MEETBEYN_2.2a
+> 2.2a
 SAY BEYN Yes. Something bigger than any one man's misfortune. But how big, exactly? If there are two of us, I'd wager there's three. And then who knows how many more?
-GOTO _MEETBEYN_2.2.1
+GOTO 2.2.1
 
->> _MEETBEYN_2.2b
+> 2.2b
 SAY BEYN Perhaps. It does mean we need not figure this out by ourselves. If there are two of us, I'd wager there's three. And then who knows how many more?
-GOTO _MEETBEYN_2.2.1
+GOTO 2.2.1
 
->> _MEETBEYN_2.2c
+> 2.2c
 SAY BEYN Hmm, yes indeed. There's something bigger going on than just either of us, but it does mean we needn't figure it out alone.
-GOTO _MEETBEYN_2.2.1
+GOTO 2.2.1
 
->> _MEETBEYN_2.2.1
+> 2.2.1
 SAY BEYN I don't suppose, then, you'd object to staying together while we figure out what's happened to us?
-CHOICE ; "Not at all. Let's join up." > _MEETBEYN_3a ; "For now, sure." > _MEETBEYN_3a ; "No, thanks. I'd rather go it alone." > _MEETBEYN_3b ; "I don't want whatever's going on with those lights anywhere near me." > _MEETBEYN_3b
+CHOICE ; "Not at all. Let's join up." > 3a ; "For now, sure." > 3a ; "No, thanks. I'd rather go it alone." > 3b ; "I don't want whatever's going on with those lights anywhere near me." > 3b
 
->> _MEETBEYN_3a
+> 3a
 SETNAME BEYN Vessel
 The man smiles, causing his impossible, gleaming eyes to flash.
 SAY BEYN Then so it shall be. I don't remember if it's my real name or not, but the... symbols call me 'Vessel.' It'll do for now.
 JOINPARTY BEYN
 
->> _MEETBEYN_3b
+> 3b
 The man frowns, but nods.
 SAY BEYN Very well, then. Best of luck to you.

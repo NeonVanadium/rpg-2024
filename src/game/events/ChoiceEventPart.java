@@ -17,7 +17,8 @@ public class ChoiceEventPart implements EventPart{
     // start at 1 bc the zeroth is just the CHOICE label.
     for (int i = 1; i < unprocessedChoices.length; i++) {
       promptToEvent = unprocessedChoices[i].split(">");
-      choices.add(new PromptOption(promptToEvent[0].trim(), new SelectableString(promptToEvent[1].trim())));
+      String targetEventName = EventManager.getEventPrefix() + promptToEvent[1].trim();
+      choices.add(new PromptOption(promptToEvent[0].trim(), new SelectableString(targetEventName)));
     }
   }
 

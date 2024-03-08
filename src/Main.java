@@ -22,9 +22,9 @@ public class Main {
     }
 
     if (USE_CONSOLE_CONTROLLER) {
-      controller = new ConsoleController(view);
+      controller = new ConsoleController();
     } else {
-      controller = new KeyboardMouseController(view);
+      controller = new KeyboardMouseController();
     }
 
     GameMaster.init(view, controller);

@@ -3,17 +3,11 @@ package controller;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
-import view.View;
 
 public class KeyboardMouseController implements Controller, KeyListener {
 
-  private View view;
   private List<String> options;
   private Object input = null;
-
-  public KeyboardMouseController(View view) {
-    this.view = view;
-  }
 
   @Override
   public void keyTyped(KeyEvent e) {
