@@ -4,11 +4,7 @@ public class ConsoleView implements View {
 
   @Override
   public void wait(int ms) {
-    try {
-      Thread.sleep(ms);
-    } catch (Exception e) {
-      System.out.println("how???");
-    }
+
   }
 
   @Override

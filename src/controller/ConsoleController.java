@@ -2,15 +2,11 @@ package controller;
 
 import java.util.List;
 import java.util.Scanner;
-import view.View;
 
-public class ConsoleController implements Controller {
+public class ConsoleController extends AbstractController {
 
   private Scanner input = new Scanner(System.in);
-  private final int EMPTY_SELECTION = -1;
-  private final int INVALID_SELECTION = -2;
 
-  private List<String> options;
 
   public int setOptions(List<String> options) {
     this.options = options;
@@ -23,7 +19,6 @@ public class ConsoleController implements Controller {
     return -1;
   }
 
-  @Override
   public void getAnyInput() {
     setOptions(null);
   }
@@ -50,21 +45,8 @@ public class ConsoleController implements Controller {
     return selected;
   }
 
-  private boolean isValidSelection(int s) {
-    return s >= 0 && s < options.size();
-  }
 
-  /**
-   * Parse int from a response string. Doesn't support negatives. If parsing fails,
-   * returns -1.
-   */
-  private int parseInt(String s) {
-    if (!s.isEmpty() && Character.isDigit(s.charAt(0))) {
-      try {
-        return Integer.parseInt(s) - 1;
-      } catch (Exception e) {}
-    }
-    return -1;
-  }
+
+
 
 }

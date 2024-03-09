@@ -1,37 +1,67 @@
 package controller;
 
+import game.Util;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.List;
 
-public class KeyboardMouseController implements Controller, KeyListener {
+public class KeyboardMouseController extends AbstractController {
 
-  private List<String> options;
-  private Object input = null;
+  private GraphicControllerKeyboardListener keyListener;
 
-  @Override
-  public void keyTyped(KeyEvent e) {
-
+  public KeyboardMouseController() {
+    keyListener = new GraphicControllerKeyboardListener();
   }
 
-  @Override
-  public void keyPressed(KeyEvent e) {
-    System.out.println(e.getKeyChar());
-    input = e.getKeyChar();
-  }
-
-  @Override
-  public void keyReleased(KeyEvent e) {
-
-  }
-
-  @Override
   public int setOptions(List<String> options) {
-    return 0;
+    this.options = options;
+    if (options != null && options.size() != 0) {
+      return pickOption();
+    }
+    if (options == null) {
+      waitForInput();
+    }
+    return INVALID_SELECTION;
   }
 
-  @Override
-  public void getAnyInput() {
+  private int pickOption() {
+    Character resp = null;
+    while (resp == null) resp = waitForInput();
+    int selected = parseInt(resp.toString());
+    return isValidSelection(selected) ? selected : INVALID_SELECTION;
+  }
 
+  public void getAnyInput() {
+    waitForInput();
+  }
+
+  private Character waitForInput() {
+    while (!keyListener.hasQueuedInput()) {
+      Util.sleep(100);
+    }
+    return keyListener.getQueuedInput();
+  }
+
+  public KeyAdapter getKeyAdapter() {
+    return keyListener;
+  }
+
+  private class GraphicControllerKeyboardListener extends KeyAdapter {
+    Character input;
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+      input = e.getKeyChar();
+    }
+
+    public boolean hasQueuedInput() {
+      return input != null;
+    }
+
+    public Character getQueuedInput() {
+      Character resp = input;
+      input = null;
+      return resp;
+    }
   }
 }

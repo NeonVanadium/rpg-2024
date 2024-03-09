@@ -83,4 +83,13 @@ public class Util {
     }
     return formatted == null ? str : formatted.toString();
   }
+
+  public static void sleep(int ms) {
+    try {
+      Thread.sleep(ms);
+    } catch (Exception e) {
+      System.out.println("how???");
+    }
+  }
+
 }

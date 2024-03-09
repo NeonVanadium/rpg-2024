@@ -101,7 +101,7 @@ public class EventManager {
   // jank! gross! jank! this should be automatic! temp until I feel like designing a cool way
   // to do this from the text file! jank!
   public static void checkEventTriggers() {
-    //if (!completedEvents.contains("INTRO")) queueEventIfNotRunBefore("INTRO");
+    if (!completedEvents.contains("INTRO")) queueEventIfNotRunBefore("INTRO");
     if (Player.character.inStructure("ARENA_TOWER")
         && Player.character.currentRoom == CharacterManager.get("BEYN").currentRoom) {
       queueEventIfNotRunBefore("MEET_BEYN");
