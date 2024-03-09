@@ -1,5 +1,5 @@
 @ -1,73 +1,73 @@
->> MEET_BEYN
+>> MEET_BEYN ; PLAYER IN ARENA_TOWER ; PLAYER WITH BEYN
 Ahead of you, a man stands amidst a dazzling display of light.
 He's on one knee, eyes shut and temples bulging as if under considerable physical duress. A flurry of mostly-unfamiliar symbols in gleaming blue shifts and flows like a storm behind him.
 CHOICE ; Approach the man. > _MEETBEYN0.5; Call out to him. > _MEETBEYN1; Leave him be - Looks like something you don't want to get involved with. > END;

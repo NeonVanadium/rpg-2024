@@ -12,4 +12,13 @@ public abstract class Movable extends GameObject {
   public boolean inStructure(String label) {
     return currentStructure != null && currentStructure.getLabel().equals(label);
   }
+
+  @Override
+  public boolean isInSameSpotAs(GameObject other) {
+    if (other instanceof Movable && currentStructure != null) {
+      return ((Movable) other).currentRoom == currentRoom &&
+          ((Movable) other).currentStructure == currentStructure;
+    }
+    return super.isInSameSpotAs(other);
+  }
 }

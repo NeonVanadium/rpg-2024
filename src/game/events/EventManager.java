@@ -1,9 +1,8 @@
 package game.events;
 
 import game.ControlOrb;
-import game.Player;
+import game.GameMaster;
 import game.Util;
-import game.characters.CharacterManager;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,12 +14,13 @@ import java.util.Map;
  */
 public class EventManager {
   private static Map<String, Event> events;
+  private static Collection<String> topLevelEvents;
   private static Collection<String> completedEvents;
 
   private static Event eventBeingBuilt; // only used in loadevents/processline.
 
   private static String eventToRun;
-  private static final String eventFilesPath = "resources\\events\\";
+  private static final String eventFilesPath = GameMaster.RESOURCE_FOLDER + "events\\";
 
   /**
    * Load events from all files in resources/events.
@@ -28,11 +28,12 @@ public class EventManager {
   public static void loadEvents() {
     events = new HashMap<>();
     completedEvents = new HashSet<>();
+    topLevelEvents = new HashSet<>();
     eventBeingBuilt = null;
     for (String fileName : new File(eventFilesPath).list()) {
       Util.parseFileAndDoEachLine(eventFilesPath + fileName, EventManager::processLine);
       if (eventBeingBuilt != null) {
-        events.put(eventBeingBuilt.title, eventBeingBuilt);
+        addFinishedEvent();
         eventBeingBuilt = null;
       }
     }
@@ -41,14 +42,20 @@ public class EventManager {
   private static void processLine(String line) {
     if (!line.isBlank()) {
       if (line.startsWith(Util.ENTRY_START_SYMBOL) || line.startsWith(Util.SPECIAL_PART_SYMBOL)) {
-        if (eventBeingBuilt != null) {
-          events.put(eventBeingBuilt.title, eventBeingBuilt);
+        if (eventBeingBuilt != null) { // this concludes a previous event
+          addFinishedEvent();
         }
-
-        eventBeingBuilt = new Event(line.substring(line.indexOf(" ")).trim());
+        eventBeingBuilt = new Event(line);
       } else if (eventBeingBuilt != null) {
         eventBeingBuilt.addPart(line);
       }
+    }
+  }
+
+  private static void addFinishedEvent() {
+    events.put(eventBeingBuilt.title, eventBeingBuilt);
+    if (eventBeingBuilt.hasConditions()) { // if a top-level event (with trigger conditions)
+      topLevelEvents.add(eventBeingBuilt.title);
     }
   }
 
@@ -77,7 +84,7 @@ public class EventManager {
       maybeEnterToContinue(eventPart, prevType, orb);
       eventPart.run(orb);
       if (eventToRun != null && !eventToRun.equals(e.title)) break; //enables Gotos
-      else if (eventPart instanceof IfEventPart && ((IfEventPart) eventPart).checkCondition()) {
+      else if (eventPart instanceof IfEventPart && ((IfEventPart) eventPart).condition.isMet()) {
         prevType = ((IfEventPart) eventPart).ifYes.getClass();
       } else {
         prevType = eventPart.getClass();
@@ -92,21 +99,17 @@ public class EventManager {
   private static void maybeEnterToContinue(EventPart curPart, Class prevType, ControlOrb orb) {
     if ((curPart instanceof TextEventPart || curPart instanceof SayEventPart ||
         curPart instanceof GotoEventPart ||
-        (curPart instanceof IfEventPart && ((IfEventPart) curPart).checkCondition())) &&
+        (curPart instanceof IfEventPart && ((IfEventPart) curPart).condition.isMet())) &&
         (prevType == TextEventPart.class || prevType == SayEventPart.class)) {
       orb.enterToContinue();
     }
   }
 
-  // jank! gross! jank! this should be automatic! temp until I feel like designing a cool way
-  // to do this from the text file! jank!
   public static void checkEventTriggers() {
-    if (!completedEvents.contains("INTRO")) queueEventIfNotRunBefore("INTRO");
-    if (Player.character.inStructure("ARENA_TOWER")
-        && Player.character.currentRoom == CharacterManager.get("BEYN").currentRoom) {
-      queueEventIfNotRunBefore("MEET_BEYN");
-    } else if (Player.character.currentStructure == null) {
-      queueEventIfNotRunBefore("INTO_THE_WILDERNESS");
+    for (String title : topLevelEvents) {
+      if (!completedEvents.contains(title) && events.get(title).conditionsMet()) {
+        queueEventWithTitle(title);
+      }
     }
   }
 

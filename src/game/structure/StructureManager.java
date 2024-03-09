@@ -1,8 +1,8 @@
 package game.structure;
 
 import game.ControlOrb;
+import game.GameMaster;
 import game.GameObject;
-import game.Item;
 import game.Player;
 import game.Util;
 import game.characters.CharacterManager;
@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class StructureManager {
 
-  private static final String structuresFilePath = "resources\\structures_and_rooms.txt";
+  private static final String structuresFilePath = GameMaster.RESOURCE_FOLDER + "structures_and_rooms.txt";
   private static Map<String, Structure> structures;
   private static Structure structBeingBuilt;
 
@@ -31,8 +31,8 @@ public class StructureManager {
         structBeingBuilt = null;
       }
     }
-    structures.get("ARENA_TOWER").putMovableObject(new Item("IRON_SWORD", "Iron Sword",
-        "a rusty iron sword"), 4);
+    /*structures.get("ARENA_TOWER").putMovableObject(new Item("IRON_SWORD", "Iron Sword",
+        "a rusty iron sword"), 4);*/
   }
 
   public static void processLine(String line) {

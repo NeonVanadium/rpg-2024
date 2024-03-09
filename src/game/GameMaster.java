@@ -15,6 +15,7 @@ public class GameMaster {
   private static View view;
   private static Controller controller;
   private static ControlOrb orb;
+  public static final String RESOURCE_FOLDER = "resources\\";
 
   private static boolean running = true;
 
@@ -29,13 +30,8 @@ public class GameMaster {
     CharacterManager.loadCharacters();
     StructureManager.loadStructures();
     MapManager.init();
-
-    /*MapManager.putGameObject(StructureManager.getStructure("ARENA_TOWER"), 5, 5);
-    MapManager.putGameObject(CharacterManager.get("SENJA"), 42, 8);
-    StructureManager.enterStructure(Player.character, "ARENA_TOWER", 5);
-    StructureManager.enterStructure(CharacterManager.get("BEYN"), "ARENA_TOWER", 3);*/
-    Util.parseFileAndDoEachLine("resources/blocking.txt", GameMaster::readLineOfBlocking);
-
+    Util.parseFileAndDoEachLine(GameMaster.RESOURCE_FOLDER + "blocking.txt",
+        GameMaster::readLineOfBlocking);
     gameLoop();
   }
 

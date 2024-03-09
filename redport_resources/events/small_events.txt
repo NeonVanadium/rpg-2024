@@ -1,4 +1,4 @@
->> INTRO
+>> INTRO ; PLAYER IN REDPORT_SQUARE
 The sky is clear today, the air pleasantly warm, carrying the subtle scent of sea-salt.
 On the western coast, where expansive plains of lime-colored grass meet the sparkling, deep-blue waters of the Dragonshead Gulf, the young city of Redport is the only settlement of its size for over a hundred miles in any direction.
 Its mostly single-story buildings have tan walls and red-tile roofs, its narrow roads might be called alleyways in other cities. Save around a small fort on the east side, it has no walls.

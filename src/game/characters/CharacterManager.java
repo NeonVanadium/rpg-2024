@@ -1,5 +1,6 @@
 package game.characters;
 
+import game.GameMaster;
 import game.Player;
 import game.Util;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ public class CharacterManager {
   public static void loadCharacters() {
     characters.put("PLAYER", new Movable("PLAYER", Gender.SOMETHING_ELSE));
     Player.character = characters.get("PLAYER");
-    Util.parseFileAndDoEachLine("resources\\characters.txt",
+    Util.parseFileAndDoEachLine(GameMaster.RESOURCE_FOLDER + "characters.txt",
         CharacterManager::makeCharacterFromLine);
   }
 

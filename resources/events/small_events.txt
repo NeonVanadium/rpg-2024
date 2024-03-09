@@ -1,9 +1,9 @@
->> INTRO
+>> INTRO ; ARENA_TOWER CURSTRUCT
 You awaken on hard stone, high atop a tower that overlooks an unfamiliar landscape.
 You have no memory--no idea who you are, nor why you're in this place.
 Whatever is going on, whatever you choose to do, you gain nothing by staying put. You rise to your feet and survey your surroundings.
 
->> INTO_THE_WILDERNESS
+>> INTO_THE_WILDERNESS ; PLAYER INOPENWORLD
 You step off of the stone and onto the soft, grassy soil.
 The wilderness around the tower is all thickly-grown jungle. Yet many trails crisscross the vegetation, providing easy enough means of travel in more or less any direction.
 This doesn't look like any landscape you can recall--but then again, you can't recall much of anything.
@@ -29,7 +29,7 @@ SAY BEYN Very well, then. Let me know if you change your mind.
 LEAVEPARTY BEYN
 
 >> BEYN_OUT_OF_PARTY
-IF ARENA_TOWER CURSTRUCT ; IF _MEETBEYN1 NOT COMPLETE ; GOTO MEET_BEYN
+IF PLAYER IN ARENA_TOWER ; IF _MEETBEYN1 NOT COMPLETE ; GOTO MEET_BEYN
 SAY BEYN Have you changed your mind about travelling together?
 CHOICE ; "Yes. Let's join up." > BEYN_RECRUIT; "No, we'll each go our own way." > END;
 
