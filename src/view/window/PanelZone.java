@@ -37,6 +37,10 @@ public class PanelZone implements IRectangle {
 		}
 	}
 
+	public int getBufferedWith() {
+		return getWidth() - (2 * WolgonPanel.BUFFER); // buffer on left and right sides.
+	}
+
 	public int getHeight() {
 		if (parent == null) {
 			return panel.getHeight();

@@ -22,7 +22,7 @@ abstract class WolgonPanel extends JPanel implements IRectangle, View {
 	private boolean resized = true; 
 	private Label hoveredOver; // the label currently hovered over by the mouse, if any.
 
-	public static final int BUFFER = 20; // size of the whitespace buffer for the edges of all zones
+	public static final int BUFFER = 30; // size of the whitespace buffer for the edges of all zones
 	public static final float DEFAULT_FONT_SIZE = 30f;
 
 	//protected UserTypeLabel typeBox; // a pointer to the on-panel typable label, if present

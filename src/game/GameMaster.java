@@ -15,7 +15,7 @@ public class GameMaster {
   private static View view;
   private static Controller controller;
   private static ControlOrb orb;
-  public static final String RESOURCE_FOLDER = "resources\\";
+  public static final String RESOURCE_FOLDER = "redport_resources\\";
 
   private static boolean running = true;
 
@@ -84,7 +84,8 @@ public class GameMaster {
       StructureManager.enterStructure(CharacterManager.player(), ((Structure) selection).label);
     }
     else if (selection instanceof Movable) {
-      EventManager.queueEventWithTitle("CONV_" + ((Movable) selection).getLabel());
+      String title = "CONV_" + ((Movable) selection).getLabel();
+      if (EventManager.hasEventWithTitle(title)) EventManager.queueEventWithTitle("CONV_TEMP");
     }
     else if (selection instanceof Item) {
       orb.clear();

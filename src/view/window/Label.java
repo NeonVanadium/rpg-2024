@@ -81,11 +81,9 @@ class Label implements IRectangle {
 		height = 0;
 		trueTop = -1;
 
-		FontMetrics m = g.getFontMetrics();
-
+		FontMetrics metrics = g.getFontMetrics();
 		int availableSpace = zone.getWidth() - (2 * WolgonPanel.BUFFER); //available horizontal space in the zone, in pixels
 		int lastNewLineIndex = 0;
-		//int lineHeight;
 
 		String curLine = "";
 		String lineAtNextSpace = "";
@@ -95,15 +93,13 @@ class Label implements IRectangle {
 		int nextSpace;
 
 		//based on next space and current index.
-
-		boolean lineTooWide = false;
+		boolean lineTooWide;
 
 		while(indexOfEither(text, ' ', '\n', curSpace + 1) != -1) {
-
 			nextSpace = indexOfEither(text, ' ', '\n', curSpace + 1); //index of the next space or newline
 			lineAtNextSpace = text.substring(lastNewLineIndex, nextSpace); //the line including the next word
 
-			lineTooWide = (m.stringWidth(lineAtNextSpace) + (2 * WolgonPanel.BUFFER) >= availableSpace);
+			lineTooWide = (metrics.stringWidth(lineAtNextSpace) >= zone.getBufferedWith());
 
 			//if we need a new line
 			if(text.charAt(curSpace) == '\n' || lineTooWide){
@@ -119,7 +115,12 @@ class Label implements IRectangle {
 
 		//fenceposting
 		curLine = text.substring(lastNewLineIndex);
-		newWrappedLine(curLine, g);
+		if (metrics.stringWidth(curLine) >= zone.getBufferedWith()) {
+			newWrappedLine(curLine.substring(0, curLine.lastIndexOf(' ')), g);
+			newWrappedLine(curLine.substring(curLine.lastIndexOf(' ') + 1), g);
+		} else {
+			newWrappedLine(curLine, g);
+		}
 	}
 
 	// helper for wrapLine() to accommodate for manual \n
@@ -144,7 +145,8 @@ class Label implements IRectangle {
 			width = g.getFontMetrics().stringWidth(curLine);
 		}
 
-		int lineHeight = (int) g.getFontMetrics().getStringBounds(curLine, g).getHeight(); //the height of the current line of text, in pixels
+		//the height of the current line of text, in pixels
+		int lineHeight = (int) g.getFontMetrics().getStringBounds(curLine, g).getHeight();
 
 		if(trueTop == -1) {
 			trueTop = getY() - lineHeight;
@@ -189,38 +191,27 @@ class Label implements IRectangle {
 	}
 
 	private int getAlignedVerticalPosition() {
-
 		int halfLineHeight = (int) (WolgonPanel.DEFAULT_FONT_SIZE / 2);
 
-		switch(vert) {
-		case Top:
-			return zone.getY() + (4 * WolgonPanel.BUFFER);
-		case Bottom:
-			return (zone.getY() + zone.getHeight()) - (halfLineHeight + 4 * WolgonPanel.BUFFER);
-		case VCenter:
-			return zone.getY() + (zone.getHeight() / 2) - halfLineHeight;
-		default:
-			return 0;
-		}
+		return switch (vert) {
+			case Top -> zone.getY() + (4 * WolgonPanel.BUFFER);
+			case Bottom -> (zone.getY() + zone.getHeight()) - (halfLineHeight + 4 * WolgonPanel.BUFFER);
+			case VCenter -> zone.getY() + (zone.getHeight() / 2) - halfLineHeight;
+			default -> 0;
+		};
 	}
 
 	private int getAlignedHorizontalPosition() {
-
-		switch(horz) {
-
-		case HCenter:
-			return zone.getX() + (zone.getWidth() / 2) - (this.getWidth() / 2);
-		case Left:
-			return zone.getX() + WolgonPanel.BUFFER;
-		case Right:
-			return (zone.getX() + zone.getWidth()) - this.getWidth() - WolgonPanel.BUFFER;
-		default:
-			return 0;
-		}
+		return switch (horz) {
+			case HCenter -> zone.getX() + (zone.getWidth() / 2) - (this.getWidth() / 2);
+			case Left -> zone.getX() + WolgonPanel.BUFFER;
+			case Right -> (zone.getX() + zone.getWidth()) - this.getWidth() - WolgonPanel.BUFFER;
+			default -> 0;
+		};
 	}
 
 	public boolean contains(Point p) {  	
-		return (p.x >= getX() && p.x <= getX() + width) && (p.y >= trueTop && p.y <= trueTop + height);	
+		return (p.x >= getX() && p.x <= getX() + width) && (p.y >= trueTop && p.y <= trueTop + height);
 	}
 
 	public int getWidth() {

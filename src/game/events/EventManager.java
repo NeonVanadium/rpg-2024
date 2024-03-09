@@ -74,6 +74,10 @@ public class EventManager {
     return eventToRun != null;
   }
 
+  public static boolean hasEventWithTitle(String title) {
+    return events.get(title) != null;
+  }
+
   public static void runQueuedEvent(ControlOrb orb) {
     Event e = events.get(eventToRun);
     completedEvents.add(eventToRun);
