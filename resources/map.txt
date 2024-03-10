@@ -1,0 +1,11 @@
+>> Terrain types
+j ; Jungle ; 10
+p ; Plains ; 1
+d ; Desert ; 1
+
+>> Map
+p,p,p,d,d
+p,p,p,p,d
+j,p,p,p,p
+j,j,p,p,p
+j,j,j,p,p

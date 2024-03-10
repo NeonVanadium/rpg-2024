@@ -1,6 +1,7 @@
 package game.map;
 
 import game.ControlOrb;
+import game.GameMaster;
 import game.GameObject;
 import game.Player;
 import game.Util;
@@ -11,18 +12,60 @@ import game.prompts.Direction;
 import game.prompts.PromptOption;
 import game.prompts.Selectable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class MapManager {
 
   private static GameMap map;
   private static List<GameObject> visible;
   private static List<GameObject> interactable;
-  private static String[] terrainLabels = new String[5];
+  private static Map<String, Terrain> terrainTypes;
+  private static boolean loadingTerrain = false;
 
   public static void init() {
-    map = new GameMap();
+    LinkedList<Terrain[]> tileRows = new LinkedList<>();
+    terrainTypes = new HashMap<>();
+    Util.parseFileAndDoEachLine(GameMaster.RESOURCE_FOLDER + "map.txt", (line) -> MapManager.processLine(line, tileRows));
+    map = new GameMap(tileRows);
   }
+
+  private static void processLine(String line, LinkedList<Terrain[]> tileRows) {
+    if (line.startsWith(Util.ENTRY_START_SYMBOL)) {
+      // silly implmentation, but defaults to false, the first >> marks the terrain section,
+      // and the second marks the map section
+      loadingTerrain = !loadingTerrain;
+    } else {
+      if (loadingTerrain) {
+        processTerrainLine(line);
+      } else {
+        tileRows.add(processMapLine(line));
+      }
+    }
+  }
+
+  private static void processTerrainLine(String line) {
+    String[] parts = line.split(Util.COMPONENT_DELINEATOR);
+    String symbol = parts[0].trim();
+    terrainTypes.put(symbol, new Terrain(symbol, parts[1].trim(), Integer.parseInt(parts[2].trim())));
+  }
+
+  private static Terrain[] processMapLine(String line) {
+    String[] tiles = line.split(",");
+    Terrain[] row = new Terrain[tiles.length];
+    int i = 0;
+    for (String tile : tiles) {
+      row[i] = terrainTypes.get(tile);
+      if (row[i] == null) {
+        throw new IllegalArgumentException("Tile " + tile + " in column " + i + " not found!");
+      }
+      i++;
+    }
+    return row;
+  }
+
 
   /*
    * Exploring the open world.
@@ -78,9 +121,6 @@ public class MapManager {
     visible = map.visibleObjects(player, 30);
     interactable = map.visibleObjects(player, 10);
 
-
-
-
     if (visible != null && visible.size() > 0) {
       if (visible.size() == 1) {
         orb.print("You see " + getSeenDescription(visible.get(0)) + ".");
@@ -98,8 +138,9 @@ public class MapManager {
   }
 
   private static String getSurroundingsDescription() {
-    terrainLabels[0] = map.getTerrainTypeAt(Player.character.getX(), Player.character.getY()) + " here";
-    return "The terrain is " + terrainLabels[0] + ".";
+    return "The terrain is "
+        + Util.lowercaseFirstCharacter(
+            map.getTerrainTypeAt(Player.character.getX(), Player.character.getY())) + " here.";
   }
 
   /**

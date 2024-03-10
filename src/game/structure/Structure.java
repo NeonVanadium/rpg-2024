@@ -110,7 +110,5 @@ public class Structure extends GameObject {
     return rooms != null && id >= 0 && id < rooms.size();
   }
 
-  public String getNameToDisplayAsOption() {
-    return getDistantName();
-  }
+  public String getNameToDisplayAsOption() { return getDistantName(); }
 }

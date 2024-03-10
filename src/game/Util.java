@@ -84,6 +84,10 @@ public class Util {
     return formatted == null ? str : formatted.toString();
   }
 
+  public static String lowercaseFirstCharacter(String str) {
+    return (str.charAt(0) + " ").toLowerCase() + str.substring(1);
+  }
+
   public static void sleep(int ms) {
     try {
       Thread.sleep(ms);

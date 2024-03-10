@@ -1,0 +1,17 @@
+>> Terrain types
++ ; Main city streets ; 2
+x ; Street alleys ; 3
+n ; Noble houses, manors, and gardens ; 2
+d ; Redport waterfront ; 2
+s ; slums ; 5
+p ; Open plains ; 1
+~ ; Ocean ; 10
+
+>> Map
+~,~,p,p,p,p,p,p,p,
+~,~,n,+,x,x,x,p,p,
+~,d,+,+,x,x,x,n,p,
+~,d,+,+,+,+,+,x,p,
+~,d,+,+,+,x,x,s,p,
+~,~,d,+,x,x,s,s,p,
+~,~,~,p,p,p,p,p,p,

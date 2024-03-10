@@ -1,5 +1,6 @@
 package game.map;
 
+import game.GameMaster;
 import game.Player;
 import game.characters.CharacterManager;
 import game.characters.Movable;
@@ -12,21 +13,29 @@ import java.util.Set;
 
 public class GameMap {
 
-  private Terrain[][] map = new Terrain[][]{
-      {Terrain.p, Terrain.p, Terrain.p, Terrain.d, Terrain.d},
-      {Terrain.p, Terrain.p, Terrain.p, Terrain.d, Terrain.d},
-      {Terrain.j, Terrain.p, Terrain.p, Terrain.p, Terrain.p},
-      {Terrain.j, Terrain.j, Terrain.p, Terrain.p, Terrain.p},
-      {Terrain.j, Terrain.j, Terrain.p, Terrain.p, Terrain.p},
-  };
+  private final Terrain[][] map;
 
-  public final int tileSize = 10;
-
-  private final int width = map[0].length * tileSize;
-  private final int height = map.length * tileSize;
+  private final int tileSize = 10;
 
   //private List<GameObject>[][] objectsByTile = new LinkedList[height][width];
   private Set<GameObject> objects = new HashSet<>();
+
+  public GameMap(List<Terrain[]> tileRows) {
+    this.map = new Terrain[tileRows.size()][];
+    int index = 0;
+    for (Terrain[] row : tileRows) {
+      map[index] = row;
+      index++;
+    }
+  }
+
+  private int getWidth() {
+    return map[0].length * tileSize;
+  }
+
+  private int getHeight() {
+    return map.length * tileSize;
+  }
 
 
   public void moveCharacter(Movable c, int x, int y) {
@@ -36,15 +45,15 @@ public class GameMap {
     if (newX < 0) {
       System.out.println("West boundary hit.");
       newX = 0;
-    } else if (newX >= width) {
+    } else if (newX >= getWidth()) {
       System.out.println("East boundary hit.");
-      newX = width;
+      newX = getWidth();
     } else if (newY < 0) {
       System.out.println("South boundary hit.");
       newY = 0;
-    } else if (newY >= height) {
+    } else if (newY >= getHeight()) {
       System.out.println("North boundary hit.");
-      newY = height;
+      newY = getHeight();
     }
     putGameObject(c, newX, newY);
 
@@ -99,6 +108,6 @@ public class GameMap {
   }
 
   private boolean areValidCoordinates(double x, double y) {
-    return !(x < 0 || x >= width || y < 0 || y >= height);
+    return !(x < 0 || x >= getWidth() || y < 0 || y >= getHeight());
   }
 }

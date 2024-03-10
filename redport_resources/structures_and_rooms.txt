@@ -1,3 +1,9 @@
->> REDPORT_SQUARE - a lively town square with a chapel in its center.
+>> REDPORT_SQUARE - a lively town square with a chapel in its center
 0 ; Redport Square ; The central plaza, two hundred or so feet in width. Stalls and stores with their peddlers and merchants line the perimeter, and your ears are filled with haggling and raucous chatter. There is a large, sturdy tavern here with a notice board outside. A chapel stands in the exact center of the square. ; Exit to the streets. > -1 / Approach the Order Chapel > 1 ;
 1 ; Red Moon Chapel - Patio ; A raised stone platform in front of a small red moon chapel, right in the center of the town plaza. The downward-facing crescent of the Red Moon glistens in the sunlight. ; Walk out into the plaza > 0
+
+>> THE_ARENA - a grand, circular colosseum
+0 ; Out front of the Arena ; The Foxford Arena, decorated in fluttering blue banners, rises over this small plaza ; Exit into the streets > -1
+
+>> DRUNKEN_DRUNKARD - a shabby wooden tavern
+0 ; The "Other" Quarter - Main Square ; A dusty square lined with run-down buildings. The most prominent of these buildings is a large tavern, emanating raucous chatter; Exit into the streets > -1
