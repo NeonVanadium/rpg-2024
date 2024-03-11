@@ -35,6 +35,12 @@ public class GameCharacter extends game.Movable {
     }
   }
 
+  public int roll(String skill) {
+    int roll = (int) (Math.random() * CharacterManager.SKILL_CHECK_DIE) + 1;
+    System.out.println(String.format("%s rolled %d on a %s check", this.label, roll, skill));
+    return roll;
+  }
+
 }
 
 

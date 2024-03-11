@@ -1,0 +1,39 @@
+>> INTRO ; PLAYER IN REDPORT_SQUARE
+//The sky is clear today, the air pleasantly warm and carrying the subtle scent of sea-salt.
+//This is the burgeoning near-city of Redport. Its buildings, mostly single-story, are iconic for their red-tile roofs and warm, beige walls. Save around a small fort on the east side, it has no walls. It was not built for crowds, but these days it is stuffed to the brim with people.
+//You, amongst a huddle of strangers, observe a public notice board next to a tavern in the central square. Right in the middle, a huge poster reads: “The House Foxford Arena’s grand opening! Brave gladiators take on fearsome monsters! Riches and titles to be won! Combatants wanted!”
+//It is this that has drawn the crowds, and perhaps yourself, to Redport. Whatever one’s calling, there is work and prosperity to be found around an event like this.
+//Suddenly, screams break through the crowd.
+As people flee and leave a wide-open berth by the side of the tavern, you see source of the commotion: Gnolls.
+Like feral hyenas twisted into the vagues shape of humanoids, they scurry out of the alley and into the square, spit dribbling from their jaws and as they wave their spears about.
+CHOICE ; Stand by and reach for your weapon > INTRO_PRE_GNOLL_FIGHT ; Run! > INTRO_FLEE_GNOLLS
+
+>> INTRO_PRE_GNOLL_FIGHT
+The gnolls are almost less concerned with the people around them then by a bright orange light coming from within the alley.
+A child-sized creature made of pure magma skips out into the square. With a mischievous, glowing smile, it chucks a mote of fire at the hyenoid monsters--sending the gnolls into a frenzy as they try to get away. The screams of terror amplify.
+Two guards push through the crowds and look on in shock at the scene in front of them. They brandish their halberds in slightly-trembling hands and begin to approach. They are outnumbered and uncertain.
+CHOICE ; Step forward and help them fight! > INTRO_GNOLL_FIGHT ; Run away - this is too much for you! > INTRO_FLEE_GNOLLS
+
+>> INTRO_GNOLL_FIGHT
+JOINPARTY GUARD
+JOINPARTY GUARD
+You surge forward and stand alongside the two guards, who eye you with surprise.
+One of the gnolls, startled, turns to you--and bares its teeth.
+FIGHT GNOLL, GNOLL, GNOLL ; MAGMIN
+The three gnolls lie dead, the child-like creature lays in a smoldering heap that... glows brighter and brighter and--
+Explodes.
+Shouts of surprise come from the distantly-gathered crowd of onlookers.
+SAY GUARD Thank you for helping us. By the gods, I don't think we would have survived otherwise. Gnolls? In the center of the city?
+CHOICE ; "Of course. I wasn't going to let you take them on alone." > CONT; "I was just eager to spill some blood." > CONT ;
+SAY ELERIE Let me through!
+A woman's voice precedes her shoving into the square.
+DESCRIBE ELERIE
+IF LORE CHECK 1 ; You recognize her crimson robe as the uniform of the Order of the Red Moon.
+She kneels down and inspects the black-charred ground where the firey creature exploded.
+
+
+>> INTRO_FLEE_GNOLLS
+MOVE PLAYER 30 20
+You run as fast as you can, putting the gnolls and the screaming crowds behind you.
+You sprint down a zig-zagging sequence of roads and alleys, only stopping once you've fully lost your breath, and the commotion is so far behind that passers-by look at you strangely for being the only one running like mad.
+You catch your breath. You're safe, for now.

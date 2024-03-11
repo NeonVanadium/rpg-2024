@@ -34,6 +34,7 @@ class EventCondition {
       case "COMPLETE" -> EventManager.isEventCompleted(subject);
       case "INOPENWORLD" -> CharacterManager.get(subject).currentStructure == null;
       case "WITH" -> CharacterManager.get(subject).isInSameSpotAs(CharacterManager.get(object));
+      case "CHECK" -> Player.character.roll(subject) > Integer.parseInt(object);
       default -> false;
     };
     return negated ? !result : result;

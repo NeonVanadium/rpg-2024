@@ -25,7 +25,8 @@ public class ChoiceEventPart implements EventPart{
   public void run(ControlOrb orb) {
     PromptOption chosen = orb.getChoiceFromOptions(choices);
     String label = ((SelectableString)chosen.getObject()).value;
-    if (!label.equals("END")) {
+    // eventually might want these to have different behavior
+    if (!label.equals("END") && !label.equals("CONT")) {
       EventManager.queueEventWithTitle(label);
     }
   }

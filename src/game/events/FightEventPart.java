@@ -7,11 +7,11 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CombatEventPart implements EventPart {
+public class FightEventPart implements EventPart {
 
   List<String[]> enemyGroups;
 
-  public CombatEventPart(String rawLine) {
+  public FightEventPart(String rawLine) {
     String enemies = rawLine.substring(rawLine.indexOf(' ')); // cut out the fight label
     String[] teams = enemies.split(Util.COMPONENT_DELINEATOR);
     enemyGroups = new LinkedList<>();
@@ -26,5 +26,6 @@ public class CombatEventPart implements EventPart {
     for (String[] labels : enemyGroups) {
       CombatManager.addEnemiesByLabels(Arrays.stream(labels).toList());
     }
+    CombatManager.runCombat(orb);
   }
 }

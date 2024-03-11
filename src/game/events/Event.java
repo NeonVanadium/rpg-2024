@@ -53,11 +53,11 @@ public class Event {
     }
     else if (rawPartString.startsWith("IF")) {
       String[] conditionAndBody = rawPartString.split(Util.COMPONENT_DELINEATOR, 2);
-      EventPart nested = makePartBasedOnLine(conditionAndBody[1].trim());
-      return new IfEventPart(conditionAndBody[0], nested);
+      EventPart ifYes = makePartBasedOnLine(conditionAndBody[1].trim());
+      return new IfEventPart(conditionAndBody[0], ifYes);
     }
     else if (rawPartString.startsWith("FIGHT")) {
-      return new CombatEventPart(rawPartString);
+      return new FightEventPart(rawPartString);
     }
     else if (rawPartString.startsWith("DESCRIBE")) {
       return new DescribeEventPart(rawPartString);

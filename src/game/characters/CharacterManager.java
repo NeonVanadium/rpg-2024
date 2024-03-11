@@ -11,6 +11,7 @@ public class CharacterManager {
   private final static Map<String, Creep> creeps = new HashMap<>();
   private final static Map<String, String> knownNames = new HashMap<>(); // the names the player knows for any given character
   public static final String UNKNOWN_NAME = "???";
+  public static final int SKILL_CHECK_DIE = 10; // when a skill check is made, rolls a this-many-sided die.
 
   public static void loadCharacters() {
     characters.put("PLAYER", new GameCharacter("PLAYER", Gender.SOMETHING_ELSE));
@@ -36,7 +37,7 @@ public class CharacterManager {
 
   public static GameCharacter get(String label) {
     if (characters.containsKey(label)) return characters.get(label);
-    else if (creeps.containsKey(label)) return creeps.get(label);
+    else if (creeps.containsKey(label)) return creeps.get(label).clone();
     else throw new IllegalArgumentException("No character or creep exists with label: " + label + ".");
   }
 
@@ -44,7 +45,12 @@ public class CharacterManager {
     return characters.containsKey(label) || creeps.containsKey(label);
   }
 
-  public static String getKnownName(String label) { return knownNames.get(label); }
+  public static String getKnownName(String label) {
+    if (creeps.containsKey(label)) {
+      return creeps.get(label).name;
+    }
+    return knownNames.get(label);
+  }
 
   public static void setKnownName(String label, String newName) { knownNames.put(label, newName); }
 
