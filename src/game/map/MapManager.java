@@ -6,7 +6,7 @@ import game.GameObject;
 import game.Player;
 import game.Util;
 import game.characters.CharacterManager;
-import game.characters.Movable;
+import game.characters.GameCharacter;
 import game.events.EventManager;
 import game.prompts.Direction;
 import game.prompts.PromptOption;
@@ -108,12 +108,12 @@ public class MapManager {
       xMod = -1;
       yMod = 0;
     }
-    map.moveCharacter(CharacterManager.player(), Movable.DEFAULT_MOVE_SPEED * xMod,
-        Movable.DEFAULT_MOVE_SPEED * yMod);
+    map.moveCharacter(CharacterManager.player(), GameCharacter.DEFAULT_MOVE_SPEED * xMod,
+        GameCharacter.DEFAULT_MOVE_SPEED * yMod);
   }
 
   private static void determineOptionsForPlayer(List<PromptOption> options, ControlOrb orb) {
-    Movable player = CharacterManager.player();
+    GameCharacter player = CharacterManager.player();
 
     if (visible != null) {
       options.removeIf((PromptOption o) -> visible.contains(o.getObject()));

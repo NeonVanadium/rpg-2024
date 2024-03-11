@@ -1,9 +1,8 @@
 package game.map;
 
-import game.GameMaster;
 import game.Player;
 import game.characters.CharacterManager;
-import game.characters.Movable;
+import game.characters.GameCharacter;
 import game.GameObject;
 import java.awt.Point;
 import java.util.HashSet;
@@ -38,7 +37,7 @@ public class GameMap {
   }
 
 
-  public void moveCharacter(Movable c, int x, int y) {
+  public void moveCharacter(GameCharacter c, int x, int y) {
     int newX = (int) c.getPosition().getX() + x;
     int newY = (int) c.getPosition().getY() + y;
 
@@ -63,7 +62,7 @@ public class GameMap {
     putGameObject(obj);
     obj.setPosition(x, y);
     if (obj == CharacterManager.player()) {
-      for (Movable member : Player.getPartyMembers()) {
+      for (GameCharacter member : Player.getPartyMembers()) {
         putGameObject(member, x, y);
       }
     }
@@ -88,7 +87,7 @@ public class GameMap {
     return found;
   }
 
-  public List<GameObject> visibleObjects(Movable obj, int range) {
+  public List<GameObject> visibleObjects(GameCharacter obj, int range) {
     return searchObjects(obj.getPosition(), range, obj);
   }
 

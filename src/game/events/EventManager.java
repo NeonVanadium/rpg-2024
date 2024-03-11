@@ -101,10 +101,12 @@ public class EventManager {
   }
 
   private static void maybeEnterToContinue(EventPart curPart, Class prevType, ControlOrb orb) {
+    // TODO reduce this to a field on the event types fr
     if ((curPart instanceof TextEventPart || curPart instanceof SayEventPart ||
-        curPart instanceof GotoEventPart ||
+        curPart instanceof GotoEventPart || curPart instanceof DescribeEventPart ||
         (curPart instanceof IfEventPart && ((IfEventPart) curPart).condition.isMet())) &&
-        (prevType == TextEventPart.class || prevType == SayEventPart.class)) {
+        (prevType == TextEventPart.class || prevType == SayEventPart.class
+            || prevType == DescribeEventPart.class)) {
       orb.enterToContinue();
     }
   }

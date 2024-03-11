@@ -1,7 +1,25 @@
 >> INTRO ; PLAYER IN REDPORT_SQUARE
-The sky is clear today, the air pleasantly warm and carrying the subtle scent of sea-salt.
-Where expansive grassy plains meet the sparkling, deep-blue waters of the Dragonshead Gulf, the young city of Redport is the only settlement of its size for over a hundred miles in any direction.
-Its mostly single-story buildings have tan walls and red-tile roofs, its narrow roads might be called alleyways in other cities. Save around a small fort on the east side, it has no walls.
-It was not built for crowds, but these days it is stuffed to the brim with people.
-You, amongst a huddle of strangers, observe a public notice board next to a tavern on the plaza’s southern edge. Right in the middle, a huge poster reads: “The House Foxford Arena’s grand opening! Brave gladiators take on fearsome monsters! Riches and titles to be won! Combatants wanted!”
-It is this that has drawn the crowds, and perhaps yourself, to Redport. Whatever one’s calling, there is work and prosperity to be found around an event like this.
+//The sky is clear today, the air pleasantly warm and carrying the subtle scent of sea-salt.
+//This is the burgeoning near-city of Redport. Its buildings, mostly single-story, are iconic for their red-tile roofs and warm, beige walls. Save around a small fort on the east side, it has no walls. It was not built for crowds, but these days it is stuffed to the brim with people.
+//You, amongst a huddle of strangers, observe a public notice board next to a tavern in the central square. Right in the middle, a huge poster reads: “The House Foxford Arena’s grand opening! Brave gladiators take on fearsome monsters! Riches and titles to be won! Combatants wanted!”
+//It is this that has drawn the crowds, and perhaps yourself, to Redport. Whatever one’s calling, there is work and prosperity to be found around an event like this.
+//Suddenly, screams break through the crowd.
+As people flee and leave a wide-open berth by the side of the tavern, you see source of the commotion: Gnolls.
+They scurry out of the alley and into the square, spit dribbling from their jaws and waving their spears about.
+CHOICE ; Stand by and reach for your weapon > INTRO_PRE_GNOLL_FIGHT ; Run! > INTRO_FLEE_GNOLLS
+
+>> INTRO_PRE_GNOLL_FIGHT
+The gnolls almost less concerned with the people around them then by... a bright orange light coming from within the alley.
+A child-sized creature made, seemingly, of pure magma skips out into the square--sending the gnolls into a frenzy as they try to get away. The screams of terror amplify.
+Suddenly, a figure cloaked in red hurries through the crowd.
+DESCRIBE ELERIE
+The woman eyes you carefully.
+SAY ELERIE You haven't fled, and you look like you can fight. Help me deal with these beasts, these people are in danger!
+JOINPARTY ELERIE
+FIGHT GNOLL, GNOLL, GNOLL ; MAGMIN
+
+>> INTRO_FLEE_GNOLLS
+MOVE PLAYER 30 20
+You run as fast as you can, putting the gnolls and the screaming crowds behind you.
+You sprint down a zig-zagging sequence of roads and alleys, only stopping once you've fully lost your breath, and the commotion is so far behind that passers-by look at you strangely for being the only one running like mad.
+You catch your breath. You're safe, for now.

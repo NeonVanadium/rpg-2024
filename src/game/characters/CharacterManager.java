@@ -7,34 +7,48 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CharacterManager {
-  private static Map<String, Movable> characters = new HashMap();
-  private static Map<String, String> knownNames = new HashMap<>(); // the names the player knows for any given character
+  private final static Map<String, GameCharacter> characters = new HashMap<>();
+  private final static Map<String, Creep> creeps = new HashMap<>();
+  private final static Map<String, String> knownNames = new HashMap<>(); // the names the player knows for any given character
   public static final String UNKNOWN_NAME = "???";
 
   public static void loadCharacters() {
-    characters.put("PLAYER", new Movable("PLAYER", Gender.SOMETHING_ELSE));
+    characters.put("PLAYER", new GameCharacter("PLAYER", Gender.SOMETHING_ELSE));
+    knownNames.put("PLAYER", "The player"); // temp until they enter it, obviously
     Player.character = characters.get("PLAYER");
     Util.parseFileAndDoEachLine(GameMaster.RESOURCE_FOLDER + "characters.txt",
         CharacterManager::makeCharacterFromLine);
   }
 
   private static void makeCharacterFromLine(String line) {
-    String[] lineParts = line.split(" "); // note that 0th will be Util.ENTRY_START_SYMBOL
+    String[] lineParts = line.split(" "); // note that 0th will be >> or >
     String label = lineParts[1].trim();
-    Gender gender = Gender.getFromString(lineParts[2].trim());
-    characters.put(label, new Movable(label, gender));
-    knownNames.put(label, UNKNOWN_NAME);
+    if (line.startsWith(Util.ENTRY_START_SYMBOL)) {
+      Gender gender = Gender.getFromString(lineParts[2].trim());
+      characters.put(label, new GameCharacter(label, gender));
+      knownNames.put(label, UNKNOWN_NAME);
+    } else if (line.startsWith(Util.SPECIAL_PART_SYMBOL)) {
+      Creep c = new Creep(label);
+      creeps.put(c.getLabel(), c);
+      System.out.println("Made creep " + c);
+    }
   }
 
-  public static Movable get(String label) {
-    return characters.get(label);
+  public static GameCharacter get(String label) {
+    if (characters.containsKey(label)) return characters.get(label);
+    else if (creeps.containsKey(label)) return creeps.get(label);
+    else throw new IllegalArgumentException("No character or creep exists with label: " + label + ".");
+  }
+
+  public static boolean contains(String label) {
+    return characters.containsKey(label) || creeps.containsKey(label);
   }
 
   public static String getKnownName(String label) { return knownNames.get(label); }
 
   public static void setKnownName(String label, String newName) { knownNames.put(label, newName); }
 
-  public static Movable player() {
+  public static GameCharacter player() {
     return characters.get("PLAYER");
   }
 

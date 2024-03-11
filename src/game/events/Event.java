@@ -56,6 +56,15 @@ public class Event {
       EventPart nested = makePartBasedOnLine(conditionAndBody[1].trim());
       return new IfEventPart(conditionAndBody[0], nested);
     }
+    else if (rawPartString.startsWith("FIGHT")) {
+      return new CombatEventPart(rawPartString);
+    }
+    else if (rawPartString.startsWith("DESCRIBE")) {
+      return new DescribeEventPart(rawPartString);
+    }
+    else if (rawPartString.startsWith("MOVE")) {
+      return new MoveEventPart(rawPartString);
+    }
     else {
       return new TextEventPart(rawPartString);
     }

@@ -1,12 +1,12 @@
 package game.characters;
 
-public class Movable extends game.Movable {
+public class GameCharacter extends game.Movable {
 
   public static int DEFAULT_MOVE_SPEED = 10;
 
   public Gender gender;
 
-  public Movable(String name, Gender gender) {
+  public GameCharacter(String name, Gender gender) {
     this.label = name; this.gender = gender;
   }
 
@@ -15,6 +15,15 @@ public class Movable extends game.Movable {
       return "someone";
     }
     return "a " + gender.name().toLowerCase();
+  }
+
+  public String getDetailedDescription() {
+    StringBuilder result = new StringBuilder();
+    String start = gender == Gender.SOMETHING_ELSE ? "They are " : gender == Gender.WOMAN ? "She is " : "He is ";
+    result.append(start);
+    result.append(getGenericDescription());
+    result.append('.');
+    return result.toString();
   }
 
   @Override

@@ -77,7 +77,8 @@ public class Util {
       formatted.append((str.charAt(0) + "").toUpperCase());
       formatted.append(str.substring(1));
     }
-    if (!str.endsWith(".") && !str.endsWith(".\"") && !str.endsWith("!\"")) {
+    // TODO handle quotes (&& !str.endsWith(".\"") && !str.endsWith("!\""))
+    if (!str.endsWith(".") && !str.endsWith("!") && !str.endsWith("?")) {
       if (formatted == null) formatted = new StringBuilder(str);
       formatted.append('.');
     }
@@ -85,7 +86,7 @@ public class Util {
   }
 
   public static String lowercaseFirstCharacter(String str) {
-    return (str.charAt(0) + " ").toLowerCase() + str.substring(1);
+    return (str.charAt(0) + "").toLowerCase() + str.substring(1);
   }
 
   public static void sleep(int ms) {

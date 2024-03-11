@@ -3,10 +3,11 @@ package game.structure;
 import game.ControlOrb;
 import game.GameMaster;
 import game.GameObject;
+import game.Movable;
 import game.Player;
 import game.Util;
 import game.characters.CharacterManager;
-import game.characters.Movable;
+import game.characters.GameCharacter;
 import game.map.MapManager;
 import game.prompts.PromptOption;
 import game.prompts.Selectable;
@@ -86,7 +87,7 @@ public class StructureManager {
     return structures.get(label);
   }
 
-  public static void enterStructure(Movable c, String structureLabel, int roomId) {
+  public static void enterStructure(GameCharacter c, String structureLabel, int roomId) {
     Structure s = getStructure(structureLabel);
     if (s.isEnterable()) {
       c.setPosition(s.getX(), s.getY());
@@ -94,37 +95,37 @@ public class StructureManager {
       s.putMovableObject(c, roomId);
 
       if (c == CharacterManager.player()) {
-        for (Movable m : Player.getPartyMembers()) {
+        for (GameCharacter m : Player.getPartyMembers()) {
           enterStructure(m, structureLabel, roomId);
         }
       }
     }
   }
 
-  public static void enterStructure(Movable c, String structureLabel) {
+  public static void enterStructure(GameCharacter c, String structureLabel) {
     enterStructure(c, structureLabel, 0);
   }
 
   /**
    * Removes the given character from its current structure, if there is one.
-   * @param c
+   * @param m
    */
-  private static void leaveStructure(Movable c) {
-    c.currentStructure.removeMovableObject(c);
-    c.currentStructure = null;
-    c.currentRoom = -1;
-    MapManager.putGameObject(c);
-    if (c == CharacterManager.player()) {
-      for (Movable m : Player.getPartyMembers()) {
-        leaveStructure(m);
+  public static void leaveStructure(Movable m) {
+    m.currentStructure.removeMovableObject(m);
+    m.currentStructure = null;
+    m.currentRoom = -1;
+    MapManager.putGameObject(m);
+    if (m == CharacterManager.player()) {
+      for (GameCharacter member : Player.getPartyMembers()) {
+        leaveStructure(member);
       }
     }
   }
 
-  private static void setRoom(Movable c, int newRoomId) {
+  private static void setRoom(GameCharacter c, int newRoomId) {
     c.currentRoom = newRoomId;
     if (c == CharacterManager.player()) {
-      for (Movable m : Player.getPartyMembers()) {
+      for (GameCharacter m : Player.getPartyMembers()) {
         setRoom(m, newRoomId);
       }
     }

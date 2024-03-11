@@ -2,7 +2,8 @@ package game;
 
 import controller.Controller;
 import game.characters.CharacterManager;
-import game.characters.Movable;
+import game.characters.GameCharacter;
+import game.combat.CombatManager;
 import game.map.MapManager;
 import game.events.EventManager;
 import game.prompts.Selectable;
@@ -37,6 +38,7 @@ public class GameMaster {
 
   public static void gameLoop() {
     while (running) {
+      if (CombatManager.isCombatPending()) CombatManager.runCombat(orb);
       if (!EventManager.hasQueuedEvent()) EventManager.checkEventTriggers();
       if (EventManager.hasQueuedEvent()) {
         view.clear();
@@ -52,26 +54,32 @@ public class GameMaster {
 
   private static void readLineOfBlocking(String str) {
     String[] parts = str.split(" ");
-    GameObject go = null;
+
     String subject = parts[0].trim();
     String structOrX = parts[1].trim();
-    int lastPart = Integer.parseInt(parts[2].trim());
+    placementHelper(subject, structOrX, parts[2].trim());
+  }
 
+  public static void placementHelper(String subject, String structOrX, String roomOrY) {
+    GameObject go = null;
     // The Subject is placing a Character
-    if (CharacterManager.get(subject) != null) {
+    if (CharacterManager.contains(subject)) {
       go = CharacterManager.get("PLAYER");
       // ...in a structure
       if (StructureManager.getStructure(structOrX) != null) {
         StructureManager.enterStructure((CharacterManager.get(subject)),
-            structOrX, lastPart);
+            structOrX, Integer.parseInt(roomOrY));
         return;
+      } else {
+        StructureManager.leaveStructure((Movable) go);
       }
+
       // the map placement is handled after the structure check.
     }
     else if (StructureManager.getStructure(subject) != null) { // subject is a structure
       go = StructureManager.getStructure(subject);
     }
-    MapManager.putGameObject(go, Integer.parseInt(structOrX), lastPart);
+    MapManager.putGameObject(go, Integer.parseInt(structOrX), Integer.parseInt(roomOrY));
   }
 
   /**
@@ -83,9 +91,10 @@ public class GameMaster {
     if (selection instanceof Structure) {
       StructureManager.enterStructure(CharacterManager.player(), ((Structure) selection).label);
     }
-    else if (selection instanceof Movable) {
-      String title = "CONV_" + ((Movable) selection).getLabel();
-      if (EventManager.hasEventWithTitle(title)) EventManager.queueEventWithTitle("CONV_TEMP");
+    else if (selection instanceof GameCharacter) {
+      String title = "CONV_" + ((GameCharacter) selection).getLabel();
+      if (EventManager.hasEventWithTitle(title)) EventManager.queueEventWithTitle(title);
+      else EventManager.queueEventWithTitle("CONV_TEMP");
     }
     else if (selection instanceof Item) {
       orb.clear();

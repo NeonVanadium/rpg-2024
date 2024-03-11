@@ -1,3 +1,24 @@
+// Potential Companions
 >> WEISS MALE
 >> ELERIE FEMALE
+>> BURY MALE
+
+// House Raymond
+>> TESSA FEMALE
+>> TERRENCE MALE
+
+// House Foxford and Aamalohsi Cultists
 >> PRESTON MALE
+>> MELIAS MALE
+
+// Kalgurash
+>> GORN MALE
+>> MAGASHA FEMALE
+
+// Misc
+>> BRANDON MALE
+>> BRENDON MALE
+
+// Creeps
+> GNOLL
+> MAGMIN
