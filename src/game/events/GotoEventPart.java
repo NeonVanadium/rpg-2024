@@ -13,4 +13,14 @@ public class GotoEventPart implements EventPart {
     EventManager.queueEventWithTitle(nextEvent);
   }
 
+  @Override
+  public boolean pauseAfter() {
+    return false;
+  }
+
+  @Override
+  public boolean pauseBefore() {
+    return false;
+  }
+
 }

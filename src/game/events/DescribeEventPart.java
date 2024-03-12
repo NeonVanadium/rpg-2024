@@ -15,4 +15,14 @@ public class DescribeEventPart implements EventPart {
   public void run(ControlOrb orb) {
     new TextEventPart(CharacterManager.get(characterLabel).getDetailedDescription()).run(orb);
   }
+
+  @Override
+  public boolean pauseAfter() {
+    return true;
+  }
+
+  @Override
+  public boolean pauseBefore() {
+    return false;
+  }
 }

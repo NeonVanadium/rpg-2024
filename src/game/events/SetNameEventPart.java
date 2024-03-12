@@ -16,4 +16,14 @@ public class SetNameEventPart implements EventPart{
   public void run(ControlOrb orb) {
     CharacterManager.setKnownName(characterLabel, newName);
   }
+
+  @Override
+  public boolean pauseAfter() {
+    return false;
+  }
+
+  @Override
+  public boolean pauseBefore() {
+    return true;
+  }
 }

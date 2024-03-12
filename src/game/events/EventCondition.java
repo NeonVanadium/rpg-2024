@@ -31,7 +31,7 @@ class EventCondition {
     boolean result = switch (query) {
       case "INPARTY" -> Player.getPartyMembers().contains(CharacterManager.get(subject));
       case "IN" -> CharacterManager.get(subject).currentStructure.getLabel().equals(object);
-      case "COMPLETE" -> EventManager.isEventCompleted(subject);
+      case "COMPLETED", "COMPLETE" -> EventManager.isEventCompleted(subject);
       case "INOPENWORLD" -> CharacterManager.get(subject).currentStructure == null;
       case "WITH" -> CharacterManager.get(subject).isInSameSpotAs(CharacterManager.get(object));
       case "CHECK" -> Player.character.roll(subject) > Integer.parseInt(object);

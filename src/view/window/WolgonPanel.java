@@ -31,7 +31,7 @@ abstract class WolgonPanel extends JPanel implements IRectangle, View {
 
 	public WolgonPanel() {
 		this.setFocusable(true);
-		this.setBackground(new Color(50, 80, 100));
+		this.setBackground(Color.BLACK);
 
 		// this zone represents the entire panel
 		new PanelZone(this);

@@ -82,31 +82,22 @@ public class EventManager {
     Event e = events.get(eventToRun);
     completedEvents.add(eventToRun);
 
-    Class prevType = null;
+    EventPart prevPart = null;
 
     for (EventPart eventPart : e.getEventParts()) {
-      maybeEnterToContinue(eventPart, prevType, orb);
+      maybeEnterToContinue(eventPart, prevPart, orb);
       eventPart.run(orb);
       if (eventToRun != null && !eventToRun.equals(e.title)) break; //enables Gotos
-      else if (eventPart instanceof IfEventPart && ((IfEventPart) eventPart).condition.isMet()) {
-        prevType = ((IfEventPart) eventPart).ifYes.getClass();
-      } else {
-        prevType = eventPart.getClass();
-      }
+      prevPart = eventPart;
     }
     if (eventToRun.equals(e.title)) {
-      if (prevType != ChoiceEventPart.class) orb.enterToContinue();
+      if (prevPart.pauseAfter()) orb.enterToContinue();
       eventToRun = null;
     }
   }
 
-  private static void maybeEnterToContinue(EventPart curPart, Class prevType, ControlOrb orb) {
-    // TODO reduce this to a field on the event types fr
-    if ((curPart instanceof TextEventPart || curPart instanceof SayEventPart ||
-        curPart instanceof GotoEventPart || curPart instanceof DescribeEventPart ||
-        (curPart instanceof IfEventPart && ((IfEventPart) curPart).condition.isMet())) &&
-        (prevType == TextEventPart.class || prevType == SayEventPart.class
-            || prevType == DescribeEventPart.class)) {
+  private static void maybeEnterToContinue(EventPart curPart, EventPart prevPart, ControlOrb orb) {
+    if ((prevPart != null && prevPart.pauseAfter()) && curPart.pauseBefore()) {
       orb.enterToContinue();
     }
   }

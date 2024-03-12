@@ -30,4 +30,14 @@ public class ChoiceEventPart implements EventPart{
       EventManager.queueEventWithTitle(label);
     }
   }
+
+  @Override
+  public boolean pauseAfter() {
+    return false;
+  }
+
+  @Override
+  public boolean pauseBefore() {
+    return false;
+  }
 }

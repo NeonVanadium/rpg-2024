@@ -9,4 +9,14 @@ public record TextEventPart(String text) implements EventPart {
     orb.clear();
     orb.print(text);
   }
+
+  @Override
+  public boolean pauseAfter() {
+    return true;
+  }
+
+  @Override
+  public boolean pauseBefore() {
+    return true;
+  }
 }

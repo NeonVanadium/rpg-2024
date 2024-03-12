@@ -20,9 +20,10 @@ JOINPARTY GUARD
 You surge forward and stand alongside the two guards, who eye you with surprise.
 One of the gnolls, startled, turns to you--and bares its teeth.
 FIGHT GNOLL, GNOLL, GNOLL ; MAGMIN
-The three gnolls lie dead, the child-like creature lays in a smoldering heap that... glows brighter and brighter and--
-Explodes.
+The three gnolls lie dead, the child-like creature lays in a smoldering heap that glows. Then glows brighter.
+Then explodes.
 Shouts of surprise come from the distantly-gathered crowd of onlookers.
+The guards stumble back, staring on in shocked silence until the scene, finally, becomes silent and still. One of them nods at you.
 SAY GUARD Thank you for helping us. By the gods, I don't think we would have survived otherwise. Gnolls? In the center of the city?
 CHOICE ; "Of course. I wasn't going to let you take them on alone." > CONT; "I was just eager to spill some blood." > CONT ;
 SAY ELERIE Let me through!

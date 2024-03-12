@@ -14,4 +14,14 @@ public class JoinPartyEventPart implements EventPart{
   public void run(ControlOrb orb) {
     Player.addToParty(characterLabel, orb);
   }
+
+  @Override
+  public boolean pauseAfter() {
+    return true;
+  }
+
+  @Override
+  public boolean pauseBefore() {
+    return false;
+  }
 }

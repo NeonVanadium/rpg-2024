@@ -21,4 +21,14 @@ public class SayEventPart implements EventPart {
     orb.clear();
     orb.print(format());
   }
+
+  @Override
+  public boolean pauseAfter() {
+    return true;
+  }
+
+  @Override
+  public boolean pauseBefore() {
+    return true;
+  }
 }

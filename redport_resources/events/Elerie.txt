@@ -1,3 +1,16 @@
 >> CONV_ELERIE
+IF INVESTIGATING_MAGMIN NOT COMPLETED IF INTRO_GNOLL_FIGHT COMPLETED ; GOTO INVESTIGATING_MAGMIN
+IF INVESTIGATING_MAGMIN NOT COMPLETED IF INTRO_GNOLL_FIGHT NOT COMPLETED ; GOTO INVESTIGATING_MAGMIN_NO_PLAYER
 "What do you need?"
 CHOICE ; "Nothing, just checking in." > END
+
+>> INVESTIGATING_MAGMIN
+The woman kneels down, looking over the smoldering carnage left by the strange creature, and grimaces at the corpses of the gnolls.
+She looks up at you, her eyes studying you up and down.
+SAY ELERIE You fought them? What did you see?
+CHOICE ; Explain the scene with the gnolls running out of the alley, followed by the burning creature. > CONT
+SAY ELERIE A magmin. Gnolls exist in our world naturally, but a magmin does not. It was summoned by someone. But which came first--the gnolls, or the magmin? Why were they loose in the center of town?
+
+>> INVESTIGATING_MAGMIN_NO_PLAYER
+The woman, covered in scratches, blood, and soot, kneels down, panting, surveying a large black burn mark, strewn with three hyena-like corpses.
+SAY ELERIE Stand back. This could still be dangerous.

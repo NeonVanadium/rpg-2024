@@ -18,4 +18,14 @@ public class MoveEventPart implements EventPart{
   public void run(ControlOrb orb) {
     GameMaster.placementHelper(subject, dest1, dest2);
   }
+
+  @Override
+  public boolean pauseAfter() {
+    return false;
+  }
+
+  @Override
+  public boolean pauseBefore() {
+    return false;
+  }
 }

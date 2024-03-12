@@ -5,17 +5,21 @@ import game.Player;
 import game.Util;
 import game.characters.CharacterManager;
 import game.characters.GameCharacter;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class CombatManager {
 
-  public static List<List<GameCharacter>> enemyLists = new LinkedList<>();
-  public static List<GameCharacter> allies = new LinkedList<>();
+  private static List<List<GameCharacter>> enemyLists = new LinkedList<>();
+  private static List<GameCharacter> allies = new LinkedList<>();
+  private static List<GameCharacter> initiativeOrder;
 
   public static void runCombat(ControlOrb orb) {
     allies.addAll(Player.getPartyMembers());
     allies.add(Player.character);
+
+    orb.setTitle("Fight!");
 
     for (List<GameCharacter> l : enemyLists) {
       orb.clear();
@@ -28,13 +32,21 @@ public class CombatManager {
     }
 
     orb.clear();
+    determineInitiative();
 
-    for (GameCharacter c : allies) {
-      orb.print(CharacterManager.getKnownName(c.getLabel()) + " whoops em.");
+    for (GameCharacter c : initiativeOrder) {
+      orb.print(c.getNameToDisplayAsOption() + " attacks!");
     }
 
     orb.enterToContinue();
     endCombat();
+  }
+
+  private static void determineInitiative() {
+    initiativeOrder = new LinkedList<>();
+    initiativeOrder.addAll(allies);
+    for (List<GameCharacter> l : enemyLists) initiativeOrder.addAll(l);
+    initiativeOrder.sort(Comparator.comparingInt(a -> a.roll("INITIATIVE")));
   }
 
   private static void endCombat() {
