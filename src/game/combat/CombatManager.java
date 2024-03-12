@@ -5,6 +5,7 @@ import game.Player;
 import game.Util;
 import game.characters.CharacterManager;
 import game.characters.GameCharacter;
+import game.prompts.PromptOption;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,15 +32,45 @@ public class CombatManager {
       orb.enterToContinue();
     }
 
-    orb.clear();
     determineInitiative();
 
     for (GameCharacter c : initiativeOrder) {
-      orb.print(c.getNameToDisplayAsOption() + " attacks!");
+      if (c == Player.character) {
+        playerCombatChoice(orb);
+      } else {
+        orb.clear();
+        orb.print(c.getNameToDisplayAsOption() + " attacks!");
+        orb.enterToContinue();
+      }
     }
 
     orb.enterToContinue();
     endCombat();
+  }
+
+  private static void playerCombatChoice(ControlOrb orb) {
+    List<PromptOption> options = new LinkedList<>();
+
+    for (GameCharacter c : teamsOtherThan(allies)) {
+      options.add(new PromptOption(c.getNameToDisplayAsOption(), c));
+    }
+
+    orb.clear();
+    orb.print("Select target:");
+    GameCharacter target = (GameCharacter) orb.getChoiceFromOptions(options).getObject();
+
+    orb.print("You attack " + target.getNameToDisplayAsOption() + "!");
+  }
+
+  private static List<GameCharacter> teamsOtherThan(List<GameCharacter> thisOne) {
+    List<GameCharacter> result = new LinkedList<>();
+    if (thisOne != allies) {
+      result.addAll(allies);
+    }
+    for (List<GameCharacter> l : enemyLists) {
+      if (l != thisOne) result.addAll(l);
+    }
+    return result;
   }
 
   private static void determineInitiative() {
