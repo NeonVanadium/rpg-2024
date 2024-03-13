@@ -1,5 +1,6 @@
 package game.events;
 
+import game.ControlOrb;
 import game.Player;
 import game.characters.CharacterManager;
 
@@ -30,11 +31,11 @@ class EventCondition {
   boolean isMet() {
     boolean result = switch (query) {
       case "INPARTY" -> Player.getPartyMembers().contains(CharacterManager.get(subject));
-      case "IN" -> CharacterManager.get(subject).currentStructure.getLabel().equals(object);
+      case "IN" -> CharacterManager.get(subject).currentStructure != null && CharacterManager.get(subject).currentStructure.getLabel().equals(object);
       case "COMPLETED", "COMPLETE" -> EventManager.isEventCompleted(subject);
       case "INOPENWORLD" -> CharacterManager.get(subject).currentStructure == null;
       case "WITH" -> CharacterManager.get(subject).isInSameSpotAs(CharacterManager.get(object));
-      case "CHECK" -> Player.character.roll(subject) > Integer.parseInt(object);
+      case "CHECK" -> CharacterManager.skillCheck("PLAYER", subject, Integer.parseInt(object));
       default -> false;
     };
     return negated ? !result : result;

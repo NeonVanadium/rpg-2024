@@ -23,6 +23,6 @@ public class DescribeEventPart implements EventPart {
 
   @Override
   public boolean pauseBefore() {
-    return false;
+    return true;
   }
 }

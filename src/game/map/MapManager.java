@@ -24,6 +24,7 @@ public class MapManager {
   private static List<GameObject> interactable;
   private static Map<String, Terrain> terrainTypes;
   private static boolean loadingTerrain = false;
+  public static final int SIGNIFICANT_DISTANCE = 10;
 
   public static void init() {
     LinkedList<Terrain[]> tileRows = new LinkedList<>();
@@ -77,20 +78,20 @@ public class MapManager {
       options.add(new PromptOption(d));
     }
 
-    while (!EventManager.hasQueuedEvent()
-        && CharacterManager.get("PLAYER").currentStructure == null) {
-      orb.clear();
-      orb.print(getSurroundingsDescription());
-      determineOptionsForPlayer(options, orb);
+    /*while (!EventManager.hasQueuedEvent()
+        && CharacterManager.get("PLAYER").currentStructure == null) {*/
+    orb.clear();
+    orb.print(getSurroundingsDescription());
+    determineOptionsForPlayer(options, orb);
 
-      Selectable selection = orb.getChoiceFromOptions(options).getObject();
+    Selectable selection = orb.getChoiceFromOptions(options).getObject();
 
-      if (selection instanceof Direction) {
-        movePlayer((Direction) selection);
-      } else {
-        orb.respondToPlayerChoice(selection);
-      }
+    if (selection instanceof Direction) {
+      movePlayer((Direction) selection);
+    } else {
+      orb.respondToPlayerChoice(selection);
     }
+    //}
   }
 
   private static void movePlayer(Direction d) {

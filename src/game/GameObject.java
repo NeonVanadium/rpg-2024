@@ -1,5 +1,6 @@
 package game;
 
+import game.map.MapManager;
 import game.prompts.Direction;
 import game.prompts.Selectable;
 import java.awt.Point;
@@ -39,7 +40,8 @@ public abstract class GameObject implements Selectable {
   }
 
   public boolean isInSameSpotAs(GameObject other) {
-    return this.exactX == other.exactX && this.exactY == other.exactY;
+    // return this.exactX == other.exactX && this.exactY == other.exactY;
+    return this.getPosition().distance(other.getPosition()) < MapManager.SIGNIFICANT_DISTANCE;
   }
 
   public abstract String getNameToDisplayAsOption();

@@ -1,6 +1,7 @@
 package game.combat;
 
 import game.ControlOrb;
+import game.GameMaster;
 import game.Player;
 import game.Util;
 import game.characters.CharacterManager;
@@ -77,7 +78,7 @@ public class CombatManager {
     initiativeOrder = new LinkedList<>();
     initiativeOrder.addAll(allies);
     for (List<GameCharacter> l : enemyLists) initiativeOrder.addAll(l);
-    initiativeOrder.sort(Comparator.comparingInt(a -> a.roll("INITIATIVE")));
+    initiativeOrder.sort(Comparator.comparingInt(a -> a.getModifier("REFLEXES")));
   }
 
   private static void endCombat() {

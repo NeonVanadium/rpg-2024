@@ -78,7 +78,7 @@ public class Util {
       formatted.append(str.substring(1));
     }
     // TODO handle quotes (&& !str.endsWith(".\"") && !str.endsWith("!\""))
-    if (!str.endsWith(".") && !str.endsWith("!") && !str.endsWith("?")) {
+    if (!str.endsWith(".") && !str.endsWith("!") && !str.endsWith("?") && !str.equals("\"")) {
       if (formatted == null) formatted = new StringBuilder(str);
       formatted.append('.');
     }

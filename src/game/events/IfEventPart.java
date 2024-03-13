@@ -5,7 +5,7 @@ import game.ControlOrb;
 public class IfEventPart implements EventPart {
   EventCondition condition;
   EventPart ifYes;
-  private boolean pauseAfter = false;
+  private boolean result, conditionChecked;
 
   public IfEventPart(String rawLine, EventPart nested) {
     condition = new EventCondition(rawLine.substring(rawLine.indexOf(' ') + 1)); // cut out the IF.
@@ -13,19 +13,32 @@ public class IfEventPart implements EventPart {
   }
 
   public void run(ControlOrb orb) {
-    if (condition.isMet()) {
+    checkCondition();
+
+    if (result) {
       ifYes.run(orb);
-      pauseAfter = ifYes.pauseAfter();
+      if (condition.query.equals("CHECK")) {
+        orb.print("[" + condition.subject + " passed]");
+      }
     }
   }
 
   @Override
   public boolean pauseAfter() {
-    return pauseAfter;
+    checkCondition();
+    return result ? ifYes.pauseAfter() : false;
   }
 
   @Override
   public boolean pauseBefore() {
-    return false;
+    checkCondition();
+    return true;//result ? ifYes.pauseBefore() : false;
+  }
+
+  private void checkCondition() {
+    if (!conditionChecked) {
+      conditionChecked = true;
+      result = condition.isMet();
+    }
   }
 }

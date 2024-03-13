@@ -1,0 +1,23 @@
+>> CONV_BEYN
+IF BEYN INPARTY; GOTO BEYN_PARTY_CHAT
+IF BEYN NOT INPARTY; GOTO BEYN_OUT_OF_PARTY
+
+>> BEYN_PARTY_CHAT
+SAY BEYN Yes?
+CHOICE ; "I think we should travel separately for now." > BEYN_DISMISSED; "Nothing, just checking in." > END;
+
+>> BEYN_DISMISSED
+He frowns.
+SAY BEYN Very well, then. Let me know if you change your mind.
+LEAVEPARTY BEYN
+
+>> BEYN_OUT_OF_PARTY
+IF PLAYER IN ARENA_TOWER ; IF _MEETBEYN1 NOT COMPLETE ; GOTO MEET_BEYN
+SAY BEYN Have you changed your mind about travelling together?
+CHOICE ; "Yes. Let's join up." > BEYN_RECRUIT; "No, we'll each go our own way." > END;
+
+>> BEYN_RECRUIT
+IF _MEETBEYN_3a NOT COMPLETE ; GOTO _MEETBEYN_3a
+He grins slightly.
+SAY BEYN Excellent. Lead the way.
+JOINPARTY BEYN

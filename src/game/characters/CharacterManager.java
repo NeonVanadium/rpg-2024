@@ -5,20 +5,46 @@ import game.Player;
 import game.Util;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
 
 public class CharacterManager {
   private final static Map<String, GameCharacter> characters = new HashMap<>();
   private final static Map<String, Creep> creeps = new HashMap<>();
   private final static Map<String, String> knownNames = new HashMap<>(); // the names the player knows for any given character
+  private final static Map<String, String> STATS = new HashMap<>();
+  private final static Map<String, Skill> SKILLS = new HashMap<>();
+
   public static final String UNKNOWN_NAME = "???";
   public static final int SKILL_CHECK_DIE = 10; // when a skill check is made, rolls a this-many-sided die.
 
   public static void loadCharacters() {
-    characters.put("PLAYER", new GameCharacter("PLAYER", Gender.SOMETHING_ELSE));
+    Util.parseFileAndDoEachLine(GameMaster.RESOURCE_FOLDER + "stats_and_skills.txt",
+        CharacterManager::makeStatsOrSkill);
+
+    for (Entry e : STATS.entrySet()) {
+      System.out.println(e);
+    }
+    for (Skill s : SKILLS.values()) {
+      System.out.println(s);
+    }
+
+    characters.put("PLAYER", new GameCharacter("PLAYER", Gender.SOMETHING_ELSE,
+        makeCharacterStatTemplate()));
     knownNames.put("PLAYER", "The player"); // temp until they enter it, obviously
     Player.character = characters.get("PLAYER");
     Util.parseFileAndDoEachLine(GameMaster.RESOURCE_FOLDER + "characters.txt",
         CharacterManager::makeCharacterFromLine);
+  }
+
+  private static void makeStatsOrSkill(String line) {
+    if (line.startsWith(Util.ENTRY_START_SYMBOL)) {
+      String[] parts = line.substring(line.indexOf(' ')).split(Util.COMPONENT_DELINEATOR);
+      STATS.put(parts[0].trim(), parts[1].trim());
+    } else if (line.startsWith(Util.SPECIAL_PART_SYMBOL)) {
+      Skill newSkill = new Skill(line);
+      SKILLS.put(newSkill.name, newSkill);
+    }
   }
 
   private static void makeCharacterFromLine(String line) {
@@ -26,10 +52,10 @@ public class CharacterManager {
     String label = lineParts[1].trim();
     if (line.startsWith(Util.ENTRY_START_SYMBOL)) {
       Gender gender = Gender.getFromString(lineParts[2].trim());
-      characters.put(label, new GameCharacter(label, gender));
+      characters.put(label, new GameCharacter(label, gender, makeCharacterStatTemplate()));
       knownNames.put(label, UNKNOWN_NAME);
     } else if (line.startsWith(Util.SPECIAL_PART_SYMBOL)) {
-      Creep c = new Creep(label);
+      Creep c = new Creep(label, makeCharacterStatTemplate());
       creeps.put(c.getLabel(), c);
       System.out.println("Made creep " + c);
     }
@@ -56,6 +82,37 @@ public class CharacterManager {
 
   public static GameCharacter player() {
     return characters.get("PLAYER");
+  }
+
+  private static HashMap<String, Integer> makeCharacterStatTemplate() {
+    HashMap<String, Integer> map = new HashMap();
+    for (String s : STATS.keySet()) {
+      map.put(s, 0);
+    }
+    return map;
+  }
+
+  /**
+   * Roll a skill check with the provided Difficulty Class.
+   * @return True if the character passed the check.
+   */
+  public static boolean skillCheck(String characterLabel, String skillOrStat, int DC) {
+    int roll = (int) (Math.random() * SKILL_CHECK_DIE) + 1;
+
+    if (STATS.containsKey(skillOrStat)) {
+      return get(characterLabel).getModifier(skillOrStat) >= DC;
+    } else if (SKILLS.containsKey(skillOrStat)) {
+      for (String statLabel : SKILLS.get(skillOrStat).relevantStats) {
+        roll += get(characterLabel).getModifier(statLabel);
+      }
+    } else {
+      throw new IllegalArgumentException(skillOrStat + " is not a known skill name!");
+    }
+
+    System.out.println(String.format("%s rolled %d on a DC%d %s check",
+        characterLabel, roll, DC, skillOrStat));
+    return roll >= DC;
+
   }
 
 }

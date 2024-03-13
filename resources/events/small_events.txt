@@ -1,9 +1,10 @@
->> INTRO ; PLAYER IN ARENA_TOWER
-You awaken on hard stone, high atop a tower that overlooks an unfamiliar landscape.
+>> INTRO ; INTRO NOT COMPLETED
+You awaken in an unfamiliar landscape.
+IF NATURE CHECK 4 ; This seems to be a jungle, but it's... oddly quiet. No hum of buzzing insects or other animals. Just the gentle flow of air.
 You have no memory--no idea who you are, nor why you're in this place.
 Whatever is going on, whatever you choose to do, you gain nothing by staying put. You rise to your feet and survey your surroundings.
 
->> INTO_THE_WILDERNESS ; PLAYER INOPENWORLD
+>> INTO_THE_WILDERNESS ; PLAYER INOPENWORLD ; MEET_BEYN COMPLETED
 You step off of the stone and onto the soft, grassy soil.
 The wilderness around the tower is all thickly-grown jungle. Yet many trails crisscross the vegetation, providing easy enough means of travel in more or less any direction.
 This doesn't look like any landscape you can recall--but then again, you can't recall much of anything.
@@ -15,26 +16,3 @@ Once again, you take stock of your surroundings. The wild awaits.
 >> CONV_TEMP
 You have a deep and fulfilling conversation with this person.
 
->> CONV_BEYN
-IF BEYN INPARTY; GOTO BEYN_PARTY_CHAT
-IF BEYN NOT INPARTY; GOTO BEYN_OUT_OF_PARTY
-
->> BEYN_PARTY_CHAT
-SAY BEYN Yes?
-CHOICE ; "I think we should travel separately for now." > BEYN_DISMISSED; "Nothing, just checking in." > END;
-
->> BEYN_DISMISSED
-He frowns.
-SAY BEYN Very well, then. Let me know if you change your mind.
-LEAVEPARTY BEYN
-
->> BEYN_OUT_OF_PARTY
-IF PLAYER IN ARENA_TOWER ; IF _MEETBEYN1 NOT COMPLETE ; GOTO MEET_BEYN
-SAY BEYN Have you changed your mind about travelling together?
-CHOICE ; "Yes. Let's join up." > BEYN_RECRUIT; "No, we'll each go our own way." > END;
-
->> BEYN_RECRUIT
-IF _MEETBEYN_3a NOT COMPLETE ; GOTO _MEETBEYN_3a
-He grins slightly.
-SAY BEYN Excellent. Lead the way.
-JOINPARTY BEYN

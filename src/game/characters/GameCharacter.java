@@ -1,13 +1,16 @@
 package game.characters;
 
+import java.util.Map;
+
 public class GameCharacter extends game.Movable {
 
   public static int DEFAULT_MOVE_SPEED = 10;
 
+  public final Map<String, Integer> stats;
   public Gender gender;
 
-  public GameCharacter(String name, Gender gender) {
-    this.label = name; this.gender = gender;
+  public GameCharacter(String name, Gender gender, Map<String, Integer> stats) {
+    this.label = name; this.gender = gender; this.stats = stats;
   }
 
   public String getGenericDescription() {
@@ -35,10 +38,8 @@ public class GameCharacter extends game.Movable {
     }
   }
 
-  public int roll(String skill) {
-    int roll = (int) (Math.random() * CharacterManager.SKILL_CHECK_DIE) + 1;
-    System.out.println(String.format("%s rolled %d on a %s check", this.label, roll, skill));
-    return roll;
+  public int getModifier(String statLabel) {
+    return stats.get(statLabel);
   }
 
 }

@@ -1,0 +1,12 @@
+>> FITNESS ; Physical wellness. Endurance and strength.
+>> REFLEXES ; Balance, coordination, and reaction time.
+>> INTELLIGENCE ; Understand and recall complex information.
+>> WITS ; Read people and situations, notice hidden details.
+
+> FORCE ; STRENGTH ; Break, move, or destroy heavy or stuck objects.
+> LORE ; INTELLIGENCE ; Recall specific information beyond common knowledge.
+> PEOPLE ; WITS ; Interact effectively with people, and read their moods and intentions.
+> DODGE ; REFLEXES ; Move quickly to prevent harm to yourself or others.
+> PERCEPTION ; WITS ; Notice hidden details around you.
+> THEFT ; WITS, REFLEXES ; Swipe or tamper with small objects without drawing attention.
+> NATURE ; INTELLIGENCE, WITS ; Navigate and survive in the wilderness. Find supplies and differentiate between safe and dangerous flora and fauna.

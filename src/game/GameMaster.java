@@ -16,7 +16,8 @@ public class GameMaster {
   private static View view;
   private static Controller controller;
   private static ControlOrb orb;
-  public static final String RESOURCE_FOLDER = "redport_resources\\";
+  private static final boolean playingRedport = false; // temp while there's exactly two games.
+  public static final String RESOURCE_FOLDER = playingRedport ? "redport_resources\\" : "resources\\";
 
   private static boolean running = true;
 
@@ -64,13 +65,13 @@ public class GameMaster {
     GameObject go = null;
     // The Subject is placing a Character
     if (CharacterManager.contains(subject)) {
-      go = CharacterManager.get("PLAYER");
+      go = CharacterManager.get(subject);
       // ...in a structure
       if (StructureManager.getStructure(structOrX) != null) {
         StructureManager.enterStructure((CharacterManager.get(subject)),
             structOrX, Integer.parseInt(roomOrY));
         return;
-      } else {
+      } else if (((Movable) go).currentStructure != null) {
         StructureManager.leaveStructure((Movable) go);
       }
 
