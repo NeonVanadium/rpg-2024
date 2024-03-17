@@ -39,7 +39,6 @@ public class GraphicsManager {
     frame.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
-        System.out.println("Clicky.");
         getView().hurryUp();
       }
     });

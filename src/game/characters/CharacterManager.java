@@ -57,7 +57,6 @@ public class CharacterManager {
     } else if (line.startsWith(Util.SPECIAL_PART_SYMBOL)) {
       Creep c = new Creep(label, makeCharacterStatTemplate());
       creeps.put(c.getLabel(), c);
-      System.out.println("Made creep " + c);
     }
   }
 

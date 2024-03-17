@@ -7,7 +7,6 @@ import game.Player;
 import game.Util;
 import game.characters.CharacterManager;
 import game.characters.GameCharacter;
-import game.events.EventManager;
 import game.prompts.Direction;
 import game.prompts.PromptOption;
 import game.prompts.Selectable;
@@ -35,8 +34,8 @@ public class MapManager {
 
   private static void processLine(String line, LinkedList<Terrain[]> tileRows) {
     if (line.startsWith(Util.ENTRY_START_SYMBOL)) {
-      // silly implmentation, but defaults to false, the first >> marks the terrain section,
-      // and the second marks the map section
+      // silly implementation, but defaults to false, the first >> marks the terrain section,
+      // and the second marks the map section. Works because right now there's only two sections.
       loadingTerrain = !loadingTerrain;
     } else {
       if (loadingTerrain) {

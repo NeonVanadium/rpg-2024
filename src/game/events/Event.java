@@ -53,7 +53,6 @@ public class Event {
     }
     else if (rawPartString.startsWith("IF")) {
       String[] conditionAndBody = rawPartString.split(Util.COMPONENT_DELINEATOR, 2);
-      System.out.println(rawPartString);
       EventPart ifYes = makePartBasedOnLine(conditionAndBody[1].trim());
       return new IfEventPart(conditionAndBody[0], ifYes);
     }
