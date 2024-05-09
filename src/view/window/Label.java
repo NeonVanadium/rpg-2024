@@ -5,16 +5,16 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
 
-
 class Label implements IRectangle {
 
-	private String text;
-	private String wrappedText;
+	protected String text;
+	protected String wrappedText;
+	protected Color color; //text color
+	protected float fontSize;
+
 	private Label parent; // may be null, the label relative to which this is positioned
 	private AlignmentLocation vert;
 	private AlignmentLocation horz;
-	private Color color; //text color
-	private float fontSize;
 	private int width; //how wide the label is (set by wrapText())
 	private int height; //how tall the label is (set by wrapText())
 	private PanelZone zone;
@@ -58,19 +58,19 @@ class Label implements IRectangle {
 	}
 	
 	protected void draw(Graphics g) {
-
-		g.setFont(g.getFont().deriveFont(this.fontSize));
-		g.setColor(this.color);
-
+		setTextFontAndColor(g);
 		if(this.textChanged) {
 			this.wrapText(g);
+			String[] lines = this.wrappedText.split("\n");
+			for(int i = 0; i < lines.length; i++) {
+				g.drawString(lines[i], this.getX(), (int) (this.getY() + (i * this.fontSize)));
+			}
 		}
+	}
 
-		String[] lines = this.wrappedText.split("\n");
-		for(int i = 0; i < lines.length; i++) {
-			g.drawString(lines[i], this.getX(), (int) (this.getY() + (i * this.fontSize)));
-		}
-
+	protected void setTextFontAndColor(Graphics g) {
+		g.setFont(g.getFont().deriveFont(this.fontSize));
+		g.setColor(this.color);
 	}
 
 	// given the text and its container, inserts \n at various locations so that
@@ -228,6 +228,10 @@ class Label implements IRectangle {
 	
 	public boolean isTemporary() {
 		return this.isTemporary;
+	}
+
+	protected boolean hasTextChanged() {
+		return this.textChanged;
 	}
 	
 	//
