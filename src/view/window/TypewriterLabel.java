@@ -6,7 +6,6 @@ import java.awt.Graphics;
 // a label that animates the typing of its text contents whenever it acquires new text.
 public class TypewriterLabel extends Label {
 
-	String fullText;
 	int typedCharacters;
 	private static final int TYPE_SPEED = 1; // how many characters per tick are written?
 	private static final int AUDIO_BLIP_FREQUENCY = 2; // a blip sounds every this many characters.
@@ -23,18 +22,13 @@ public class TypewriterLabel extends Label {
 			AlignmentLocation vert, String zoneName, WolgonPanel panel) {
 		super(name, text, color, fontSize, horz, vert, zoneName, panel);
 		audioManager = new AudioManager();
-		init(text);
+		typedCharacters = 0;
 	}
 
 	public TypewriterLabel(String name, String text, Color color, float fontSize, String otherLabelName,
 			WolgonPanel panel) {
 		super(name, text, color, fontSize, otherLabelName, panel);
 		audioManager = new AudioManager();
-		init(text);
-	}
-
-	private void init(String fullText) {
-		this.fullText = fullText;
 		typedCharacters = 0;
 	}
 
@@ -43,9 +37,11 @@ public class TypewriterLabel extends Label {
 		super.setTextFontAndColor(g);
 		if (this.hasTextChanged()) {
 			this.wrapText(g);
-			if (typedCharacters < fullText.length())
-				textLineDrawer(g);
 		}
+		if (!this.doneTyping()) {
+			nextCharacterLogic();
+		}
+		textLineDrawer(g);
 	}
 
 	private void textLineDrawer(Graphics g) {
@@ -59,29 +55,27 @@ public class TypewriterLabel extends Label {
 				lengthOfLinesSoFar += lines[i].length();
 			} else if (!lines[i].isBlank()){
 				// We're currently typing this line. Draw it partially.
-				nextCharacterLogic();
 				g.drawString(lines[i].substring(0, typedCharacters - lengthOfLinesSoFar),
 						this.getX(), (int) (this.getY() + (i * this.fontSize)));
 				break;
 			}
 		}
-
-
 	}
 
 	private void nextCharacterLogic() {
+		char curChar = getText().charAt(typedCharacters);
+
 		if (delayUntilNextChar > 0) {
 			delayUntilNextChar--;
-		}
-
-		char curChar = fullText.charAt(typedCharacters);
-
-		if (delayUntilNextChar == 0) {
+		} else if (delayUntilNextChar == 0) {
 			typedCharacters += TYPE_SPEED;
+			if (typedCharacters > getText().length()) {
+				typedCharacters = getText().length();
+			}
 			maybePlayBlip(curChar);
 		}
 
-		if (!Character.isAlphabetic(curChar) && curChar != ' ') {
+		if (!Character.isAlphabetic(curChar)) {
 			untilBlip = 0;
 			if (delayUntilNextChar <= 0) {
 				if (LONG_DELAY_CHARS.contains("" + curChar)) {
@@ -108,22 +102,16 @@ public class TypewriterLabel extends Label {
 	}
 
 	public void setText(String s) {
-		fullText = s;
 		typedCharacters = 0;
-		super.setText(fullText);
-	}
-
-	public String getFullText() {
-		return fullText;
+		super.setText(s);
 	}
 
 	public boolean doneTyping() {
-		return getFullText().length() == getText().length();
+		return typedCharacters == getText().length();
 	}
 
 	public void instacomplete() {
-		typedCharacters = fullText.length();
-		super.setText(fullText);
+		typedCharacters = getText().length() - 1;
 		audioManager.signalDoneTyping();
 	}
 

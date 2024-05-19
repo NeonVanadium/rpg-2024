@@ -48,7 +48,7 @@ public class DefaultPanel extends WolgonPanel implements View {
   @Override
   public void print(String s) {
     if (promptingInput) disableContinuePrompter();
-    body.setText(body.getFullText() + s + "\n\n");
+    body.setText(body.getText() + s + "\n\n");
     update();
   }
 
