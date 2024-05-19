@@ -28,7 +28,7 @@ public class MapManager {
   public static void init() {
     LinkedList<Terrain[]> tileRows = new LinkedList<>();
     terrainTypes = new HashMap<>();
-    Util.parseFileAndDoEachLine(GameMaster.RESOURCE_FOLDER + "map.txt", (line) -> MapManager.processLine(line, tileRows));
+    Util.parseFileAndDoEachLine(GameMaster.getResourceFolder() + "map.txt", (line) -> MapManager.processLine(line, tileRows));
     map = new GameMap(tileRows);
   }
 

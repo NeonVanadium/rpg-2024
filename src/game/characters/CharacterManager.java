@@ -19,7 +19,7 @@ public class CharacterManager {
   public static final int SKILL_CHECK_DIE = 10; // when a skill check is made, rolls a this-many-sided die.
 
   public static void loadCharacters() {
-    Util.parseFileAndDoEachLine(GameMaster.RESOURCE_FOLDER + "stats_and_skills.txt",
+    Util.parseFileAndDoEachLine(GameMaster.getResourceFolder() + "stats_and_skills.txt",
         CharacterManager::makeStatsOrSkill);
 
     for (Entry e : STATS.entrySet()) {
@@ -33,7 +33,7 @@ public class CharacterManager {
         makeCharacterStatTemplate()));
     knownNames.put("PLAYER", "The player"); // temp until they enter it, obviously
     Player.character = characters.get("PLAYER");
-    Util.parseFileAndDoEachLine(GameMaster.RESOURCE_FOLDER + "characters.txt",
+    Util.parseFileAndDoEachLine(GameMaster.getResourceFolder() + "characters.txt",
         CharacterManager::makeCharacterFromLine);
   }
 

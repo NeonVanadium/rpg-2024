@@ -16,15 +16,19 @@ public class GameMaster {
   private static View view;
   private static Controller controller;
   private static ControlOrb orb;
-  private static final boolean playingRedport = false; // temp while there's exactly two games.
-  public static final String RESOURCE_FOLDER = playingRedport ? "redport_resources\\" : "resources\\";
+  private static String resourceFolder;
 
   private static boolean running = true;
 
-  public static void init(View v, Controller c) {
+  public static void init(View v, Controller c, String resourceFolder) {
     view = v;
     controller = c;
+    GameMaster.resourceFolder = resourceFolder;
     orb = new ControlOrb(view, controller, GameMaster::processPlayerMove);
+  }
+
+  public static String getResourceFolder() {
+    return resourceFolder;
   }
 
   public static void start() {
@@ -32,7 +36,7 @@ public class GameMaster {
     CharacterManager.loadCharacters();
     StructureManager.loadStructures();
     MapManager.init();
-    Util.parseFileAndDoEachLine(GameMaster.RESOURCE_FOLDER + "blocking.txt",
+    Util.parseFileAndDoEachLine(GameMaster.resourceFolder + "blocking.txt",
         GameMaster::readLineOfBlocking);
     gameLoop();
   }

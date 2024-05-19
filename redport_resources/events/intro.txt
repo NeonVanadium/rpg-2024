@@ -1,9 +1,12 @@
 >> INTRO ; PLAYER IN REDPORT_SQUARE
-//The sky is clear today, the air pleasantly warm and carrying the subtle scent of sea-salt.
-//This is the burgeoning near-city of Redport. Its buildings, mostly single-story, are iconic for their red-tile roofs and warm, beige walls. Save around a small fort on the east side, it has no walls. It was not built for crowds, but these days it is stuffed to the brim with people.
-//You, amongst a huddle of strangers, observe a public notice board next to a tavern in the central square. Right in the middle, a huge poster reads: “The House Foxford Arena’s grand opening! Brave gladiators take on fearsome monsters! Riches and titles to be won! Combatants wanted!”
-//It is this that has drawn the crowds, and perhaps yourself, to Redport. Whatever one’s calling, there is work and prosperity to be found around an event like this.
-//Suddenly, screams break through the crowd.
+//
+GOTO INVESTIGATING_MAGMIN
+//
+The sky is clear today, the air pleasantly warm and carrying the subtle scent of sea-salt.
+This is the burgeoning near-city of Redport. Its buildings, mostly single-story, are iconic for their red-tile roofs and warm, beige walls. Save around a small fort on the east side, it has no walls. It was not built for crowds, but these days it is stuffed to the brim with people.
+You, amongst a huddle of strangers, observe a public notice board next to a tavern in the central square. Right in the middle, a huge poster reads: “The House Foxford Arena’s grand opening! Brave gladiators take on fearsome monsters! Riches and titles to be won! Combatants wanted!”
+It is this that has drawn the crowds, and perhaps yourself, to Redport. Whatever one’s calling, there is work and prosperity to be found around an event like this.
+Suddenly, screams break through the crowd.
 As people flee and leave a wide-open berth by the side of the tavern, you see source of the commotion: Gnolls.
 Like feral hyenas twisted into the vagues shape of humanoids, they scurry out of the alley and into the square, spit dribbling from their jaws and as they wave their spears about.
 CHOICE ; Stand by and reach for your weapon > INTRO_PRE_GNOLL_FIGHT ; Run! > INTRO_FLEE_GNOLLS
@@ -20,6 +23,9 @@ JOINPARTY GUARD
 You surge forward and stand alongside the two guards, who eye you with surprise.
 One of the gnolls, startled, turns to you--and bares its teeth.
 FIGHT GNOLL, GNOLL, GNOLL ; MAGMIN
+GOTO INTRO_AFTER_GNOLLS
+
+>> INTRO_AFTER_GNOLLS
 The three gnolls lie dead, the child-like creature lays in a smoldering heap that glows. Then glows brighter.
 Then explodes.
 Shouts of surprise come from the distantly-gathered crowd of onlookers.

@@ -10,6 +10,8 @@ public class Main {
 
   private static final boolean USE_CONSOLE_CONTROLLER = false;
   private static final boolean USE_CONSOLE_VIEW = false;
+  private static final boolean playingRedport = true; // temp while there's exactly two games.
+  public static final String RESOURCE_FOLDER = playingRedport ? "redport_resources\\" : "resources\\";
 
   public static void main(String[] args) {
     View view;
@@ -31,7 +33,7 @@ public class Main {
       graphicsManager.addKeyListener(((KeyboardMouseController)controller).getKeyAdapter());
     }
 
-    GameMaster.init(view, controller);
+    GameMaster.init(view, controller, RESOURCE_FOLDER);
     GameMaster.start();
   }
 }

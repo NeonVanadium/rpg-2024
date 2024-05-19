@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class StructureManager {
 
-  private static final String structuresFilePath = GameMaster.RESOURCE_FOLDER + "structures_and_rooms.txt";
+  private static final String structuresFilePath = GameMaster.getResourceFolder() + "structures_and_rooms.txt";
   private static Map<String, Structure> structures;
   private static Structure structBeingBuilt;
 

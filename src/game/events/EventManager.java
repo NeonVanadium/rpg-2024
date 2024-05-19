@@ -20,7 +20,7 @@ public class EventManager {
   private static Event eventBeingBuilt; // only used in loadevents/processline.
 
   private static String eventToRun;
-  private static final String eventFilesPath = GameMaster.RESOURCE_FOLDER + "events\\";
+  private static final String eventFilesPath = GameMaster.getResourceFolder() + "events\\";
 
   /**
    * Load events from all files in resources/events.
