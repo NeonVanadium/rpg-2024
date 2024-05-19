@@ -1,0 +1,49 @@
+This is an engine for text-based games running in Java's built-in graphics window.
+
+All content for the games are created through specially formatted text documents. Much of this
+project defines the language used to create these documents.
+
+== DOCUMENTATION
+
+A game's files must be formatted in a resource folder, within which are a few required files
+and an events folder, which contains an indefinite number of files. Within the event folder, file
+separation is insignificant. All files are treated the same and parsed for events when the program
+starts. I separate files into related groups of events (one large sequence, all the small talk
+with a given character, etc) for organization purposes.
+
+== EVENTS
+
+Events are choose-your-own adventure or visual novel style sequences of text, choices, and combat.
+They are defined through lines in a text file, and are composed of "event parts."
+Line breaks are significant. A new line always separates two event parts.
+
+What may appear to the user as one "event" is likely many small events in the system.
+Notably, events are strictly linear. Any choice or branch is actually a GOTO
+to a different event.
+
+=== Comments
+Empty lines and lines starting with / are ignored.
+
+=== Declaring events
+
+>> [Name of event]
+
+>> [Name of event] ; (Trigger conditions)
+
+If an event is declared with Trigger conditions, it is added to a list of events that can be
+triggered by an in-game condition (rather than manually, e.g. through a GOTO in another event).
+The game regularly checks over all of these triggerable events and starts them if their conditions
+are met.
+
+=== Lines of text
+Text is displayed on the screen, pausing at the end. The user must hit any key to proceed to the
+next event part.
+
+This is the "default" event part and requires no additional labeling.
+
+=== Go-to
+
+GOTO (event name)
+
+A goto part starts with "GOTO." The only argument is the name of another event. Jumps to the start
+of that event.
