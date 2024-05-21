@@ -43,7 +43,7 @@ public class GameMaster {
 
   public static void gameLoop() {
     while (running) {
-      if (CombatManager.isCombatPending()) CombatManager.runCombat(orb);
+      if (CombatManager.isCombatPending()) CombatManager.startCombat(orb);
       if (!EventManager.hasQueuedEvent()) EventManager.checkEventTriggers();
       if (EventManager.hasQueuedEvent()) {
         view.clear();

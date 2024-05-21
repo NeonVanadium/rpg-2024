@@ -1,6 +1,6 @@
 >> INTRO ; PLAYER IN REDPORT_SQUARE
 //
-GOTO INVESTIGATING_MAGMIN
+GOTO INTRO_GNOLL_FIGHT
 //
 The sky is clear today, the air pleasantly warm and carrying the subtle scent of sea-salt.
 This is the burgeoning near-city of Redport. Its buildings, mostly single-story, are iconic for their red-tile roofs and warm, beige walls. Save around a small fort on the east side, it has no walls. It was not built for crowds, but these days it is stuffed to the brim with people.

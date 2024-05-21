@@ -2,7 +2,6 @@ package game.events;
 
 import game.ControlOrb;
 import game.Util;
-import game.characters.GameCharacter;
 import game.combat.CombatManager;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -27,7 +26,7 @@ public class FightEventPart implements EventPart {
     for (String[] labels : enemyGroups) {
       CombatManager.addEnemiesByLabels(Arrays.stream(labels).toList());
     }
-    CombatManager.runCombat(orb);
+    CombatManager.startCombat(orb);
   }
 
   @Override

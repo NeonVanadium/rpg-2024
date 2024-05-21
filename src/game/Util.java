@@ -97,4 +97,11 @@ public class Util {
     }
   }
 
+  /**
+   * Returns a whole number between 0 (inclusive) and max (exclusive).
+   */
+  public static int random(int max) {
+    return (int) (Math.random() * max);
+  }
+
 }

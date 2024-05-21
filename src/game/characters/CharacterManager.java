@@ -22,13 +22,6 @@ public class CharacterManager {
     Util.parseFileAndDoEachLine(GameMaster.getResourceFolder() + "stats_and_skills.txt",
         CharacterManager::makeStatsOrSkill);
 
-    for (Entry e : STATS.entrySet()) {
-      System.out.println(e);
-    }
-    for (Skill s : SKILLS.values()) {
-      System.out.println(s);
-    }
-
     characters.put("PLAYER", new GameCharacter("PLAYER", Gender.SOMETHING_ELSE,
         makeCharacterStatTemplate()));
     knownNames.put("PLAYER", "The player"); // temp until they enter it, obviously
@@ -96,7 +89,7 @@ public class CharacterManager {
    * @return True if the character passed the check.
    */
   public static boolean skillCheck(String characterLabel, String skillOrStat, int DC) {
-    int roll = (int) (Math.random() * SKILL_CHECK_DIE) + 1;
+    int roll = Util.random(SKILL_CHECK_DIE) + 1;
 
     if (STATS.containsKey(skillOrStat)) {
       return get(characterLabel).getModifier(skillOrStat) >= DC;
