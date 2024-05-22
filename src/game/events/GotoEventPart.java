@@ -20,7 +20,7 @@ public class GotoEventPart implements EventPart {
 
   @Override
   public boolean pauseBefore() {
-    return false;
+    return true;
   }
 
 }

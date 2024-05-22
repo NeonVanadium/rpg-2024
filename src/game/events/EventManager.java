@@ -87,7 +87,10 @@ public class EventManager {
     for (EventPart eventPart : e.getEventParts()) {
       maybeEnterToContinue(eventPart, prevPart, orb);
       eventPart.run(orb);
-      if (eventToRun != null && !eventToRun.equals(e.title)) break; //enables Gotos
+      if (eventToRun != null && !eventToRun.equals(e.title)) {
+        prevPart = null;
+        break; //enables Gotos
+      }
       prevPart = eventPart;
     }
     if (eventToRun.equals(e.title)) {

@@ -40,7 +40,7 @@ Despite the force of this declaration, he separates from you with no further com
 LEAVEPARTY KARGELBON
 
 >> KARGELBON_OUT_OF_PARTY
-SAY BEYN I am KARGELBON KARGELBON KARGELBON, greatest dread-wizard in all the lands!
+SAY KARGELBON I am KARGELBON KARGELBON KARGELBON, greatest dread-wizard in all the lands!
 IF KARGELBON_RECRUIT NOT COMPLETED ; IF PEOPLE CHECK 5 ; He looks at you expectantly. Pleadingly. There's a sense of desperation in his eyes.
 CHOICE ; "Why don't you come with me, um, Kargelbon?" > KARGELBON_RECRUIT; "Sorry, I have some things to attend to." > END; "What the fuck?" > END;
 

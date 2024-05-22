@@ -1,12 +1,13 @@
->> INTRO ; INTRO NOT COMPLETED
-You awaken in an unfamiliar landscape.
-IF NATURE CHECK 4 ; This seems to be a jungle, but it's... oddly quiet. No hum of buzzing insects or other animals. Just the gentle flow of air.
+>> INTRO ; INTRO NOT COMPLETED ;
+You awaken on hard stone to a steady, warm breeze.
+You rise to your feet, and find yourself atop a strange tower. A vast, expansive jungle extends below.
 You have no memory--no idea who you are, nor why you're in this place.
 Whatever is going on, whatever you choose to do, you gain nothing by staying put. You rise to your feet and survey your surroundings.
 
 >> INTO_THE_WILDERNESS ; PLAYER INOPENWORLD ; MEET_BEYN COMPLETED
 You step off of the stone and onto the soft, grassy soil.
 The wilderness around the tower is all thickly-grown jungle. Yet many trails crisscross the vegetation, providing easy enough means of travel in more or less any direction.
+IF NATURE CHECK 4 ; This seems to be a jungle, but it's... oddly quiet. No hum of buzzing insects or other animals. Just the gentle flow of air.
 This doesn't look like any landscape you can recall--but then again, you can't recall much of anything.
 IF BEYN INPARTY; SAY BEYN The wilderness... Such majesty, these trees have, such scale. Where *are* we, I wonder?
 The trails are the only indication of recent activity in the area. It's hard to say, what, exactly, lies down them. Though the tower, at least, appears safe, you have neither food nor water--staying put would eventually become as dangerous as losing your way out there in the jungle.

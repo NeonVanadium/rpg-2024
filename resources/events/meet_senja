@@ -1,0 +1,49 @@
+>> MEET_SENJA ; PLAYER WITH SENJA
+IF WITS CHECK 6 ; GOTO NOTICED_SENJA
+You feel cold steel press against your throat.
+IF BEYN INPARTY ; Vessel stares at whoever the figure is behind you. The symbols swarm around him.
+IF KARGELBON INPARTY ; SAY KARGELBON Blithering mortal fool!
+SAY SENJA Answer my questions. Who are you?
+CHOICE ; (Explain how you've only just awoken atop a tower and have little memory) > _COOPERATE_SENJA ;  "Eat shit." > _RESIST_SENJA ; "Who the hell are you?" > _RESIST_SENJA ;
+
+>> _NOTICED_SENJA
+You notice a figure skulking up behind you.
+You turn around fast enough that several yards of distance is between you and the approaching figure.
+GOTO SEE_SENJA
+
+>> _RESIST_SENJA
+The captor hits you in the back.
+SAY SENJA Last chance. I'm not afraid to use this blade. Trust me.
+IF PEOPLE CHECK 2 ; This is no bluff. Her voice is confident, her grip firm and steady.
+SAY SENJA Now. Who are you?
+CHOICE ; (Explain how you've only just awoken atop a tower and have little memory) > _COOPERATE_SENJA ;  "I don't respond to bandits." > _SENJA_ATTACKS
+
+>> _SENJA_ATTACKS
+FIGHT SENJA
+
+>> _COOPERATE_SENJA
+Your captor is quiet for a moment.
+IF BEYN INPARTY ; GOTO _COOP_SENJA_BEYN_TALK
+IF KARGELBON INPART ; GOTO _COOP_SENJA_KARG_TALK
+
+>> _COOP_SENJA_2
+The weapon lowers, and the captor steps back. You turn around to see her.
+GOTO SEE_SENJA
+
+>> _COOP_SENJA_BEYN_TALK
+SAY BEYN I experienced the same thing. Put the blade down and let's talk. There's no need for weapons.
+SAY SENJA And what the hell is up with those symbols? You some kind of wizard?
+SAY BEYN I don't think so. Not a very powerful one, in any case.
+GOTO _COOP_SENJA_2
+
+>>_COOP_SENJA_KARG_TALK
+SAY KARGELBON Blithering mortal fool! I am Kargelbon Kargelbon Kargelbon, greatest dread-wizard in all the lands!
+The woman is silent. Perhaps understandably so.
+SAY SENJA What... are you?
+SAY KARGELBON I... I am Kargelbon Kargelbon Kargelbon, greatest dread-wizard in--"
+SAY SENJA I get it, I get it.
+
+>> SEE_SENJA
+DESCRIBE SENJA
+
+

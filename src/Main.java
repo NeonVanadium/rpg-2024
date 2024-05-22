@@ -10,7 +10,7 @@ public class Main {
 
   private static final boolean USE_CONSOLE_CONTROLLER = false;
   private static final boolean USE_CONSOLE_VIEW = false;
-  private static final boolean playingRedport = true; // temp while there's exactly two games.
+  private static final boolean playingRedport = false; // temp while there's exactly two games.
   public static final String RESOURCE_FOLDER = playingRedport ? "redport_resources\\" : "resources\\";
 
   public static void main(String[] args) {

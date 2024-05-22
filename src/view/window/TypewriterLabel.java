@@ -63,7 +63,8 @@ public class TypewriterLabel extends Label {
 	}
 
 	private void nextCharacterLogic() {
-		char curChar = getText().charAt(typedCharacters);
+		typedCharacters += TYPE_SPEED;
+		/*char curChar = getText().charAt(typedCharacters);
 
 		if (delayUntilNextChar > 0) {
 			delayUntilNextChar--;
@@ -84,7 +85,7 @@ public class TypewriterLabel extends Label {
 					delayUntilNextChar = SHORT_DELAY;
 				}
 			}
-		}
+		}*/
 	}
 
 	/**
