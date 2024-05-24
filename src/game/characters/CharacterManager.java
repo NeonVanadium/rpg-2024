@@ -5,8 +5,6 @@ import game.Player;
 import game.Util;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
 
 public class CharacterManager {
   private final static Map<String, GameCharacter> characters = new HashMap<>();

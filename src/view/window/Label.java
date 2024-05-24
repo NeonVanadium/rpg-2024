@@ -18,6 +18,8 @@ class Label implements IRectangle {
 	private int width; //how wide the label is (set by wrapText())
 	private int height; //how tall the label is (set by wrapText())
 	private PanelZone zone;
+
+	private static final String EMPTY = "";
 	
 	// Has the text changed since the previous wrapping?  If true, wrapText will be called.
 	// This system is in place is because wrapText requires a graphics object which will not be present
@@ -33,26 +35,26 @@ class Label implements IRectangle {
 	private boolean isTemporary; 	
 
 	// abstraction constructor
-	private Label(String name, String text, Color color, float fontSize, WolgonPanel panel) {
-		this.text = text;
+	private Label(String name, Color color, float fontSize, WolgonPanel panel) {
+		this.text = EMPTY;
 		this.color = color;
 		this.fontSize = fontSize;
 		panel.addLabel(name, this);
 	}
 	
 	// Positions label relative to one of the AlignmentLocations (see enum in Label) of its zone
-	public Label(String name, String text, Color color, float fontSize,
-			AlignmentLocation horz, AlignmentLocation vert, String zoneName, WolgonPanel panel) {
+	public Label(String name, Color color, float fontSize, AlignmentLocation horz,
+							 AlignmentLocation vert, String zoneName, WolgonPanel panel) {
 		
-		this(name, text, color, fontSize, panel);
+		this(name, color, fontSize, panel);
 		this.zone = panel.getZone(zoneName);
 		this.horz = horz;
 		this.vert = vert;
 	}
 
 	// Positions label below an existing label.
-	public Label(String name, String text, Color color, float fontSize, String otherLabelName, WolgonPanel panel) {
-		this(name, text, color, fontSize, panel);
+	public Label(String name, Color color, float fontSize, String otherLabelName, WolgonPanel panel) {
+		this(name, color, fontSize, panel);
 		this.parent = panel.getLabel(otherLabelName);
 		this.zone = parent.zone;
 	}
@@ -75,8 +77,13 @@ class Label implements IRectangle {
 
 	// given the text and its container, inserts \n at various locations so that
 	// the text will all appear in its box. Fills relevant fields on the instance.
-	public void wrapText(Graphics g) { 
-		wrappedText = "";
+	public void wrapText(Graphics g) {
+		wrappedText = EMPTY;
+
+		if (text.isEmpty()) {
+			return;
+		}
+
 		width = 0;
 		height = 0;
 		trueTop = -1;
@@ -85,8 +92,8 @@ class Label implements IRectangle {
 		int availableSpace = zone.getWidth() - (2 * WolgonPanel.BUFFER); //available horizontal space in the zone, in pixels
 		int lastNewLineIndex = 0;
 
-		String curLine = "";
-		String lineAtNextSpace = "";
+		String curLine = EMPTY;
+		String lineAtNextSpace = EMPTY;
 
 		//note, these indeces could also be newlines
 		int curSpace = 0;
@@ -102,7 +109,7 @@ class Label implements IRectangle {
 			lineTooWide = (metrics.stringWidth(lineAtNextSpace) >= zone.getBufferedWith());
 
 			//if we need a new line
-			if(text.charAt(curSpace) == '\n' || lineTooWide){
+			if(curSpace > text.length() || text.charAt(curSpace) == '\n' || lineTooWide){
 				newWrappedLine(curLine, g);
 				lastNewLineIndex = curSpace + 1;
 				curLine = this.text.substring(lastNewLineIndex, nextSpace);
@@ -167,6 +174,10 @@ class Label implements IRectangle {
 
 	public String getText() {
 		return text;
+	}
+
+	public void clear() {
+		setText(EMPTY);
 	}
 
 	// determines the x position of this label
@@ -240,12 +251,12 @@ class Label implements IRectangle {
 	
 	// to be called when the mouse moves over this label. Empty on this class, but will be overridden on subclass Button.
 	public void hover() {
-		// nothing
+		this.setTextColor(Color.MAGENTA);
 	}
 	
 	// to be called when the mouse moves off this label. Empty on this class, but will be overriden on subclass button.
 	public void unhover() {
-		// nothing
+		this.setTextColor(Color.WHITE);
 	}
 	
 	// empty on this class, used on button subclass to call its stored function to be run

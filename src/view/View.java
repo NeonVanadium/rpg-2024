@@ -1,5 +1,7 @@
 package view;
 
+import java.util.List;
+
 public interface View {
 
   void wait(int ms);
@@ -7,6 +9,8 @@ public interface View {
   void setTitle(String s);
 
   void print(String s);
+
+  void showOptions(List<String> options);
 
   void clear();
 

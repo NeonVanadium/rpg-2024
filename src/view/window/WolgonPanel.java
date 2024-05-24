@@ -36,7 +36,7 @@ abstract class WolgonPanel extends JPanel implements IRectangle, View {
 		// this zone represents the entire panel
 		new PanelZone(this);
 
-		/*this.addMouseListener( new MouseAdapter() {
+		this.addMouseListener( new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {	
 				if (hoveredOver != null) {
 					hoveredOver.runFunction();
@@ -65,7 +65,7 @@ abstract class WolgonPanel extends JPanel implements IRectangle, View {
 			public void mouseDragged(MouseEvent e) {
 				//nothing
 			}
-		});*/
+		});
 
 		this.addComponentListener( new ComponentAdapter() {  	
 			public void componentResized(ComponentEvent e) {
@@ -95,12 +95,6 @@ abstract class WolgonPanel extends JPanel implements IRectangle, View {
 
 	protected PanelZone getZone(String key) {
 		return zones.get(key);
-	}
-
-	// convenience method that creates a default label
-	protected void createSimpleLabel(String name, String content, AlignmentLocation horz, AlignmentLocation vert, 
-			String parentZoneName) {
-		new Label(name, content, Color.WHITE, 30f, horz, vert, parentZoneName, this);
 	}
 
 	// adds an existing label to the table (Rhymes!)

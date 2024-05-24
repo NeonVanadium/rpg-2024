@@ -7,9 +7,13 @@ public class ConsoleController extends AbstractController {
 
   private Scanner input = new Scanner(System.in);
 
-
-  public int setOptions(List<String> options) {
+  @Override
+  public void setOptions(List<String> options) {
     this.options = options;
+  }
+
+  @Override
+  public int getChoice() {
     if (options != null && options.size() != 0) {
       return pickOption();
     }
@@ -20,7 +24,7 @@ public class ConsoleController extends AbstractController {
   }
 
   public void getAnyInput() {
-    setOptions(null);
+    getChoice();
   }
 
   public int pickOption() {

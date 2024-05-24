@@ -1,5 +1,7 @@
 package view;
 
+import java.util.List;
+
 public class ConsoleView implements View {
 
   @Override
@@ -15,6 +17,13 @@ public class ConsoleView implements View {
   @Override
   public void print(String msg) {
     System.out.println(msg);
+  }
+
+  @Override
+  public void showOptions(List<String> options) {
+    for (String s : options) {
+      print(s);
+    }
   }
 
   @Override

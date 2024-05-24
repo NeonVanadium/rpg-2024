@@ -13,9 +13,14 @@ public class KeyboardMouseController extends AbstractController {
     keyListener = new GraphicControllerKeyboardListener();
   }
 
-  public int setOptions(List<String> options) {
+  @Override
+  public void setOptions(List<String> options) {
     this.options = options;
-    if (options != null && options.size() != 0) {
+  }
+
+  @Override
+  public int getChoice() {
+    if (options != null && !options.isEmpty()) {
       return pickOption();
     }
     if (options == null) {

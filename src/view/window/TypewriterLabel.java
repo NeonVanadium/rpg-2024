@@ -18,16 +18,16 @@ public class TypewriterLabel extends Label {
 	private static boolean PLAY_AUDIO_BLIPS = false;
 	private AudioManager audioManager;
 
-	public TypewriterLabel(String name, String text, Color color, float fontSize, AlignmentLocation horz,
+	public TypewriterLabel(String name, Color color, float fontSize, AlignmentLocation horz,
 			AlignmentLocation vert, String zoneName, WolgonPanel panel) {
-		super(name, text, color, fontSize, horz, vert, zoneName, panel);
+		super(name, color, fontSize, horz, vert, zoneName, panel);
 		audioManager = new AudioManager();
 		typedCharacters = 0;
 	}
 
-	public TypewriterLabel(String name, String text, Color color, float fontSize, String otherLabelName,
+	public TypewriterLabel(String name, Color color, float fontSize, String otherLabelName,
 			WolgonPanel panel) {
-		super(name, text, color, fontSize, otherLabelName, panel);
+		super(name, color, fontSize, otherLabelName, panel);
 		audioManager = new AudioManager();
 		typedCharacters = 0;
 	}
