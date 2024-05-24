@@ -12,7 +12,7 @@ public class SayEventPart implements EventPart {
     this.line = parts[2].trim();
   }
 
-  private String format() {
+  protected String format() {
     return CharacterManager.getKnownName(speaker) + ": \"" + line + "\"";
   }
 

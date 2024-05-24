@@ -13,6 +13,7 @@ public class IfEventPart implements EventPart {
   }
 
   public void run(ControlOrb orb) {
+    conditionChecked = false;
     checkCondition();
 
     if (result) {
@@ -32,13 +33,10 @@ public class IfEventPart implements EventPart {
   @Override
   public boolean pauseBefore() {
     checkCondition();
-    return true;//result ? ifYes.pauseBefore() : false;
+    return true;
   }
 
   private void checkCondition() {
-    if (!conditionChecked) {
-      conditionChecked = true;
-      result = condition.isMet();
-    }
+    result = condition.isMet();
   }
 }

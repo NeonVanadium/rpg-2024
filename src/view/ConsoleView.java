@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.*;
 import java.util.List;
 
 public class ConsoleView implements View {
@@ -34,6 +35,11 @@ public class ConsoleView implements View {
   @Override
   public void promptAnyInput() {
     print("<ENTER to continue>");
+  }
+
+  @Override
+  public void setColor(Color c) {
+    // nothing.
   }
 
   @Override

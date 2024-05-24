@@ -3,6 +3,8 @@ package game;
 import controller.Controller;
 import game.prompts.PromptOption;
 import game.prompts.Selectable;
+
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -81,6 +83,8 @@ public class ControlOrb {
   public void clear() {
     view.clear();
   }
+
+  public void setColor(Color c) { view.setColor(c); }
 
   public void promptAnyInput() {
     view.promptAnyInput();

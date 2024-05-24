@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.*;
 import java.util.List;
 
 public interface View {
@@ -15,6 +16,11 @@ public interface View {
   void clear();
 
   void promptAnyInput();
+
+  /**
+   * Set the text color.
+   */
+  void setColor(Color c);
 
   /**
    * True if the view has finished drawing or whatever.

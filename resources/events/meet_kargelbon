@@ -1,14 +1,14 @@
 >> MEET_KARGELBON ; PLAYER WITH KARGELBON
-SAY KARGELBON BLITHERING MORTAL FOOL!
-A sudden, high pitched voice draws your attention, and you spin to see a rather diminuitive, bearded man.
+YELL KARGELBON Blithering mortal fool!
+A sudden, high pitched voice draws your attention, and you spin to see a rather diminutive, bearded man.
 DESCRIBE KARGELBON
 CHOICE ; "Can I help you?" > MEETKARG2 ; "Excuse me?" > MEETKARG2 ;
 
 >> MEETKARG2
-SAY KARGELBON PUNY CREATURES! COWER BEFORE ME! I AM KARGELBON KARGELBON KARGELBON, GREATEST DREAD-WIZARD IN ALL THE LANDS!
+YELL KARGELBON Puny creatures! COWER before me! I am KARGELBON KARGELBON KARGELBON, greatest DREAD-WIZARD in ALL the LANDS!
 SETNAME KARGELBON Kargelbon
 IF PEOPLE CHECK 3 ; Despite his yelling, he's actually standing rather calmly.
-IF PEOPLE CHECK 7 ; His face is red not from anger (at least not entirely). He's blushing with... embarrassment?
+IF PEOPLE CHECK 7 ; His face isn't red from anger—at least not entirely. He's blushing with... embarrassment?
 IF BEYN INPARTY ; GOTO MEETKARG_BEYN_NOTICES
 GOTO MEETKARG3
 
@@ -17,7 +17,7 @@ GOTO MEETKARG3
 Beyn's face scrunches, the symbols from before appearing again in full force.
 When they fade, he looks at you with knowing eyes. He knows something.
 IF PEOPLE CHECK 1 ; Beyn seems perplexed, but he doesn't seem to be afraid of this... Kargelbon.
-CHOICE ; Ask him what he knows. > MKarg_beyn_he's_cursed
+CHOICE ; Ask him what he knows. > MKarg_beyn_he's_cursed ; Let it be for now. > MEETKARG3
 
 >> MKarg_beyn_he's_cursed
 SAY BEYN He's been... cursed. The symbols recognize this... dark magic. I don't know exactly what the curse is, however.
@@ -27,26 +27,26 @@ GOTO MEETKARG3
 CHOICE ; "...okay." > CONV_KARGELBON ; Leave - This man's clearly insane > END ; This man is clearly dangerous - prepare to fight > FIGHT_KARG
 
 >> CONV_KARGELBON
-IF KARGELBON INPARTY; GOTO KARGELBON_PARTY_CHAT
-IF KARGELBON NOT INPARTY; GOTO KARGELBON_OUT_OF_PARTY
+IF KARGELBON INPARTY ; GOTO KARGELBON_PARTY_CHAT
+IF KARGELBON NOT INPARTY ; GOTO KARGELBON_OUT_OF_PARTY
 
 >> KARGELBON_PARTY_CHAT
-SAY KARGELBON BLITHERING MORTAL FOOL!
+SAY KARGELBON Blithering mortal fool?
 CHOICE ; "You should... stay here, Kargelbon." > KARGELBON_DISMISSED; "Nothing, just checking in." > END;
 
 >> KARGELBON_DISMISSED
-SAY KARGELBON I WILL REND THE FLESH FROM YOUR BONES!
+YELL KARGELBON I WILL REND THE FLESH FROM YOUR BONES!
 Despite the force of this declaration, he separates from you with no further complaint or action.
 LEAVEPARTY KARGELBON
 
 >> KARGELBON_OUT_OF_PARTY
-SAY KARGELBON I am KARGELBON KARGELBON KARGELBON, greatest dread-wizard in all the lands!
+YELL KARGELBON I am KARGELBON KARGELBON KARGELBON, greatest dread-wizard in all the lands!
 IF KARGELBON_RECRUIT NOT COMPLETED ; IF PEOPLE CHECK 5 ; He looks at you expectantly. Pleadingly. There's a sense of desperation in his eyes.
 CHOICE ; "Why don't you come with me, um, Kargelbon?" > KARGELBON_RECRUIT; "Sorry, I have some things to attend to." > END; "What the fuck?" > END;
 
 >> KARGELBON_RECRUIT
 The Nome's face lights up in a somewhat scary grin.
-SAY KARGELBON HAHAHAHAHAHAHAHA! I am the greatest dread-wizard in all the lands!
+YELL KARGELBON HAHAHAHAHAHAHAHA! I am the greatest dread-wizard in all the lands!
 JOINPARTY KARGELBON
 
 >> FIGHT_KARG

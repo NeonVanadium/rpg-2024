@@ -51,6 +51,9 @@ public class Event {
     else if (rawPartString.startsWith("SAY")) {
       return new SayEventPart(rawPartString);
     }
+    else if (rawPartString.startsWith("YELL")) {
+      return new YellEventPart(rawPartString);
+    }
     else if (rawPartString.startsWith("IF")) {
       String[] conditionAndBody = rawPartString.split(Util.COMPONENT_DELINEATOR, 2);
       EventPart ifYes = makePartBasedOnLine(conditionAndBody[1].trim());

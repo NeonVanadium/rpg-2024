@@ -62,26 +62,34 @@ public class DefaultPanel extends WolgonPanel implements View {
   public void showOptions(List<String> options) {
     if (options == null) {
       clearOptions();
+    } else {
+      disableContinuePrompter();
+      int i = 0;
+      for (String s : options) {
+        optionLabels[i].setText(s);
+        i++;
+      }
     }
-    int i = 0;
-    for (String s : options) {
-      optionLabels[i].setText(s);
-      i++;
-    }
+
   }
 
   @Override
   public void clear() {
-    title.setText("");
-    body.setText("");
+    title.clear();
+    body.clear();
     clearOptions();
+    disableContinuePrompter();
     update();
   }
 
   @Override
   public void promptAnyInput() {
-    // TODO  replace with little animated blip or something.
     promptingInput = true;
+  }
+
+  @Override
+  public void setColor(Color c) {
+    body.setTextColor(c);
   }
 
   @Override

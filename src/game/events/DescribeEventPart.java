@@ -13,7 +13,7 @@ public class DescribeEventPart implements EventPart {
 
   @Override
   public void run(ControlOrb orb) {
-    new TextEventPart(CharacterManager.get(characterLabel).getDetailedDescription()).run(orb);
+    orb.print(CharacterManager.get(characterLabel).getDetailedDescription());
   }
 
   @Override
@@ -23,6 +23,6 @@ public class DescribeEventPart implements EventPart {
 
   @Override
   public boolean pauseBefore() {
-    return true;
+    return false;
   }
 }

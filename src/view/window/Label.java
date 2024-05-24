@@ -1,5 +1,7 @@
 package view.window;
 
+import view.ViewConstants;
+
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -167,6 +169,12 @@ class Label implements IRectangle {
 		this.color = c;
 	}
 
+	public void resetColor() {
+		if (color != ViewConstants.DEFAULT) {
+			color = ViewConstants.DEFAULT;
+		}
+	}
+
 	public void setText(String s) {
 		text = s;
 		textChanged = true;
@@ -178,6 +186,7 @@ class Label implements IRectangle {
 
 	public void clear() {
 		setText(EMPTY);
+		resetColor();
 	}
 
 	// determines the x position of this label
