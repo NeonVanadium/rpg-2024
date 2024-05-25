@@ -22,7 +22,7 @@ Notably, events are strictly linear. Any choice or branch is actually a GOTO
 to a different event.
 
 === Comments
-Empty lines and lines starting with / are ignored.
+Empty lines and lines starting with // are ignored.
 
 === Declaring events
 

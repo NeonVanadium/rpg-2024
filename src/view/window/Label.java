@@ -1,5 +1,6 @@
 package view.window;
 
+import view.View;
 import view.ViewConstants;
 
 import java.awt.Color;
@@ -8,6 +9,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 
 class Label implements IRectangle {
+
+	private static int TYPE_SPEED = 1; // how many characters are typed for update.
 
 	protected String text;
 	protected String wrappedText;
@@ -20,6 +23,9 @@ class Label implements IRectangle {
 	private int width; //how wide the label is (set by wrapText())
 	private int height; //how tall the label is (set by wrapText())
 	private PanelZone zone;
+	private boolean isTypewriter = true;
+	private int typedCharacters = 0;
+
 
 	private static final String EMPTY = "";
 	
@@ -65,10 +71,35 @@ class Label implements IRectangle {
 		setTextFontAndColor(g);
 		if(this.textChanged) {
 			this.wrapText(g);
-			String[] lines = this.wrappedText.split("\n");
-			for(int i = 0; i < lines.length; i++) {
-				g.drawString(lines[i], this.getX(), (int) (this.getY() + (i * this.fontSize)));
+			if (!this.isTypewriter) {
+				typedCharacters = getText().length();
+				drawText(g);
 			}
+		}
+		if (!doneTyping()) {
+			typedCharacters += TYPE_SPEED;
+		}
+		drawText(g);
+	}
+
+	public boolean doneTyping() {
+		return this.typedCharacters >= getText().length();
+	}
+
+	private void drawText(Graphics g) {
+		int upTo = Math.min(typedCharacters, getText().length());
+		int drawn = 0;
+		String toDrawThisLine;
+
+		String[] lines = this.wrappedText.split("\n");
+		int lineNum = 0;
+		for(String line : lines) {
+			toDrawThisLine = drawn + line.length() < typedCharacters ? line
+					: line.substring(0, upTo - drawn);
+
+			g.drawString(toDrawThisLine, this.getX(), (int) (this.getY() + (lineNum * this.fontSize)));
+			drawn += toDrawThisLine.length();
+			lineNum++;
 		}
 	}
 
@@ -178,6 +209,7 @@ class Label implements IRectangle {
 	public void setText(String s) {
 		text = s;
 		textChanged = true;
+		typedCharacters = 0;
 	}
 
 	public String getText() {
@@ -254,18 +286,14 @@ class Label implements IRectangle {
 		return this.textChanged;
 	}
 	
-	//
-	// EMPTY FUNCTIONS FOR SUBCLASS FUNCTIONALITY
-	//
-	
 	// to be called when the mouse moves over this label. Empty on this class, but will be overridden on subclass Button.
 	public void hover() {
-		this.setTextColor(Color.MAGENTA);
+		this.setTextColor(ViewConstants.HOVER);
 	}
 	
 	// to be called when the mouse moves off this label. Empty on this class, but will be overriden on subclass button.
 	public void unhover() {
-		this.setTextColor(Color.WHITE);
+		this.setTextColor(ViewConstants.DEFAULT);
 	}
 	
 	// empty on this class, used on button subclass to call its stored function to be run
@@ -273,5 +301,8 @@ class Label implements IRectangle {
 		// nothing
 	}
 
+	public void instacomplete() {
+		this.typedCharacters = getText().length();
+	}
 }
 

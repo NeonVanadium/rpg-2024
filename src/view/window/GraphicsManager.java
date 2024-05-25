@@ -14,7 +14,7 @@ public class GraphicsManager {
 
   // the frame which holds a WolgonPanel object.
   private final JFrame frame = new JFrame();
-  private final int TICK_FREQUENCY = 10; //update is called automatically every this many ms
+  private final int TICK_FREQUENCY = 20; //update is called automatically every this many ms
   protected final Rectangle bounds = new Rectangle(0, 0, 1000, 800);
   private final Dimension START_SIZE = new Dimension(1000, 800);
 

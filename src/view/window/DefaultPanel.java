@@ -94,12 +94,12 @@ public class DefaultPanel extends WolgonPanel implements View {
 
   @Override
   public boolean isFinishedDrawing() {
-    return true;//body.doneTyping();
+    return body.doneTyping();
   }
 
   @Override
   public void hurryUp() {
-    //body.instacomplete();
+    body.instacomplete();
   }
 
   private void initOptionLabels() {

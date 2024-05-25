@@ -1,6 +1,7 @@
 package game.events;
 
 import game.ControlOrb;
+import game.characters.CharacterManager;
 
 import java.awt.*;
 
@@ -15,4 +16,9 @@ public class YellEventPart extends SayEventPart {
     orb.setColor(Color.RED);
     orb.print(format());
   }
+
+  /*@Override
+  protected String format() {
+    return CharacterManager.getKnownName(speaker) + ": ^r\"" + line + "\"^r";
+  }*/
 }

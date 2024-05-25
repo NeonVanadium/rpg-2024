@@ -1,8 +1,8 @@
 >> INTRO ; INTRO NOT COMPLETED ;
-You awaken on hard stone to a steady, warm breeze.
-You rise to your feet, and find yourself atop a strange tower. A vast, expansive jungle extends below.
+You awaken on hard stone.
+You rise to your feet, and find yourself atop a strange tower. A steady, warm breeze blows, and a vast jungle expands below.
 You have no memory--no idea who you are, nor why you're in this place.
-Whatever is going on, whatever you choose to do, you gain nothing by staying put. You rise to your feet and survey your surroundings.
+Whatever is going on, whatever you choose to do, you gain nothing by staying put. You get your bearings, and prepare to get moving.
 
 >> INTO_THE_WILDERNESS ; PLAYER INOPENWORLD ; MEET_BEYN COMPLETED
 You step off of the stone and onto the soft, grassy soil.
