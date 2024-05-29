@@ -11,14 +11,7 @@ public class YellEventPart extends SayEventPart {
   }
 
   @Override
-  public void run(ControlOrb orb) {
-    orb.clear();
-    orb.setColor(Color.RED);
-    orb.print(format());
-  }
-
-  /*@Override
   protected String format() {
-    return CharacterManager.getKnownName(speaker) + ": ^r\"" + line + "\"^r";
-  }*/
+    return CharacterManager.getKnownName(speaker) + ": ~r\"" + line + "\"~x";
+  }
 }

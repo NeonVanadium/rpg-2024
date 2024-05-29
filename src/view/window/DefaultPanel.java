@@ -89,7 +89,7 @@ public class DefaultPanel extends WolgonPanel implements View {
 
   @Override
   public void setColor(Color c) {
-    body.setTextColor(c);
+    //body.setTextColor(c);
   }
 
   @Override

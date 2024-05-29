@@ -1,6 +1,5 @@
 package view.window;
 
-import view.View;
 import view.ViewConstants;
 
 import java.awt.Color;
@@ -68,7 +67,7 @@ class Label implements IRectangle {
 	}
 	
 	protected void draw(Graphics g) {
-		setTextFontAndColor(g);
+		resetTextAndFontColor(g);
 		if(this.textChanged) {
 			this.wrapText(g);
 			if (!this.isTypewriter) {
@@ -78,6 +77,11 @@ class Label implements IRectangle {
 		}
 		if (!doneTyping()) {
 			typedCharacters += TYPE_SPEED;
+			if (typedCharacters < getText().length()
+					&& getText().charAt(typedCharacters) == ViewConstants.TEXT_MODIFIER_START.charAt(0)) { // you'd think strings and chars would compare easier. Alas.
+				// modifiers are of format ^(some character). Make sure we never cut that in half.
+				typedCharacters += 1;
+			}
 		}
 		drawText(g);
 	}
@@ -90,6 +94,7 @@ class Label implements IRectangle {
 		int upTo = Math.min(typedCharacters, getText().length());
 		int drawn = 0;
 		String toDrawThisLine;
+		resetTextAndFontColor(g);
 
 		String[] lines = this.wrappedText.split("\n");
 		int lineNum = 0;
@@ -97,15 +102,65 @@ class Label implements IRectangle {
 			toDrawThisLine = drawn + line.length() < typedCharacters ? line
 					: line.substring(0, upTo - drawn);
 
-			g.drawString(toDrawThisLine, this.getX(), (int) (this.getY() + (lineNum * this.fontSize)));
+			if (!toDrawThisLine.contains(ViewConstants.TEXT_MODIFIER_START)) {
+				g.drawString(toDrawThisLine, this.getX(), (int) (this.getY() + (lineNum * this.fontSize)));
+			} else {
+				handleLineWithModifiers(g, toDrawThisLine, (int) (this.getY() + (lineNum * this.fontSize)));
+			}
+
 			drawn += toDrawThisLine.length();
 			lineNum++;
 		}
 	}
 
-	protected void setTextFontAndColor(Graphics g) {
-		g.setFont(g.getFont().deriveFont(this.fontSize));
+	private void handleLineWithModifiers(Graphics g, String line, int lineY) {
+		FontMetrics metrics = g.getFontMetrics();
+
+		String toDraw;
+		int widthSoFar = 0;
+		for (String section : line.split(ViewConstants.TEXT_MODIFIER_START)) {
+			if (widthSoFar == 0) {
+				// first line
+				resetTextAndFontColor(g);
+				toDraw = section;
+				g.drawString(toDraw, this.getX() + widthSoFar, lineY);
+			} else {
+				// one that has a modifier char at the start
+				doModifier(g, section.charAt(0));
+				if (section.length() > 1) {
+					toDraw = section.substring(1);
+					g.drawString(toDraw, this.getX() + widthSoFar, lineY);
+				} else {
+					return;
+				}
+			}
+			widthSoFar += metrics.stringWidth(toDraw);
+		}
+	}
+
+	private void doModifier(Graphics g, char modifier) {
+		if (modifier == 'r') {
+			setTextColor(g, ViewConstants.YELL);
+		} else if (modifier == 'x') {
+			resetColor(g);
+		}
+	}
+
+	public void setTextColor(Graphics g, Color c) {
+		g.setColor(c);
+	}
+
+	public void setBaseColor(Color c) {
+		this.color = c;
+	}
+
+	public void resetColor(Graphics g) {
 		g.setColor(this.color);
+	}
+
+	protected void resetTextAndFontColor(Graphics g) {
+		g.setFont(g.getFont().deriveFont(this.fontSize));
+		resetColor(g);
 	}
 
 	// given the text and its container, inserts \n at various locations so that
@@ -122,7 +177,6 @@ class Label implements IRectangle {
 		trueTop = -1;
 
 		FontMetrics metrics = g.getFontMetrics();
-		int availableSpace = zone.getWidth() - (2 * WolgonPanel.BUFFER); //available horizontal space in the zone, in pixels
 		int lastNewLineIndex = 0;
 
 		String curLine = EMPTY;
@@ -196,16 +250,6 @@ class Label implements IRectangle {
 		wrappedText += curLine + "\n";
 	}
 
-	public void setTextColor(Color c) {
-		this.color = c;
-	}
-
-	public void resetColor() {
-		if (color != ViewConstants.DEFAULT) {
-			color = ViewConstants.DEFAULT;
-		}
-	}
-
 	public void setText(String s) {
 		text = s;
 		textChanged = true;
@@ -218,7 +262,6 @@ class Label implements IRectangle {
 
 	public void clear() {
 		setText(EMPTY);
-		resetColor();
 	}
 
 	// determines the x position of this label
@@ -288,12 +331,12 @@ class Label implements IRectangle {
 	
 	// to be called when the mouse moves over this label. Empty on this class, but will be overridden on subclass Button.
 	public void hover() {
-		this.setTextColor(ViewConstants.HOVER);
+		setBaseColor(ViewConstants.HOVER);
 	}
 	
 	// to be called when the mouse moves off this label. Empty on this class, but will be overriden on subclass button.
 	public void unhover() {
-		this.setTextColor(ViewConstants.DEFAULT);
+		setBaseColor(ViewConstants.DEFAULT);
 	}
 	
 	// empty on this class, used on button subclass to call its stored function to be run
