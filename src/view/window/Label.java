@@ -9,7 +9,7 @@ import java.awt.Point;
 
 class Label implements IRectangle {
 
-	private static int TYPE_SPEED = 1; // how many characters are typed for update.
+	private static int TYPE_SPEED = 3; // how many characters are typed for update.
 
 	protected String text;
 	protected String wrappedText;

@@ -1,29 +1,27 @@
 package view.window;
 
 import java.io.File;
-import java.io.InputStream;
-import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
-import javax.sound.sampled.SourceDataLine;
 
 class AudioManager implements LineListener {
   private static final String TEXT_BLIP_FILE = "resources/audio/textblip.wav";
-  private InputStream inputStream;
-  private AudioInputStream audioStream;
-  private DataLine.Info info;
-  Clip audioClip;
+  private static final String CONFIRM_BLIP_FILE = "resources/audio/confirm.wav";
+  private static final boolean TYPE_BLIPS = false, CONTINUE_BLIPS = true; // whether to use these sounds
+
+  private AudioInputStream typeStream, confirmStream;
+  Clip typeClip;
+  Clip confirmClip;
 
   public AudioManager() {
     try {
-      File f = new File(TEXT_BLIP_FILE);
-      audioStream = AudioSystem.getAudioInputStream(f.toURI().toURL());
-
-      audioClip = AudioSystem.getClip();
+      typeStream = AudioSystem.getAudioInputStream(new File(TEXT_BLIP_FILE).toURI().toURL());
+      typeClip = AudioSystem.getClip();
+      confirmStream = AudioSystem.getAudioInputStream(new File(CONFIRM_BLIP_FILE).toURI().toURL());
+      confirmClip = AudioSystem.getClip();
     } catch (Exception e) {
       System.out.println("ERROR initializing audio manager! " + e);
     }
@@ -40,13 +38,21 @@ class AudioManager implements LineListener {
   }
 
   public void playBlip() {
+    if (TYPE_BLIPS) playClip(typeClip, typeStream);
+  }
+
+  public void playUserEnter() {
+    if (CONTINUE_BLIPS) playClip(confirmClip, confirmStream);
+  }
+
+  private void playClip(Clip c, AudioInputStream s) {
     try {
-      if (!audioClip.isOpen()) {
-        audioClip.open(audioStream);
+      if (!c.isOpen()) {
+        c.open(s);
       }
-      if (!audioClip.isActive()) {
-        audioClip.setMicrosecondPosition(0);
-        audioClip.start();
+      if (!c.isActive()) {
+        c.setMicrosecondPosition(0);
+        c.start();
       }
     } catch (Exception ex) {
       System.out.println("ERROR playing audio! " + ex.getMessage());
@@ -59,7 +65,7 @@ class AudioManager implements LineListener {
 
   private void closeBlip() {
     try {
-      audioClip.close();
+      typeClip.close();
     } catch (Exception ex) {
       System.out.println("ERROR closing audio file! " + ex.getMessage());
     }

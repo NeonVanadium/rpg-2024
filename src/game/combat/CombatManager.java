@@ -55,6 +55,7 @@ public class CombatManager {
       }
     }
 
+    orb.enterToContinue();
     orb.clear();
     orb.print("Select target:");
     CombatWrapper target = (CombatWrapper) orb.getChoiceFromOptions(options).getObject();
@@ -63,24 +64,28 @@ public class CombatManager {
 
     orb.print("You attack " + target.getNameToDisplayAsOption() + "!");
 
-    target.hurt(6, orb);
+    target.hurt(7, orb);
 
     orb.enterToContinue();
   }
 
-  private static void handleNPCAction(CombatWrapper c, ControlOrb orb) {
+  private static void handleNPCAction(CombatWrapper npc, ControlOrb orb) {
     turnStartChecks();
     orb.clear();
 
-    List<CombatWrapper> potentialTargets = livingCombatantsOnTeamsOtherThan(getTeamOf(c));
+    List<CombatWrapper> potentialTargets = livingCombatantsOnTeamsOtherThan(getTeamOf(npc));
 
-    CombatWrapper target = potentialTargets.get(Util.random(potentialTargets.size()));
+    if (potentialTargets.isEmpty()) {
+      orb.print(npc.getNameToDisplayAsOption() + " has no valid targets. They stand idle.");
+    } else {
+      CombatWrapper target = potentialTargets.get(Util.random(potentialTargets.size()));
 
-    orb.print(c.getNameToDisplayAsOption() + " attacks " + target.getNameToDisplayAsOption() + "!");
+      orb.print(npc.getNameToDisplayAsOption() + " attacks " + target.getNameToDisplayAsOption() + "!");
 
-    target.hurt(Util.random(5) + 1, orb);
+      target.hurt(Util.random(5) + 1, orb);
+    }
 
-    orb.enterToContinue();
+    //orb.enterToContinue();
   }
 
   private static List<CombatWrapper> getTeamOf(CombatWrapper c) {

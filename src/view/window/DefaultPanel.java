@@ -15,6 +15,7 @@ public class DefaultPanel extends WolgonPanel implements View {
   private int updatesSinceFlicker = 0;
   private final static String continuePromptText = "\\/";
   private static final int optionLabelCount = 8;
+  private static final AudioManager audioManager = new AudioManager();
 
   public DefaultPanel() {
     title = new Label("Title", Color.WHITE, 30f, AlignmentLocation.Left,
@@ -27,6 +28,11 @@ public class DefaultPanel extends WolgonPanel implements View {
 
   @Override
   public void update() {
+    if (!body.doneTyping()) {
+      audioManager.playBlip();
+    } else {
+      audioManager.signalDoneTyping();
+    }
     if (/*body.doneTyping() &&*/ promptingInput) {
       updatesSinceFlicker++;
       int PROMPT_FLICKER_FREQUENCY = 15;
@@ -119,6 +125,9 @@ public class DefaultPanel extends WolgonPanel implements View {
   }
 
   private void disableContinuePrompter() {
+    if (promptingInput) {
+      audioManager.playUserEnter();
+    }
     promptingInput = false;
     if (!continuePrompter.getText().isEmpty()) continuePrompter.setText("");
   }
