@@ -9,8 +9,10 @@ public class GameCharacter extends game.Movable {
   public final Map<String, Integer> stats;
   public Gender gender;
 
-  public GameCharacter(String name, Gender gender, Map<String, Integer> stats) {
-    this.label = name; this.gender = gender; this.stats = stats;
+  private String desciptionOverride;
+
+  public GameCharacter(String name, Gender gender, Map<String, Integer> stats, String describeOverride) {
+    this.label = name; this.gender = gender; this.stats = stats; this.desciptionOverride = describeOverride;
   }
 
   public String getGenericDescription() {
@@ -24,7 +26,11 @@ public class GameCharacter extends game.Movable {
     StringBuilder result = new StringBuilder();
     String start = gender == Gender.SOMETHING_ELSE ? "They are " : gender == Gender.WOMAN ? "She is " : "He is ";
     result.append(start);
-    result.append(getGenericDescription());
+    if (desciptionOverride != null) {
+      result.append(desciptionOverride);
+    } else {
+      result.append(getGenericDescription());
+    }
     result.append('.');
     return result.toString();
   }

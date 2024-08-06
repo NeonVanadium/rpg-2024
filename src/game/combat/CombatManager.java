@@ -20,6 +20,7 @@ public class CombatManager {
   private static List<CombatWrapper> dudesWhoAreNotDead; // I can be funny it's a personal project.
   private static List<PromptOption> options = new LinkedList<>();
   private static CombatWrapper player;
+  private static boolean needsEnterBeforePlayerAction = false;
 
   public static void startCombat(ControlOrb orb) {
     setupAllies();
@@ -33,7 +34,7 @@ public class CombatManager {
   private static void combatLoop(ControlOrb orb) {
     while (!isCombatOver()) {
       for (CombatWrapper c : initiativeOrder) {
-        if (c.isAlive()) {
+        if (!isCombatOver() && c.isAlive()) {
           if (c.isPlayer()) {
             handlePlayerAction(orb);
           } else {
@@ -41,12 +42,14 @@ public class CombatManager {
           }
         }
       }
-
-      orb.enterToContinue();
     }
   }
 
   private static void handlePlayerAction(ControlOrb orb) {
+    if (needsEnterBeforePlayerAction) {
+      orb.enterToContinue();
+    }
+
     options.clear();
 
     for (CombatWrapper c : livingCombatantsOnTeamsOtherThan(allies)) {
@@ -62,16 +65,14 @@ public class CombatManager {
 
     orb.clear();
 
-    orb.print("You attack " + target.getNameToDisplayAsOption() + "!");
-
-    target.hurt(7, orb);
+    handleAttack(player, target, 8, orb);
 
     orb.enterToContinue();
+    orb.clear();
   }
 
   private static void handleNPCAction(CombatWrapper npc, ControlOrb orb) {
     turnStartChecks();
-    orb.clear();
 
     List<CombatWrapper> potentialTargets = livingCombatantsOnTeamsOtherThan(getTeamOf(npc));
 
@@ -79,13 +80,16 @@ public class CombatManager {
       orb.print(npc.getNameToDisplayAsOption() + " has no valid targets. They stand idle.");
     } else {
       CombatWrapper target = potentialTargets.get(Util.random(potentialTargets.size()));
-
-      orb.print(npc.getNameToDisplayAsOption() + " attacks " + target.getNameToDisplayAsOption() + "!");
-
-      target.hurt(Util.random(5) + 1, orb);
+      handleAttack(npc, target, Util.random(5) + 1, orb);
     }
 
-    //orb.enterToContinue();
+    needsEnterBeforePlayerAction = true;
+  }
+
+  private static void handleAttack(CombatWrapper attacker, CombatWrapper target, int dmg, ControlOrb orb) {
+    String subjectVerb = attacker == player ? "You attack " : attacker.getNameToDisplayAsOption() + " attacks ";
+    orb.print(subjectVerb + target.getNameToDisplayAsOption() + " for " + dmg + "!");
+    target.hurt(dmg, orb);
   }
 
   private static List<CombatWrapper> getTeamOf(CombatWrapper c) {
@@ -160,15 +164,16 @@ public class CombatManager {
    * @param orb The ORB!
    */
   private static void nameAndIntroduceCombatants(ControlOrb orb) {
+    orb.clear();
     for (List<CombatWrapper> l : enemyLists) {
-      orb.clear();
       if (l.size() == 1) {
         orb.print(l.get(0).getNameToDisplayAsOption() + " prepares to fight!");
       } else {
         orb.print(Util.commasAndAnds(l, CombatWrapper::getNameToDisplayAsOption) + " prepare to fight!");
       }
-      orb.enterToContinue();
     }
+    orb.enterToContinue();
+    orb.clear();
   }
 
   private static void setupAllies() {

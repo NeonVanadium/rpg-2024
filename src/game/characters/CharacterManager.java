@@ -20,8 +20,7 @@ public class CharacterManager {
     Util.parseFileAndDoEachLine(GameMaster.getResourceFolder() + "stats_and_skills.txt",
         CharacterManager::makeStatsOrSkill);
 
-    characters.put("PLAYER", new GameCharacter("PLAYER", Gender.SOMETHING_ELSE,
-        makeCharacterStatTemplate()));
+    characters.put("PLAYER", new GameCharacter("PLAYER", Gender.SOMETHING_ELSE, makeCharacterStatTemplate(), "you."));
     knownNames.put("PLAYER", "The player"); // temp until they enter it, obviously
     Player.character = characters.get("PLAYER");
     Util.parseFileAndDoEachLine(GameMaster.getResourceFolder() + "characters.txt",
@@ -39,12 +38,14 @@ public class CharacterManager {
   }
 
   private static void makeCharacterFromLine(String line) {
-    String[] lineParts = line.split(" "); // note that 0th will be >> or >
+    String[] lineParts = line.split(" ", 4); // note that 0th will be >> or >
     String label = lineParts[1].trim();
     if (line.startsWith(Util.ENTRY_START_SYMBOL)) {
       Gender gender = Gender.getFromString(lineParts[2].trim());
-      characters.put(label, new GameCharacter(label, gender, makeCharacterStatTemplate()));
       knownNames.put(label, UNKNOWN_NAME);
+      String desc = line.contains("\"") ? line.substring(line.indexOf("\"") + 1, line.length() - 1) // violently temporary. Gets a description string from the character page. Later, descriptions should all be generated.
+          : null;
+      characters.put(label, new GameCharacter(label, gender, makeCharacterStatTemplate(), desc));
     } else if (line.startsWith(Util.SPECIAL_PART_SYMBOL)) {
       Creep c = new Creep(label, makeCharacterStatTemplate());
       creeps.put(c.getLabel(), c);

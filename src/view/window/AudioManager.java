@@ -10,7 +10,7 @@ import javax.sound.sampled.LineListener;
 class AudioManager implements LineListener {
   private static final String TEXT_BLIP_FILE = "resources/audio/textblip.wav";
   private static final String CONFIRM_BLIP_FILE = "resources/audio/confirm.wav";
-  private static final boolean TYPE_BLIPS = false, CONTINUE_BLIPS = true; // whether to use these sounds
+  private static final boolean TYPE_BLIPS = true, CONTINUE_BLIPS = true; // whether to use these sounds
 
   private AudioInputStream typeStream, confirmStream;
   Clip typeClip;

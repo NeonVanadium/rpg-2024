@@ -1,6 +1,6 @@
 // Potential Companions
 >> WEISS MALE
->> ELERIE FEMALE
+>> ELERIE FEMALE "a fit, part-elven woman with brown eyes, donning a set of crimson robes"
 >> BURY MALE
 
 // House Raymond

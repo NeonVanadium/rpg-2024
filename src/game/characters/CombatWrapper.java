@@ -34,7 +34,6 @@ public class CombatWrapper extends GameObject implements game.prompts.Selectable
   }
 
   public void hurt(int damage, ControlOrb orb) {
-    orb.print(this.character.getNameToDisplayAsOption() + " takes " + damage + " damage.");
     this.health -= damage;
     if (this.health <= 0) {
       orb.print(getNameToDisplayAsOption() + " falls unconscious!");
