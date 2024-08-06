@@ -4,6 +4,8 @@ import game.GameMaster;
 import game.Player;
 import game.Util;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class CharacterManager {
@@ -12,11 +14,16 @@ public class CharacterManager {
   private final static Map<String, String> knownNames = new HashMap<>(); // the names the player knows for any given character
   private final static Map<String, String> STATS = new HashMap<>();
   private final static Map<String, Skill> SKILLS = new HashMap<>();
+  private final static Map<String, List<Attribute>> ATTRIBUTE_CATEGORIES = new HashMap<>();
 
   public static final String UNKNOWN_NAME = "???";
   public static final int SKILL_CHECK_DIE = 10; // when a skill check is made, rolls a this-many-sided die.
 
+  private static String buildingAttributeCategory; // used during initialization to track the name of the attribute being initialized.
+
   public static void loadCharacters() {
+    Util.parseFileAndDoEachLine(GameMaster.getResourceFolder() + "attributes.txt",
+        CharacterManager::makeAttributeCategory);
     Util.parseFileAndDoEachLine(GameMaster.getResourceFolder() + "stats_and_skills.txt",
         CharacterManager::makeStatsOrSkill);
 
@@ -25,6 +32,18 @@ public class CharacterManager {
     Player.character = characters.get("PLAYER");
     Util.parseFileAndDoEachLine(GameMaster.getResourceFolder() + "characters.txt",
         CharacterManager::makeCharacterFromLine);
+  }
+
+  private static void makeAttributeCategory(String line) {
+    if (line.startsWith(Util.ENTRY_START_SYMBOL)) {
+      buildingAttributeCategory = line.substring(line.indexOf(' '));
+      ATTRIBUTE_CATEGORIES.put(buildingAttributeCategory, new LinkedList<>());
+    } else { // no entry-start, so this line is an attribute in the above category
+      String[] parts = line.split(" ", 3);
+      Attribute toAdd = new Attribute(parts[0], parts[1], parts[2]);
+      ATTRIBUTE_CATEGORIES.get(buildingAttributeCategory).add(toAdd);
+      System.out.println("Made attribute: " + toAdd);
+    }
   }
 
   private static void makeStatsOrSkill(String line) {
