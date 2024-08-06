@@ -46,6 +46,9 @@ public class CombatWrapper extends GameObject implements game.prompts.Selectable
 
   @Override
   public String getNameToDisplayAsOption() {
+    if (distinguishingNumber > 1) {
+      return character.getNameToDisplayAsOption() + " (" + distinguishingNumber + ")";
+    }
     return character.getNameToDisplayAsOption();
   }
 
@@ -59,5 +62,9 @@ public class CombatWrapper extends GameObject implements game.prompts.Selectable
 
   public int getModifier(String statLabel) {
     return character.getModifier(statLabel);
+  }
+
+  public void setDistinguishingNumber(int number) {
+    this.distinguishingNumber = number;
   }
 }

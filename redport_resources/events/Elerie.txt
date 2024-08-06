@@ -1,16 +1,14 @@
 >> CONV_ELERIE
-IF INVESTIGATING_MAGMIN NOT COMPLETED ; IF INTRO_GNOLL_FIGHT COMPLETED ; GOTO INVESTIGATING_MAGMIN
-IF INVESTIGATING_MAGMIN NOT COMPLETED ; IF INTRO_GNOLL_FIGHT NOT COMPLETED ; GOTO INVESTIGATING_MAGMIN_NO_PLAYER
-"What do you need?"
+IF NOT FOUGHT_GNOLLS ; GOTO INVESTIGATING_MAGMIN_NO_PLAYER
+IF FOUGHT_GNOLLS; SAY ELERIE Thank you again for dealing with those monsters. It takes a rare person to risk themselves like that.
+SAY ELERIE What can I do for you?
 CHOICE ; "Nothing, just checking in." > END
 
 >> MEET_ELERIE_NOT_PARTY_MEMBER
 SAY ELERIE Let me through!
 A woman's voice precedes her shoving into the square.
 INSERT __SEE_ELERIE_FIRST_TIME
-She kneels down and inspects the black-charred ground where the firey creature exploded.
-The woman kneels down, grimaces at the corpses of the gnolls, looking over the smoldering carnage left by the strange creature.
-She looks at you, studying you up and down.
+INSERT __EL_LOOKS_AT_GNOLLS_AND_MAGMIN
 SAY ELERIE You fought them? What did you see?
 CHOICE ; Explain the scene with the gnolls running out of the alley, followed by the burning creature. > CONT
 SAY ELERIE A magmin. Gnolls exist in our world naturally, but a magmin does not. It was summoned by someone. But which came first--the gnolls, or the magmin? Why were they loose in the center of town?
@@ -19,21 +17,16 @@ SAY ELERIE Some wild mage here for the Arena, no doubt. We told the city this to
 She looks at you, studying you up and down.
 SETNAME ELERIE Elerie
 SAY ELERIE Well, thank you for helping put a stop to it. My name's Elerie. You should stop by our temple over there if you need healing, or work, perhaps. The city is dangerous now, and the Order will need all the hands it can get. For now, I suppose I should get to cleaning up this mess.
-Elerie sighs.
+INSERT __ELERIE_SIGHS_AFTER_GNOLLS
 
 >> MEET_ELERIE_IN_PARTY
-The woman kneels down, grimaces at the corpses of the gnolls, and looks over the smoldering carnage left by the strange creature.
-SAY ELERIE A magmin. Gnolls exist in our world naturally, but a magmin does not. It was summoned by someone. But which came first--the gnolls, or the magmin? Why were they loose in the center of town?
-She shakes her head.
-SAY ELERIE Some wild mage here for the Arena, no doubt. We told the city this tournament was a bad idea, and now look. The games haven't even started yet, and there are monsters running through the streets. Medranas preserve us.
-She looks at you, studying you up and down.
+INSERT __EL_LOOKS_AT_GNOLLS_AND_MAGMIN
 SAY ELERIE You fought well.
 CHOICE ; "Thank you. You as well." > CONT;
 She gives a faint smile.
 SETNAME ELERIE Elerie
 SAY ELERIE My name's Elerie, by the way. You should stop by our temple over there if you need healing, or work. Or just to talk. I should clean up this mess now, though.
-Elerie sighs.
-LEAVEPARTY ELERIE
+INSERT __ELERIE_SIGHS_AFTER_GNOLLS
 
 >> INVESTIGATING_MAGMIN_NO_PLAYER
 The woman, covered in scratches, blood, and soot, kneels down, panting, surveying a large black burn mark, strewn with three hyena-like corpses.
@@ -43,3 +36,16 @@ SAY ELERIE Stand back. This could still be dangerous.
 >> __SEE_ELERIE_FIRST_TIME
 DESCRIBE ELERIE
 IF LORE CHECK 1 ; You recognize her crimson robe as the uniform of the Order of the Red Moon--arguably the most powerful group in the Kingdom and by far its largest religious organization.
+
+>> __EL_LOOKS_AT_GNOLLS_AND_MAGMIN
+The woman kneels down, grimaces at the corpses of the gnolls, and looks over the smoldering carnage left by the strange creature.
+SAY ELERIE This creature was a magmin. Gnolls can be found roaming the world naturally, but not magmins. Someone has to have summoned it. But which came first--the gnolls, or the magmin? Why were they loose in the center of town?
+She shakes her head.
+SAY ELERIE Some crazed mage here for the Arena, no doubt. We told the city this tournament was a bad idea, and now look. The games haven't even started yet, and there are monsters running through the streets. Medranas preserve us.
+She looks at you, studying you up and down.
+
+>> __ELERIE_SIGHS_AFTER_GNOLLS
+She sighs.
+IF ELERIE INPARTY ; LEAVEPARTY ELERIE
+
+

@@ -71,6 +71,9 @@ public class Event {
     else if (rawPartString.startsWith("INSERT")) {
       return new InsertEventPart(rawPartString);
     }
+    else if (rawPartString.startsWith("LOG")) {
+      return new LogEventPart(rawPartString);
+    }
     else {
       return new TextEventPart(rawPartString);
     }

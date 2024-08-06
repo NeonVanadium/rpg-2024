@@ -13,6 +13,14 @@ class EventCondition {
 
   public EventCondition(String rawLine) {
     String[] ifParts = rawLine.split(" ");
+    if (ifParts.length == 1) {
+      query = ifParts[0];
+      return;
+    } else if (ifParts[0].equals("NOT")) {
+      negated = true;
+      query = ifParts[1];
+      return;
+    }
     this.subject = ifParts[0].trim();
     if (ifParts[1].trim().equals("NOT")) {
       negated = true;
@@ -36,7 +44,7 @@ class EventCondition {
       case "INOPENWORLD" -> CharacterManager.get(subject).currentStructure == null;
       case "WITH" -> CharacterManager.get(subject).isInSameSpotAs(CharacterManager.get(object));
       case "CHECK" -> CharacterManager.skillCheck("PLAYER", subject, Integer.parseInt(object));
-      default -> false;
+      default -> EventManager.hasLog(query); // if the condition is one token long, we simply check if this tag has been logged in the event manager.
     };
     return negated ? !result : result;
   }

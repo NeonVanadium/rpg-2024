@@ -15,13 +15,15 @@ import java.util.Stack;
  */
 public class EventManager {
   private static Map<String, Event> events;
+  private static Collection<String> loggedTags;
   private static Collection<String> topLevelEvents;
   private static Collection<String> completedEvents;
 
   private static Event eventBeingBuilt; // only used in loadevents/processline.
 
   private static String eventToRun;
-  private static Stack<Event> insertStack = new Stack<>(); // only used when the insert event is called
+  private static Stack<Event> eventStack = new Stack<>(); // only used when the insert event is called
+  private static int insertDepth = 0; // how many inserts deep are we running currently?
   private static final String eventFilesPath = GameMaster.getResourceFolder() + "events\\";
 
   /**
@@ -31,6 +33,7 @@ public class EventManager {
     events = new HashMap<>();
     completedEvents = new HashSet<>();
     topLevelEvents = new HashSet<>();
+    loggedTags = new HashSet<>();
     eventBeingBuilt = null;
     for (String fileName : new File(eventFilesPath).list()) {
       Util.parseFileAndDoEachLine(eventFilesPath + fileName, EventManager::processLine);
@@ -93,10 +96,12 @@ public class EventManager {
     for (EventPart eventPart : e.getEventParts()) {
       maybeEnterToContinue(eventPart, prevPart, orb);
       eventPart.run(orb);
-      if (insertStack.size() > 0) { // makes insert parts work
-        runEvent(insertStack.pop(), orb);
+      if (eventStack.size() > 0) { // enables event inserts
+        insertDepth++;
+        runEvent(eventStack.pop(), orb);
+        insertDepth--;
       }
-      if (eventToRun != null && !eventToRun.equals(e.title)) {
+      if (insertDepth == 0 && eventToRun != null && !eventToRun.equals(e.title)) {
         prevPart = null;
         break; //enables Gotos
       }
@@ -126,8 +131,17 @@ public class EventManager {
     return completedEvents.contains(title);
   }
 
+  public static void logTag(String tag) {
+    loggedTags.add(tag);
+    System.out.println("Logged " + tag);
+  }
+
+  public static boolean hasLog(String tag) {
+    return loggedTags.contains(tag);
+  }
+
   protected static void pushToEventInsertStack(String eventName) {
-    insertStack.add(events.get(eventName));
+    eventStack.add(events.get(eventName));
     System.out.println("Pushed event " + eventName + " to insert stack.");
   }
 }

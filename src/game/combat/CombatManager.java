@@ -9,6 +9,7 @@ import game.characters.GameCharacter;
 import game.prompts.PromptOption;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,12 +18,13 @@ public class CombatManager {
   private static List<List<CombatWrapper>> enemyLists = new LinkedList<>();
   private static List<CombatWrapper> allies = new LinkedList<>();
   private static List<CombatWrapper> initiativeOrder;
-  private static List<CombatWrapper> dudesWhoAreNotDead; // I can be funny it's a personal project.
+  private static HashMap<String, Integer> namesSoFar; // used to check for duplicate names
   private static List<PromptOption> options = new LinkedList<>();
   private static CombatWrapper player;
   private static boolean needsEnterBeforePlayerAction = false;
 
   public static void startCombat(ControlOrb orb) {
+    namesSoFar = new HashMap<>();
     setupAllies();
     orb.setTitle("Fight!");
     nameAndIntroduceCombatants(orb);
@@ -34,7 +36,10 @@ public class CombatManager {
   private static void combatLoop(ControlOrb orb) {
     while (!isCombatOver()) {
       for (CombatWrapper c : initiativeOrder) {
-        if (!isCombatOver() && c.isAlive()) {
+        if (isCombatOver()) {
+          orb.enterToContinue();
+          return;
+        } else if (c.isAlive()) {
           if (c.isPlayer()) {
             handlePlayerAction(orb);
           } else {
@@ -165,15 +170,30 @@ public class CombatManager {
    */
   private static void nameAndIntroduceCombatants(ControlOrb orb) {
     orb.clear();
+    for (CombatWrapper c : allies) {
+      getNameAndSetDifferentiator(c);
+    }
     for (List<CombatWrapper> l : enemyLists) {
       if (l.size() == 1) {
         orb.print(l.get(0).getNameToDisplayAsOption() + " prepares to fight!");
       } else {
-        orb.print(Util.commasAndAnds(l, CombatWrapper::getNameToDisplayAsOption) + " prepare to fight!");
+        orb.print(Util.commasAndAnds(l, CombatManager::getNameAndSetDifferentiator) + " prepare to fight!");
       }
     }
     orb.enterToContinue();
     orb.clear();
+  }
+
+  private static String getNameAndSetDifferentiator(CombatWrapper combatant) {
+    String name = combatant.getNameToDisplayAsOption();
+    if (namesSoFar.containsKey(combatant.getNameToDisplayAsOption())) {
+      combatant.setDistinguishingNumber(namesSoFar.get(name) + 1);
+      namesSoFar.replace(name, namesSoFar.get(name) + 1);
+      return combatant.getNameToDisplayAsOption();
+    } else {
+      namesSoFar.put(name, 1);
+      return name;
+    }
   }
 
   private static void setupAllies() {

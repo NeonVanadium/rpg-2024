@@ -19,7 +19,7 @@ public class InsertEventPart implements EventPart {
 
   @Override
   public boolean pauseAfter() {
-    return false;
+    return true;
   }
 
   @Override
