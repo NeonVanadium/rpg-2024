@@ -68,6 +68,9 @@ public class Event {
     else if (rawPartString.startsWith("MOVE")) {
       return new MoveEventPart(rawPartString);
     }
+    else if (rawPartString.startsWith("INSERT")) {
+      return new InsertEventPart(rawPartString);
+    }
     else {
       return new TextEventPart(rawPartString);
     }
@@ -84,5 +87,4 @@ public class Event {
   public boolean hasConditions() {
     return this.triggerConditions != null && !this.triggerConditions.isEmpty();
   }
-
 }

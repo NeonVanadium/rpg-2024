@@ -21,8 +21,7 @@ You step back from the monsters, tensing up as you study the scene ahead.
 Two guards push through the crowds and look on in shock at the scene in front of them. They brandish their halberds in slightly-trembling hands and begin to approach. They are outnumbered and uncertain, stifling obvious fear.
 YELL ELERIE Let me through!
 You hear a woman shout, then press through the scattering cloud of onlookers.
-DESCRIBE ELERIE
-IF LORE CHECK 1 ; IF LORE CHECK 1 ; You recognize her crimson robe as the uniform of the Order of the Red Moon--arguably the most powerful group in the Kingdom and by far its largest religious organization.
+INSERT __SEE_ELERIE_FIRST_TIME
 Brandishing a steel mace, she approaches the monsters.
 CHOICE ; Keep back and watch -- this is beyond you > WATCH_GNOLL_FIGHT_B ; You can help -- charge in and join the fight! > INTRO_GNOLL_FIGHT_WITH_ELERIE
 

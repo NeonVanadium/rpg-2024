@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * A class to handle event-related tasks, including parsing them from the file.
@@ -20,6 +21,7 @@ public class EventManager {
   private static Event eventBeingBuilt; // only used in loadevents/processline.
 
   private static String eventToRun;
+  private static Stack<Event> insertStack = new Stack<>(); // only used when the insert event is called
   private static final String eventFilesPath = GameMaster.getResourceFolder() + "events\\";
 
   /**
@@ -82,11 +84,18 @@ public class EventManager {
     Event e = events.get(eventToRun);
     completedEvents.add(eventToRun);
 
+    runEvent(e, orb);
+  }
+
+  private static void runEvent(Event e, ControlOrb orb) {
     EventPart prevPart = null;
 
     for (EventPart eventPart : e.getEventParts()) {
       maybeEnterToContinue(eventPart, prevPart, orb);
       eventPart.run(orb);
+      if (insertStack.size() > 0) { // makes insert parts work
+        runEvent(insertStack.pop(), orb);
+      }
       if (eventToRun != null && !eventToRun.equals(e.title)) {
         prevPart = null;
         break; //enables Gotos
@@ -115,5 +124,10 @@ public class EventManager {
 
   public static boolean isEventCompleted(String title) {
     return completedEvents.contains(title);
+  }
+
+  protected static void pushToEventInsertStack(String eventName) {
+    insertStack.add(events.get(eventName));
+    System.out.println("Pushed event " + eventName + " to insert stack.");
   }
 }

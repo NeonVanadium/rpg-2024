@@ -7,8 +7,7 @@ CHOICE ; "Nothing, just checking in." > END
 >> MEET_ELERIE_NOT_PARTY_MEMBER
 SAY ELERIE Let me through!
 A woman's voice precedes her shoving into the square.
-DESCRIBE ELERIE
-IF LORE CHECK 1 ; You recognize her crimson robe as the uniform of the Order of the Red Moon--arguably the most powerful group in the Kingdom and by far its largest religious organization.
+INSERT __SEE_ELERIE_FIRST_TIME
 She kneels down and inspects the black-charred ground where the firey creature exploded.
 The woman kneels down, grimaces at the corpses of the gnolls, looking over the smoldering carnage left by the strange creature.
 She looks at you, studying you up and down.
@@ -39,3 +38,8 @@ LEAVEPARTY ELERIE
 >> INVESTIGATING_MAGMIN_NO_PLAYER
 The woman, covered in scratches, blood, and soot, kneels down, panting, surveying a large black burn mark, strewn with three hyena-like corpses.
 SAY ELERIE Stand back. This could still be dangerous.
+
+// MINOR EVENTS (For INSERTS)
+>> __SEE_ELERIE_FIRST_TIME
+DESCRIBE ELERIE
+IF LORE CHECK 1 ; You recognize her crimson robe as the uniform of the Order of the Red Moon--arguably the most powerful group in the Kingdom and by far its largest religious organization.
