@@ -44,6 +44,7 @@ class EventCondition {
       case "INOPENWORLD" -> CharacterManager.get(subject).currentStructure == null;
       case "WITH" -> CharacterManager.get(subject).isInSameSpotAs(CharacterManager.get(object));
       case "CHECK" -> CharacterManager.skillCheck("PLAYER", subject, Integer.parseInt(object));
+      case "HASATTRIBUTE" -> CharacterManager.get(subject).hasAttribute(object);
       default -> EventManager.hasLog(query); // if the condition is one token long, we simply check if this tag has been logged in the event manager.
     };
     return negated ? !result : result;

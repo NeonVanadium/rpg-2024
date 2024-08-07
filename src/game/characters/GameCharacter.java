@@ -19,11 +19,10 @@ public class GameCharacter extends game.Movable {
   }
 
   public String getGenericDescription() {
-    String gender = attributes.get("GENDER").name.toUpperCase();
-    if (!gender.equals("MAN") && !gender.equals("WOMAN")) {
+    if (!hasAttribute("GENDER")) {
       return "someone";
     }
-    return "a " + gender;
+    return attributes.get("GENDER").description;
   }
 
   public String getDefiniteGenericDescription() {
@@ -68,6 +67,22 @@ public class GameCharacter extends game.Movable {
       }
     }
     return false;
+  }
+
+  /**
+   * For one-offs at runtime, not specified in the attributes file.
+   */
+  public void addAttribute(String category) {
+    this.attributes.put(category, null);
+    System.out.printf("Gave %s the one-off attribute \"%s\"%n\n", this.label, category);
+  }
+
+  /**
+   * For adding pre-existing attributes from the attributes file by name.
+   */
+  public void addAttribute(String category, String attributeName) {
+    this.attributes.put(category, CharacterManager.getAttributeByCategoryAndLabel(category, attributeName));
+    System.out.printf("Gave %s the attribute: %s -> %s%n\n", this.label, category, attributes.get(category));
   }
 
   public int getModifier(String statLabel) {

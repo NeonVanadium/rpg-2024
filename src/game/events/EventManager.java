@@ -21,7 +21,6 @@ public class EventManager {
 
   private static Event eventBeingBuilt; // only used in loadevents/processline.
 
-  private static String eventToRun;
   private static Stack<Event> eventStack = new Stack<>(); // only used when the insert event is called
   private static int insertDepth = 0; // how many inserts deep are we running currently?
   private static final String eventFilesPath = GameMaster.getResourceFolder() + "events\\";
@@ -71,12 +70,12 @@ public class EventManager {
   }
 
   public static void queueEventWithTitle(String title) {
-    eventToRun = title;
+    eventStack.push(events.get(title));
     System.out.println("Queued event " + title);
   }
 
   public static boolean hasQueuedEvent() {
-    return eventToRun != null;
+    return !eventStack.isEmpty();
   }
 
   public static boolean hasEventWithTitle(String title) {
@@ -84,9 +83,7 @@ public class EventManager {
   }
 
   public static void runQueuedEvent(ControlOrb orb) {
-    Event e = events.get(eventToRun);
-    completedEvents.add(eventToRun);
-
+    Event e = eventStack.peek();
     runEvent(e, orb);
   }
 
@@ -96,20 +93,20 @@ public class EventManager {
     for (EventPart eventPart : e.getEventParts()) {
       maybeEnterToContinue(eventPart, prevPart, orb);
       eventPart.run(orb);
-      if (eventStack.size() > 0) { // enables event inserts
+      if (eventStack.size() - 1 > insertDepth) { // enables event inserts
         insertDepth++;
-        runEvent(eventStack.pop(), orb);
+        runEvent(eventStack.peek(), orb);
         insertDepth--;
-      }
-      if (insertDepth == 0 && eventToRun != null && !eventToRun.equals(e.title)) {
+      } else if (eventStack.peek() != e){
         prevPart = null;
         break; //enables Gotos
       }
       prevPart = eventPart;
     }
-    if (eventToRun.equals(e.title)) {
+    if (eventStack.peek() == e) {
       if (prevPart.pauseAfter()) orb.enterToContinue();
-      eventToRun = null;
+      completedEvents.add(e.title);
+      eventStack.pop();
     }
   }
 
@@ -141,7 +138,7 @@ public class EventManager {
   }
 
   protected static void pushToEventInsertStack(String eventName) {
-    eventStack.add(events.get(eventName));
+    eventStack.push(events.get(eventName));
     System.out.println("Pushed event " + eventName + " to insert stack.");
   }
 }

@@ -1,0 +1,37 @@
+>> CHARACTER_CREATION
+And who are you? From where do you hail?
+CHOICE ; I am from this country, the Kingdom of Kayland > __CC_KAYLAND ; I hail from the south, the desert kingdom of Siddaér > __CC_SIDDAER ; I hail from the great Elvish state of Tulyra. > __CC_TULYRA ;
+
+>> __CC_KAYLAND
+SETATTRIBUTE PLAYER NATIONALITY KAYLAND
+Ah, the proud and sturdy kingdom of Kayland. And what is your heritage, then? Are you a human, as are the majority, or perhaps you are one of its many other races?
+CHOICE ; I am a human. > SETATTRIBUTE PLAYER RACE HUMAN ; I am mixed, partly elvish > SETATTRIBUTE PLAYER RACE HALF-ELF ; I am a full-blooded elf > SETATTRIBUTE PLAYER RACE ELF ; I am a dwarf. >> SETATTRIBUTE PLAYER RACE DWARF;
+GOTO _CC_CLASS
+
+>> __CC_SIDDAER
+SETATTRIBUTE PLAYER NATIONALITY SIDDAÉR
+Ah, the glorious and learned kingdom of Siddaér. And what is your heritage, then? Are you Elvish mixed with other races, as are the majority? A dragonborn from the city-state of Kalkariesh, perhaps? Or maybe you are one of its many other races?
+CHOICE ; I am mixed, partly elvish > SETATTRIBUTE PLAYER RACE HALF-ELF ; I am a Dragonborn. > SETATTRIBUTE PLAYER RACE DRAGONBORN ; I am a human. > SETATTRIBUTE PLAYER RACE HUMAN;  I am a full-blooded elf > SETATTRIBUTE PLAYER RACE ELF; I am a dwarf. >> SETATTRIBUTE PLAYER RACE DWARF;
+GOTO _CC_CLASS
+
+>> __CC_TULYRA
+SETATTRIBUTE PLAYER NATIONALITY TULYRA
+Ah, Tulyra, arrogant and stagnant, all that remains of that great Old Empire of the Elves. And what is your heritage, then? Are you an elf, as are the majority, or perhaps you are one of the relative few of mixed ancestry there?
+CHOICE ; I am a full-blooded elf > SETATTRIBUTE PLAYER RACE ELF ; I am mixed, of both Elvish and outlander blood. > SETATTRIBUTE PLAYER RACE HALF-ELF ;
+GOTO _CC_CLASS
+
+>> _CC_CLASS
+You are no stranger to combat--or at the very least, your background has prepared you for it. What background would that be?
+CHOICE ; I am a fighter. I use strength and traditional weaponry to defeat my opponents > SETATTRIBUTE PLAYER CLASS FIGHTER ; I am a mage. I am well-versed in magic, and can use spells in a fight if necessary. > SETATTRIBUTE PLAYER CLASS MAGE ; I am a rogue. I have the agility and guile to misdirect and attack my opponents with lethal precision. > SETATTRIBUTE PLAYER CLASS ROGUE ; I am a cleric. By following a higher power, I wield divine energy to defeat my foes. > _CC_CLERIC ;
+
+>> _CC_CLERIC
+IF PLAYER HASATTRIBUTE DRAGONBORN ; You are a dragonborn cleric. Do you follow the savior of the dragonborn, Saint Surikenna, the druid who led your people to safety during the Calamitous Invasion?
+IF PLAYER HASATTRIBUTE DRAGONBORN ; CHOICE ; Yes, I follow Saint Surikenna, and channel her powers of life and nature. > SETATTRIBUTE PLAYER SURIKENNIAN ; No, I follow a different higher power. > And which deity would that be? ;
+IF PLAYER NOT HASATTRIBUTE DRAGONBORN ; You gain your strength by following a higher power. Which?
+IF PLAYER NOT HASATTRIBUTE SURIKENNIAN ; CHOICE ; Medranas, Great God of Order, and central deity of the Order of the Red Moon > SETATTRIBUTE PLAYER MEDRANASIAN ; Savaras, Great God of Freedom > SETATTRIBUTE PLAYER SAVARASIAN ; Vizendris, Great God of Madness > SETATTRIBUTE PLAYER VIZENDRID; Nokolis, the Missing God of Death > _CC_NOKOLIS; Haldrias, Savarasian Aspect of Justice > SETATTRIBUTE PLAYER HALDRIAN; Kasidiv, Aspect of Killing, Vengeance, and Carnage > SETATTRIBUTE PLAYER KASIDIVIAN; Lelerian, Ascended God of Knowledge, Patron Deity of Siddaér > SETATTRIBUTE PLAYER LELERIANITE ;
+
+
+>> _CC_NOKOLIS
+Ah, the Missing God of Death... it is rather difficult to pray to a deity that has long since disappeared (some say died, but you know better, don't you?). But there exist certain, rare artifacts that contain echoes of the Missing God's power.
+You are lucky enough to have such an artifact: a fragment of dark but otherwise unassuming metal. You keep it as a talisman.
+Your faith is a dangerous one to hold--be cautious who you let uncover the truth of your beliefs and your power.

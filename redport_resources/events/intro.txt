@@ -4,9 +4,10 @@ This is the burgeoning city of Redport. Its buildings, mostly single-story, are 
 You, amongst a huddle of onlookers in the central square, observe a public notice board next to a tavern. Your eye is drawn to the massive, brightly-colored poster in its center...
 “The House Foxford Arena’s grand opening!" It reads. "Brave gladiators take on fearsome monsters! Riches and titles to be won! Combatants wanted!”
 It is this that has drawn the crowds, and perhaps yourself, to Redport. Whatever one’s calling, there is work and prosperity to be found around an event like this.
+INSERT CHARACTER_CREATION
 Suddenly, screams break through the crowd.
 As people flee in droves, you see the source of their horror emerging from a nearby alleyway...
-Like hyenas twisted into the vagues shape of humanoids, two monstrous gnolls scurry out into the square, spit dribbling from their jaws as they brandish their spears.
+Like hyenas twisted into the vagues shape of humanoids, three monstrous gnolls scurry out into the square, spit dribbling from their jaws as they brandish their spears.
 
 CHOICE ; Reach for your weapon. > INTRO_PRE_GNOLL_FIGHT ; Stand steady and see what they do. > INTRO_PRE_GNOLL_FIGHT; Run away! > INTRO_FLEE_GNOLLS;
 

@@ -138,6 +138,10 @@ public class CharacterManager {
     return new HashMap<>();
   }
 
+  public static Attribute getAttributeByCategoryAndLabel(String category, String label) {
+    return ATTRIBUTE_CATEGORIES.get(category).get(label);
+  }
+
   /**
    * Roll a skill check with the provided Difficulty Class.
    * @return True if the character passed the check.

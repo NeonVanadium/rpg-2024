@@ -35,15 +35,106 @@ triggered by an in-game condition (rather than manually, e.g. through a GOTO in 
 The game regularly checks over all of these triggerable events and starts them if their conditions
 are met.
 
-=== Lines of text
+== EVENT PARTS
+
+Event parts are the components that make up events. Event declarations (above) are followed by any number of Event Parts, of which there are many types. The types, and how to declare and use them, are defined below.
+
+Note that the "name" of the built-in player character is always PLAYER.
+
+=== Visual Event Parts
+These event parts have effects that are visible to the player. They are the most obvious building blocks of an event.
+
+=== Line of text
 Text is displayed on the screen, pausing at the end. The user must hit any key to proceed to the
 next event part.
 
 This is the "default" event part and requires no additional labeling.
 
-=== Go-to
+=== Choice
+
+CHOICE ; (Option n) > (Effect of option n) ; ...
+
+Presents the player with a list of options to choose from. As many options may be specified as you wish.
+(Though currently options higher than 9 will be unselectable). The player only sees the (Option n) portion of the choices, which is plain text.
+
+The effect may be one of the following:
+
+- The name of an event (One token)
+- An event part (More than one token)
+
+Note the system distinguished between the two only by how many tokens there are in the option (between ">" and ";")
+
+==== Say
+
+SAY (Character name) (text)
+
+Will format the text as dialogue (i.e. in quotes) and preface it with a tag of the format NAME: for the specified character. Note that this uses the
+"known name" of the character, so the tag will be "???:" if SETNAME has yet to be used for the character in question.
+
+==== Yell
+
+YELL (Character name) (text)
+
+Identical to SAY, but the spoken text is emphasized. Currently, the text is red.
+
+=== Under-the-hood Event Parts
+These event parts have no visual effects, but affect the game state or the event system.
+
+==== Go-to
 
 GOTO (event name)
 
-A goto part starts with "GOTO." The only argument is the name of another event. Jumps to the start
-of that event.
+Jumps to the start of the specified event. Any event parts in the current event after the GOTO _will not_ be returned to.
+
+==== Insert
+
+INSERT (event name)
+
+Similar to a GOTO, but unlike GOTOs will return to the event this is called from once the inserted event is concluded. This can stack, though
+this feature is designed to be used as an abstraction tool is advised to be used sparingly.
+
+==== If
+
+IF (Event Condition) ; (Event Part)
+
+A powerful event part that wraps another. See _Event Conditions_ for the types of conditions that may be specified here. If the condition is satisfied,
+the nested event part is run.
+
+==== Set name
+
+SETNAME (Character name) (new name)
+
+Updates the "known name" of the character. Note this starts as "???" for all characters. This
+allows the game to simulate the player character learning names for characters, even misleading names, and avoid the trope of the text telling the player
+the name of someone before the player's character would reasonably know that information.
+
+==== Set Attribute
+
+SETATTRIBUTE (Character name) (a) ([optional] b)
+
+This adds the specified attribute to the named character. If a and b are both specified, a is the category, and will look up the existing attribute with the
+name 'b' from the attributes.txt. Problems happen if this attribute doesn't exist. If only a is specified, it is added as a "one-off" attribute.
+
+For example,
+during character creation you might use SETATTRIBUTE PLAYER RACE ELF to give the player your pre-defined elven race attribute. Alternatively, in an event
+mid-game where your player steals candy from small children, you might use SETATTRIBUTE PLAYER JERKWAD to create a bespoke, one-off tag (with no category) that
+you can refer to later (see _Event Conditions_). The key distinction is the former type must be specified in attributes.txt in the game files, while the
+latter can be made up on the spot.
+
+== Event Conditions
+
+Conditional logic exists to control event parts and event flow within events. Used primarily in _IF_ event parts.
+
+The conditions are as follows:
+
+- (Character name) INPARTY: True iff the specified Character is in the player's party.
+- (Character name) IN (Structure name): True iff the specified character is in a structure with the specified name.
+- (Event name) COMPLETED: True iff the event with the specified name has been run to completion at least once.
+- (Event name) COMPLETE: Synonym for COMPLETED.
+- (Character name) INOPENWORLD: True iff the specified character is not in any structure.
+- (Character name A) WITH (Character name B): True iff the specified characters are either in the same structure and room, or if they are within interactable
+range in the open world
+- (Skill or stat name) CHECK ([Integer] Difficulty Class): Rolls an imaginary d10 and adds the player's modifier for the specified stat or skill.
+True iff the roll + mod is higher than the specified difficulty class (i.e higher DC = harder roll)
+- (Character name) HASATTRIBUTE (Attribute name): True iff the specified character has either an attribute or an attribute category with this lable.
+For example, if the player has GENDER -> FEMALE, PLAYER HASATTRIBUTE GENDER and PLAYER HASATTRIBUTE FEMALE will both be true.

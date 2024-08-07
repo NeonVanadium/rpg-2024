@@ -2,7 +2,7 @@ NAME GENDER NATIONALITY RACE CLASS
 
 // Potential Companions
 >> WEISS MALE KAYLAND HUMAN MAGE
->> ELERIE FEMALE KAYLAND HALF-ELF CLERIC "a fit, part-elven woman with brown eyes, donning a set of crimson robes"
+>> ELERIE FEMALE KAYLAND HALF-ELF CLERIC a fit, part-elven woman with brown eyes, donning a set of crimson robes
 >> BURY MALE TULYRA ELF MAGE
 
 // House Raymond

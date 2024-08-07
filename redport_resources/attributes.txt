@@ -1,8 +1,8 @@
 // NAME adjective [and the rest is the description]
 
 >> GENDER
-MALE Male A man.
-FEMALE Female A woman.
+MALE Male a man
+FEMALE Female a woman
 
 >> RACE
 HUMAN Human A versatile folk tending to rise between 5 and 6 feet in height. They are the most common race in Redport, and in the Kingdom of Kayland as a whole.
@@ -10,6 +10,7 @@ ELF Elvish Long-lived, tall and trim, and with iconic pointed ears, this race is
 HALF-ELF Half-Elven Whether or not they are strictly 50% elvish, this common genetic makeup implies a mixed heritage with a much higher prominence of elvish than other influences. This can be the offspring of a single human and elvish parent, but there are communities in Kayland's southeast entirely made up of "half-elves" as a natural result of the shared ancestry of the region.
 DWARF Dwarven Stocky and strong, this relatively short race (seldom rising over five feet) is quite rare, most of their kin bred into the newer human race long ago. They often live in very small communities in the cities, or more often in remote villages in the untamed northern wilds where they keep their traditional ways.
 ORC Orcish Generally rising from six to seven feet in height and known to be of an aggressive temperament, this tall, strongly-built, and green or orange-skinned race is feared and often reviled in civilized communities. Once spread across what is now Kayland, all but one of their tribes is now confined to the Northern Wilds.
+DRAGONBORN Dragonborn Reptillian humanoids, these folk are relatively rare, but share blood with the even-rarer true dragons. Most live in the city-state of Kalkariesh within Siddaér, but some can be found scattered about.
 
 >> CLASS
 FIGHTER Fit-looking Those trained in traditional military or martial combat, they use strength and skill to dispatch their foes.

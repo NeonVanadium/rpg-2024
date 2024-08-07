@@ -2,6 +2,7 @@ package game.events;
 
 import game.ControlOrb;
 import game.prompts.PromptOption;
+import game.prompts.Selectable;
 import game.prompts.SelectableString;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,21 +14,33 @@ public class ChoiceEventPart implements EventPart{
   public ChoiceEventPart(String rawLineText) {
     String[] unprocessedChoices = rawLineText.split(";");
     choices = new LinkedList<>();
-    String[] promptToEvent;
+    String[] promptAndResult;
+
     // start at 1 bc the zeroth is just the CHOICE label.
     for (int i = 1; i < unprocessedChoices.length; i++) {
-      promptToEvent = unprocessedChoices[i].split(">");
-      choices.add(new PromptOption(promptToEvent[0].trim(), new SelectableString(promptToEvent[1].trim())));
+      promptAndResult = unprocessedChoices[i].split(">", 2);
+      Selectable result;
+      if (promptAndResult[1].trim().contains(" ")) { // this means there's something more here than another event to go to--make a dedicated event part.
+        result = EventPart.makePartBasedOnLine(promptAndResult[1].trim());
+      } else {
+        result = new SelectableString(promptAndResult[1].trim());
+      }
+
+      choices.add(new PromptOption(promptAndResult[0].trim(), result));
     }
   }
 
   @Override
   public void run(ControlOrb orb) {
     PromptOption chosen = orb.getChoiceFromOptions(choices);
-    String label = ((SelectableString)chosen.getObject()).value;
-    // eventually might want these to have different behavior
-    if (!label.equals("END") && !label.equals("CONT")) {
-      EventManager.queueEventWithTitle(label);
+    if (chosen.getObject() instanceof EventPart ep) {
+      ep.run(orb);
+    } else {
+      String label = ((SelectableString)chosen.getObject()).value;
+      // eventually might want these to have different behavior
+      if (!label.equals("END") && !label.equals("CONT")) {
+        EventManager.queueEventWithTitle(label);
+      }
     }
   }
 
