@@ -3,10 +3,8 @@ package game.characters;
 import game.GameMaster;
 import game.Player;
 import game.Util;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 public class CharacterManager {
   private final static Map<String, GameCharacter> characters = new HashMap<>();
@@ -14,7 +12,8 @@ public class CharacterManager {
   private final static Map<String, String> knownNames = new HashMap<>(); // the names the player knows for any given character
   private final static Map<String, String> STATS = new HashMap<>();
   private final static Map<String, Skill> SKILLS = new HashMap<>();
-  private final static Map<String, List<Attribute>> ATTRIBUTE_CATEGORIES = new HashMap<>();
+  private final static Map<String, Map<String, Attribute>> ATTRIBUTE_CATEGORIES = new HashMap<>();
+  private static String[] template; // derived from the characters file, the format (ie, what attribute is at which position) of a character declaration.
 
   public static final String UNKNOWN_NAME = "???";
   public static final int SKILL_CHECK_DIE = 10; // when a skill check is made, rolls a this-many-sided die.
@@ -27,7 +26,11 @@ public class CharacterManager {
     Util.parseFileAndDoEachLine(GameMaster.getResourceFolder() + "stats_and_skills.txt",
         CharacterManager::makeStatsOrSkill);
 
-    characters.put("PLAYER", new GameCharacter("PLAYER", Gender.SOMETHING_ELSE, makeCharacterStatTemplate(), "you."));
+    for (String s : ATTRIBUTE_CATEGORIES.keySet()) {
+      System.out.println(s);
+    }
+
+    characters.put("PLAYER", new GameCharacter("PLAYER", makeCharacterAttributeTemplate(), makeCharacterStatTemplate(), "you."));
     knownNames.put("PLAYER", "The player"); // temp until they enter it, obviously
     Player.character = characters.get("PLAYER");
     Util.parseFileAndDoEachLine(GameMaster.getResourceFolder() + "characters.txt",
@@ -36,12 +39,13 @@ public class CharacterManager {
 
   private static void makeAttributeCategory(String line) {
     if (line.startsWith(Util.ENTRY_START_SYMBOL)) {
-      buildingAttributeCategory = line.substring(line.indexOf(' '));
-      ATTRIBUTE_CATEGORIES.put(buildingAttributeCategory, new LinkedList<>());
+      buildingAttributeCategory = line.substring(line.indexOf(' ') + 1);
+      ATTRIBUTE_CATEGORIES.put(buildingAttributeCategory, new HashMap<>());
+      System.out.println("Initializing category: " + buildingAttributeCategory);
     } else { // no entry-start, so this line is an attribute in the above category
       String[] parts = line.split(" ", 3);
-      Attribute toAdd = new Attribute(parts[0], parts[1], parts[2]);
-      ATTRIBUTE_CATEGORIES.get(buildingAttributeCategory).add(toAdd);
+      Attribute toAdd = new Attribute(parts[0].toUpperCase(), parts[1], parts[2]);
+      ATTRIBUTE_CATEGORIES.get(buildingAttributeCategory).put(toAdd.name, toAdd);
       System.out.println("Made attribute: " + toAdd);
     }
   }
@@ -57,18 +61,46 @@ public class CharacterManager {
   }
 
   private static void makeCharacterFromLine(String line) {
-    String[] lineParts = line.split(" ", 4); // note that 0th will be >> or >
-    String label = lineParts[1].trim();
-    if (line.startsWith(Util.ENTRY_START_SYMBOL)) {
-      Gender gender = Gender.getFromString(lineParts[2].trim());
-      knownNames.put(label, UNKNOWN_NAME);
-      String desc = line.contains("\"") ? line.substring(line.indexOf("\"") + 1, line.length() - 1) // violently temporary. Gets a description string from the character page. Later, descriptions should all be generated.
-          : null;
-      characters.put(label, new GameCharacter(label, gender, makeCharacterStatTemplate(), desc));
-    } else if (line.startsWith(Util.SPECIAL_PART_SYMBOL)) {
-      Creep c = new Creep(label, makeCharacterStatTemplate());
-      creeps.put(c.getLabel(), c);
+    // the first line tells us what the format is for the rest of the lines.
+    if (template == null) {
+      if (!line.startsWith("NAME")) {
+        throw new RuntimeException("Character template doesn't start with required attribute NAME");
+      }
+      template = line.split(" ");
+      System.out.println();
     }
+    else {
+      String[] lineParts = line.split(" ", template.length + 2); // + 2 for the starting >> and the optional ending description override.
+      String label = lineParts[1].trim(); // NAME / label is required to be first.
+
+      if (line.startsWith(Util.ENTRY_START_SYMBOL)) {
+        makeCharacter(label, lineParts);
+      } else if (line.startsWith(Util.SPECIAL_PART_SYMBOL)) {
+        Creep c = new Creep(label, makeCharacterStatTemplate());
+        creeps.put(c.getLabel(), c);
+      }
+    }
+  }
+
+  /**
+   * Helper for makeCharacterFromLine for readability.
+   */
+  private static void makeCharacter(String label, String[] lineParts) {
+    String description = null;
+    Map<String, Attribute> attributes = makeCharacterAttributeTemplate();
+
+    for (int i = 2; i < lineParts.length; i++) {
+      int templateIndex = i - 1; // -1 to compensate for starting >>, which template does not have.
+      if (templateIndex >= template.length) {
+        description = lineParts[i];
+      } else {
+        String attributeCategory = template[templateIndex];
+        attributes.put(attributeCategory, ATTRIBUTE_CATEGORIES.get(attributeCategory).get(lineParts[i]));
+      }
+    }
+
+    knownNames.put(label, UNKNOWN_NAME);
+    characters.put(label, new GameCharacter(label, attributes, makeCharacterStatTemplate(), description));
   }
 
   public static GameCharacter get(String label) {
@@ -100,6 +132,10 @@ public class CharacterManager {
       map.put(s, 0);
     }
     return map;
+  }
+
+  private static HashMap<String, Attribute> makeCharacterAttributeTemplate() {
+    return new HashMap<>();
   }
 
   /**

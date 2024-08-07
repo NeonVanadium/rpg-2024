@@ -4,21 +4,6 @@ IF FOUGHT_GNOLLS; SAY ELERIE Thank you again for dealing with those monsters. It
 SAY ELERIE What can I do for you?
 CHOICE ; "Nothing, just checking in." > END
 
->> MEET_ELERIE_NOT_PARTY_MEMBER
-SAY ELERIE Let me through!
-A woman's voice precedes her shoving into the square.
-INSERT __SEE_ELERIE_FIRST_TIME
-INSERT __EL_LOOKS_AT_GNOLLS_AND_MAGMIN
-SAY ELERIE You fought them? What did you see?
-CHOICE ; Explain the scene with the gnolls running out of the alley, followed by the burning creature. > CONT
-SAY ELERIE A magmin. Gnolls exist in our world naturally, but a magmin does not. It was summoned by someone. But which came first--the gnolls, or the magmin? Why were they loose in the center of town?
-She shakes her head.
-SAY ELERIE Some wild mage here for the Arena, no doubt. We told the city this tournament was a bad idea, and now look. The games haven't even started yet, and there are monsters running through the streets. Medranas preserve us.
-She looks at you, studying you up and down.
-SETNAME ELERIE Elerie
-SAY ELERIE Well, thank you for helping put a stop to it. My name's Elerie. You should stop by our temple over there if you need healing, or work, perhaps. The city is dangerous now, and the Order will need all the hands it can get. For now, I suppose I should get to cleaning up this mess.
-INSERT __ELERIE_SIGHS_AFTER_GNOLLS
-
 >> MEET_ELERIE_IN_PARTY
 INSERT __EL_LOOKS_AT_GNOLLS_AND_MAGMIN
 SAY ELERIE You fought well.

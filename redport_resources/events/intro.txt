@@ -21,14 +21,6 @@ INSERT __SEE_ELERIE_FIRST_TIME
 Brandishing a steel mace, she approaches the monsters.
 CHOICE ; Keep back and watch -- this is beyond you > WATCH_GNOLL_FIGHT_B ; You can help -- charge in and join the fight! > INTRO_GNOLL_FIGHT_WITH_ELERIE
 
->> INTRO_GNOLL_FIGHT_NO_ELERIE
-JOINPARTY GUARD
-JOINPARTY GUARD
-You surge forward and stand alongside the two guards, who eye you with surprise.
-One of the gnolls, startled, turns to you--and bares its teeth.
-FIGHT GNOLL, GNOLL, GNOLL ; MAGMIN
-GOTO INTRO_AFTER_GNOLLS_NO_ELERIE
-
 >> INTRO_GNOLL_FIGHT_WITH_ELERIE
 You surge forward and stand alongside the two guards, who eye you with surprise, and the woman, who gives you only a passing glance.
 SAY ELERIE I hope you know how to fight.
@@ -46,16 +38,6 @@ As the corpses settle, with the one guard clutching a bleeding shoulder, the wom
 YELL ELERIE Get back!
 The woman jumps away, and the guards stumble back in confusion--just as the creature explodes.
 The dust settles, leaving a charred black spot on the ground. The gnolls corpses remain, slightly singed. But besides this, all is still. The woman in red approaches the scene, and begins observing the remains.
-
->> INTRO_AFTER_GNOLLS_NO_ELERIE
-LOG FOUGHT_GNOLLS
-The three gnolls lie dead, and the child-like creature lays in a smoldering heap.
-Then that heap begins to glow, first dimly, then brighter.
-Then explodes.
-Shouts of surprise come from the distantly-gathered crowd of onlookers. The guards stumble back, staring on in shocked silence until the scene, finally, becomes silent and still. One of them nods at you.
-SAY GUARD Thank you for helping us. By the gods, I don't think we would have survived otherwise. Gnolls? In the center of the city?
-CHOICE ; "Of course. I wasn't going to let you take them on alone." > CONT; "I was just eager to spill some blood." > CONT ;
-GOTO MEET_ELERIE_GNOLL_FIGHT
 
 >> INTRO_AFTER_GNOLLS_WITH_ELERIE
 LOG FOUGHT_GNOLLS

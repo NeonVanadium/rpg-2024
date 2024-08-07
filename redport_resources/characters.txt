@@ -1,23 +1,25 @@
+NAME GENDER NATIONALITY RACE CLASS
+
 // Potential Companions
->> WEISS MALE
->> ELERIE FEMALE "a fit, part-elven woman with brown eyes, donning a set of crimson robes"
->> BURY MALE
+>> WEISS MALE KAYLAND HUMAN MAGE
+>> ELERIE FEMALE KAYLAND HALF-ELF CLERIC "a fit, part-elven woman with brown eyes, donning a set of crimson robes"
+>> BURY MALE TULYRA ELF MAGE
 
 // House Raymond
->> TESSA FEMALE
->> TERRENCE MALE
+>> TESSA FEMALE KAYLAND HUMAN
+>> TERRENCE MALE KAYLAND HUMAN
 
 // House Foxford and Aamalohsi Cultists
->> PRESTON MALE
->> MELIAS MALE
+>> PRESTON MALE KAYLAND HUMAN
+>> MELIAS MALE TULYRA ELF
 
 // Kalgurash
->> GORN MALE
->> MAGASHA FEMALE
+>> GORN MALE KAYLAND ORC
+>> MAGASHA FEMALE KAYLAND ORC
 
 // Misc
->> BRANDON MALE
->> BRENDON MALE
+>> BRANDON MALE KAYLAND HUMAN FIGHTER
+>> BRENDON MALE KAYLAND HUMAN FIGHTER
 
 // Creeps
 > GNOLL

@@ -46,8 +46,7 @@ public class Util {
 
     StringBuilder builder = new StringBuilder();
     int i = 0;
-    Iterator<T> iterator = list.listIterator();
-    while (iterator.hasNext()) {
+    for (T t : list) {
       i++;
       if (i != 1) {
         builder.append(", ");
@@ -55,7 +54,7 @@ public class Util {
       if (i == list.size()) {
         builder.append("and ");
       }
-      builder.append(toStr.apply(iterator.next()));
+      builder.append(toStr.apply(t));
     }
     return builder.toString();
   }

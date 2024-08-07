@@ -1,9 +1,8 @@
 // NAME adjective [and the rest is the description]
 
 >> GENDER
-MAN Male A man.
-WOMAN Female A woman.
-SOMETHING_ELSE Other A person of not-immediately-apparent gender.
+MALE Male A man.
+FEMALE Female A woman.
 
 >> RACE
 HUMAN Human A versatile folk tending to rise between 5 and 6 feet in height. They are the most common race in Redport, and in the Kingdom of Kayland as a whole.
@@ -13,8 +12,10 @@ DWARF Dwarven Stocky and strong, this relatively short race (seldom rising over 
 ORC Orcish Generally rising from six to seven feet in height and known to be of an aggressive temperament, this tall, strongly-built, and green or orange-skinned race is feared and often reviled in civilized communities. Once spread across what is now Kayland, all but one of their tribes is now confined to the Northern Wilds.
 
 >> CLASS
-FIGHTER Fighter Those trained in traditional military or martial combat, they use strength and skill to dispatch their foes.
-MAGE Spellcasting Those who by a mixture of study and talent wield arcane energies to both perform mundane tasks, dispatch enemies, and accomplish feats impossible by strength alone.
+FIGHTER Fit-looking Those trained in traditional military or martial combat, they use strength and skill to dispatch their foes.
+MAGE Learned-looking Those who by a mixture of study and talent wield arcane energies to perform mundane tasks, dispatch enemies, and accomplish feats impossible by strength alone.
+ROGUE Sneaky-looking Those who use guile, speed, and underhanded tactics to move unseen, mislead their adversaries, or eliminate their opponents.
+CLERIC Devout-looking Those who draw power from the divine to perform supernatural feats, whether smiting their foes or healing their allies.
 
 >> NATIONALITY
 Kayland Kaylish This person hails from the kingdom of Kayland, a feudal kingdom dominating the Northern half of the continent. Its citizens tend to be fair-skinned.

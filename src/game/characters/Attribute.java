@@ -4,7 +4,7 @@ package game.characters;
  * An attribute is a single example of a trait, like a race or class, that applies to a character.
  */
 public class Attribute {
-  final String name, adjective, description;
+  public final String name, adjective, description;
 
   public Attribute(String name, String adjective, String description) {
     this.name = name;

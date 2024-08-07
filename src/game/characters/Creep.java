@@ -10,7 +10,7 @@ public class Creep extends GameCharacter{
   String name;
 
   public Creep(String name, Map<String, Integer> stats) {
-    super(name.toUpperCase(), Gender.SOMETHING_ELSE, stats, null);
+    super(name.toUpperCase(), null, stats, null);
     this.name = name; // we uppercase the name to be the label
   }
 

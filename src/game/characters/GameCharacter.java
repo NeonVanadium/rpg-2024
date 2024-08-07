@@ -1,35 +1,47 @@
 package game.characters;
 
+import game.Util;
+
 import java.util.Map;
 
 public class GameCharacter extends game.Movable {
 
   public static int DEFAULT_MOVE_SPEED = 10;
 
-  public final Map<String, Integer> stats;
-  public Gender gender;
+  protected Map<String, Integer> stats;
+  protected Map<String, Attribute> attributes;
 
-  private String desciptionOverride;
+  private String descriptionOverride;
 
-  public GameCharacter(String name, Gender gender, Map<String, Integer> stats, String describeOverride) {
-    this.label = name; this.gender = gender; this.stats = stats; this.desciptionOverride = describeOverride;
+  public GameCharacter(String name, Map<String, Attribute> attributes, Map<String, Integer> stats, String describeOverride) {
+    this.label = name; this.attributes = attributes; this.stats = stats;
+    this.descriptionOverride = describeOverride;
   }
 
   public String getGenericDescription() {
-    if (gender == Gender.SOMETHING_ELSE) {
+    String gender = attributes.get("GENDER").name.toUpperCase();
+    if (!gender.equals("MAN") && !gender.equals("WOMAN")) {
       return "someone";
     }
-    return "a " + gender.name().toLowerCase();
+    return "a " + gender;
+  }
+
+  public String getDefiniteGenericDescription() {
+    String gender = attributes.get("GENDER").name.toUpperCase();
+    if (!gender.equals("MAN") && !gender.equals("WOMAN")) {
+      return "someone";
+    }
+    return "the " + gender;
   }
 
   public String getDetailedDescription() {
     StringBuilder result = new StringBuilder();
-    String start = gender == Gender.SOMETHING_ELSE ? "They are " : gender == Gender.WOMAN ? "She is " : "He is ";
+    String start = !this.hasAttribute("GENDER") ? "They are " : attributes.get("GENDER").name.equals("FEMALE") ? "She is " : "He is ";
     result.append(start);
-    if (desciptionOverride != null) {
-      result.append(desciptionOverride);
+    if (descriptionOverride != null) {
+      result.append(descriptionOverride);
     } else {
-      result.append(getGenericDescription());
+      result.append(Util.commasAndAnds(this.attributes.values().stream().toList(), (Attribute a) -> a.adjective));
     }
     result.append('.');
     return result.toString();
@@ -42,6 +54,20 @@ public class GameCharacter extends game.Movable {
     } else {
       return CharacterManager.getKnownName(this.label);
     }
+  }
+
+  public boolean hasAttribute(String attributeName) {
+    for (String attributeCategory : attributes.keySet()) {
+      if (attributeCategory.equals(attributeName)) {
+        return true;
+      }
+    }
+    for (Attribute a : attributes.values()) {
+      if (a != null && a.name.equals(attributeName)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public int getModifier(String statLabel) {
