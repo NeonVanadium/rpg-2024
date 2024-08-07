@@ -1,9 +1,9 @@
-This is an engine for text-based games running in Java's built-in graphics window.
+This is an engine for text-based role-playing games running in Java's built-in graphics window.
 
-All content for the games are created through specially formatted text documents. Much of this
-project defines the language used to create these documents.
+All game content is defined in specially formatted text documents. This file documents the formatting of these and explains
+the system's use.
 
-== DOCUMENTATION
+= OVERVIEW
 
 A game's files must be formatted in a resource folder, within which are a few required files
 and an events folder, which contains an indefinite number of files. Within the event folder, file
@@ -11,37 +11,57 @@ separation is insignificant. All files are treated the same and parsed for event
 starts. I separate files into related groups of events (one large sequence, all the small talk
 with a given character, etc) for organization purposes.
 
-== EVENTS
+=== Meaningful characters and delineators
+Depending somewhat on what is being declared, the system uses the following to break up declarations into
+their significant parts:
+
+- Line breaks. These are always significant. No declaration extends onto multiple lines.
+- ">>" is the "entry start symbol." It may be useful to think of it as a section-beginning identifier.
+It is used to declare events and other objects that are composed of lines below them.
+- ";" is the standard divider. If only one dividing symbol is used in a structure (e.g. in the _IF_ event part), it is this.
+- ">" is the "special part symbol." In structures that require two dividers (see the _CHOICE_ event part) this works as an additional meaningful divider along with ";". In some cases, at declaration start
+this symbol can contrast with the entry start symbol (When declaring characters, >> marks a 'full character', while > marks
+a 'creep,' or a stock character/monster/etc.
+
+
+=== Comments
+For all file types, empty lines and lines starting with "//" are ignored.
+
+= EVENTS
 
 Events are choose-your-own adventure or visual novel style sequences of text, choices, and combat.
 They are defined through lines in a text file, and are composed of "event parts."
 Line breaks are significant. A new line always separates two event parts.
 
 What may appear to the user as one "event" is likely many small events in the system.
-Notably, events are strictly linear. Any choice or branch is actually a GOTO
-to a different event.
-
-=== Comments
-Empty lines and lines starting with // are ignored.
+Events are highly linear, with only limited ability to branch within a single event--and that this
+ability exists at all is only for convenience/to reduce bloat. It is best practice to GOTO another event when choices
+are made.
 
 === Declaring events
 
 >> [Name of event]
 
+_or_
+
 >> [Name of event] ; (Trigger conditions)
 
-If an event is declared with Trigger conditions, it is added to a list of events that can be
-triggered by an in-game condition (rather than manually, e.g. through a GOTO in another event).
-The game regularly checks over all of these triggerable events and starts them if their conditions
-are met.
+The event name must be one token (no spaces). The lines following the declaration above, until
+end-of-file or another Event declaration, are parsed for _event part_ declarations. These make up
+the content and behavior of the event.
 
-== EVENT PARTS
+If an event is declared with Trigger conditions, it is added to a list of events that can be
+triggered automatically by the game state (rather than manually, e.g. through a GOTO in another event).
+The game regularly checks over all of these triggerable events and starts them if their conditions
+are met. See the _Event Conditions_ section below for the available conditions and their formatting.
+
+= EVENT PARTS
 
 Event parts are the components that make up events. Event declarations (above) are followed by any number of Event Parts, of which there are many types. The types, and how to declare and use them, are defined below.
 
 Note that the "name" of the built-in player character is always PLAYER.
 
-=== Visual Event Parts
+== Visual Event Parts
 These event parts have effects that are visible to the player. They are the most obvious building blocks of an event.
 
 === Line of text
@@ -64,43 +84,43 @@ The effect may be one of the following:
 
 Note the system distinguished between the two only by how many tokens there are in the option (between ">" and ";")
 
-==== Say
+=== Say
 
 SAY (Character name) (text)
 
 Will format the text as dialogue (i.e. in quotes) and preface it with a tag of the format NAME: for the specified character. Note that this uses the
 "known name" of the character, so the tag will be "???:" if SETNAME has yet to be used for the character in question.
 
-==== Yell
+=== Yell
 
 YELL (Character name) (text)
 
 Identical to SAY, but the spoken text is emphasized. Currently, the text is red.
 
-=== Under-the-hood Event Parts
+== Under-the-hood Event Parts
 These event parts have no visual effects, but affect the game state or the event system.
 
-==== Go-to
+=== Go-to
 
 GOTO (event name)
 
 Jumps to the start of the specified event. Any event parts in the current event after the GOTO _will not_ be returned to.
 
-==== Insert
+=== Insert
 
 INSERT (event name)
 
 Similar to a GOTO, but unlike GOTOs will return to the event this is called from once the inserted event is concluded. This can stack, though
 this feature is designed to be used as an abstraction tool is advised to be used sparingly.
 
-==== If
+=== If
 
 IF (Event Condition) ; (Event Part)
 
 A powerful event part that wraps another. See _Event Conditions_ for the types of conditions that may be specified here. If the condition is satisfied,
 the nested event part is run.
 
-==== Set name
+=== Set name
 
 SETNAME (Character name) (new name)
 
@@ -108,7 +128,16 @@ Updates the "known name" of the character. Note this starts as "???" for all cha
 allows the game to simulate the player character learning names for characters, even misleading names, and avoid the trope of the text telling the player
 the name of someone before the player's character would reasonably know that information.
 
-==== Set Attribute
+=== Join Party
+JOINPARTY (Character name)
+
+Adds the specified character to the player's party.
+
+=== Leave Party
+LEAVEPARTY (Character name)
+Removes the specified character from the player's party.
+
+=== Set Attribute
 
 SETATTRIBUTE (Character name) (a) ([optional] b)
 

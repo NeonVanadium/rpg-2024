@@ -28,10 +28,18 @@ CHOICE ; I am a fighter. I use strength and traditional weaponry to defeat my op
 IF PLAYER HASATTRIBUTE DRAGONBORN ; You are a dragonborn cleric. Do you follow the savior of the dragonborn, Saint Surikenna, the druid who led your people to safety during the Calamitous Invasion?
 IF PLAYER HASATTRIBUTE DRAGONBORN ; CHOICE ; Yes, I follow Saint Surikenna, and channel her powers of life and nature. > SETATTRIBUTE PLAYER SURIKENNIAN ; No, I follow a different higher power. > And which deity would that be? ;
 IF PLAYER NOT HASATTRIBUTE DRAGONBORN ; You gain your strength by following a higher power. Which?
-IF PLAYER NOT HASATTRIBUTE SURIKENNIAN ; CHOICE ; Medranas, Great God of Order, and central deity of the Order of the Red Moon > SETATTRIBUTE PLAYER MEDRANASIAN ; Savaras, Great God of Freedom > SETATTRIBUTE PLAYER SAVARASIAN ; Vizendris, Great God of Madness > SETATTRIBUTE PLAYER VIZENDRID; Nokolis, the Missing God of Death > _CC_NOKOLIS; Haldrias, Savarasian Aspect of Justice > SETATTRIBUTE PLAYER HALDRIAN; Kasidiv, Aspect of Killing, Vengeance, and Carnage > SETATTRIBUTE PLAYER KASIDIVIAN; Lelerian, Ascended God of Knowledge, Patron Deity of Siddaér > SETATTRIBUTE PLAYER LELERIANITE ;
+IF PLAYER NOT HASATTRIBUTE SURIKENNIAN ; CHOICE ; Medranas, Great God of Order > SETATTRIBUTE PLAYER MEDRANASIAN ; Savaras, Great God of Freedom > SETATTRIBUTE PLAYER SAVARASIAN ; Vizendris, Great God of Madness > SETATTRIBUTE PLAYER VIZENDRID; Nokolis, the Missing God of Death > _CC_NOKOLIS; Haldrias, Aspect of Justice > SETATTRIBUTE PLAYER HALDRIAN; Kasidiv, Aspect of Killing, Vengeance, and Carnage > _CC_KASIDIV; Lelerian, Ascended God of Knowledge, Patron Deity of Siddaér > SETATTRIBUTE PLAYER LELERIANITE ;
 
 
 >> _CC_NOKOLIS
+SETATTRIBUTE PLAYER NOKOLID
 Ah, the Missing God of Death... it is rather difficult to pray to a deity that has long since disappeared (some say died, but you know better, don't you?). But there exist certain, rare artifacts that contain echoes of the Missing God's power.
 You are lucky enough to have such an artifact: a fragment of dark but otherwise unassuming metal. You keep it as a talisman.
 Your faith is a dangerous one to hold--be cautious who you let uncover the truth of your beliefs and your power.
+
+>> _CC_KASIDIV
+SETATTRIBUTE PLAYER KASIDIVIAN
+Ah, dread Kasidiv. No other deity's name sparks as much fear. His worship is taboo--illegal, even, when done openly. Those who walk the Bloody Path come to it for many reasons. Why have you?
+CHOICE ; I just like killing. > CONT ; I was a soldier. Kasidiv gave me meaning amidst the death. > CONT ; My family was killed by a cult. By the power of Kasidiv, I will destroy them in his name and mine. > CONT;
+So be it. Kasidiv will surely be watching your progress.
+CHOICE ; My path is marked in blood. > END ;
