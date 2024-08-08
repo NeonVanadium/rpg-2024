@@ -36,6 +36,8 @@ public interface EventPart extends Selectable {
       return new LogEventPart(rawPartString);
     } else if (rawPartString.startsWith("SETATTRIBUTE")) {
       return new AddAttributeEventPart(rawPartString);
+    } else if (rawPartString.startsWith("TEXTINPUT")) {
+      return new TextInputEventPart(rawPartString);
     }
     else {
       return new TextEventPart(rawPartString);

@@ -1,0 +1,11 @@
+// NAME adjective [and the rest is the description]
+
+>> GENDER
+MALE Male a man
+FEMALE Female a woman
+
+>> RACE
+ILV Ilven
+NOME Nomish
+REFT Reftish
+GHOST Ghostly

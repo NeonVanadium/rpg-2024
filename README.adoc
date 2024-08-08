@@ -86,6 +86,11 @@ The effect may be one of the following:
 
 Note the system distinguished between the two only by how many tokens there are in the option (between ">" and ";")
 
+=== Text Input
+TEXTINPUT [Nested Event Part]
+
+This takes written input from the user and passes it into the nested event part. Replace any argument of the Nested Part with '~', and the user's text will be passed in as that argument.
+
 === Say
 
 SAY (Character name) (text)

@@ -39,7 +39,7 @@ public class CharacterManager {
       ATTRIBUTE_CATEGORIES.put(buildingAttributeCategory, new HashMap<>());
     } else { // no entry-start, so this line is an attribute in the above category
       String[] parts = line.split(" ", 3);
-      Attribute toAdd = new Attribute(parts[0].toUpperCase(), parts[1], parts[2]);
+      Attribute toAdd = new Attribute(parts[0].toUpperCase(), parts[1], parts.length > 2 ? parts[2] : "");
       ATTRIBUTE_CATEGORIES.get(buildingAttributeCategory).put(toAdd.name, toAdd);
     }
   }

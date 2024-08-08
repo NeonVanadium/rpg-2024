@@ -36,7 +36,7 @@ SAY SENJA And what the hell is up with those symbols? You some kind of wizard?
 SAY BEYN I don't think so. Not a very powerful one, in any case.
 GOTO _COOP_SENJA_2
 
->>_COOP_SENJA_KARG_TALK
+>> _COOP_SENJA_KARG_TALK
 SAY KARGELBON Blithering mortal fool! I am Kargelbon Kargelbon Kargelbon, greatest dread-wizard in all the lands!
 The woman is silent. Perhaps understandably so.
 SAY SENJA What... are you?

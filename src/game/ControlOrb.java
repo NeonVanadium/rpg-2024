@@ -66,6 +66,15 @@ public class ControlOrb {
     processMove.accept(selection);
   }
 
+  public String getTextInput() {
+    view.promptTextInput();
+    String userInput = "";
+    while (userInput.isBlank()) {
+      userInput = controller.getTextInput();
+    }
+    return userInput;
+  }
+
   public void getAnyInput() {
     controller.getAnyInput();
   }

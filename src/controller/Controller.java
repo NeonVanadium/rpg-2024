@@ -17,4 +17,9 @@ public interface Controller {
    * Get any input from the user to proceed.
    */
   void getAnyInput();
+
+  /**
+   * Get text input.
+   */
+  String getTextInput();
 }

@@ -7,9 +7,12 @@ import java.util.List;
 
 public class KeyboardMouseController extends AbstractController {
 
-  private GraphicControllerKeyboardListener keyListener;
+  private final GraphicControllerKeyboardListener keyListener;
+  private static final int CHECK_INPUT_DELAY = 100; // in ms
 
   protected static Character input;
+  protected static String enteredText = null;
+  protected static StringBuilder textInputBuilder;
 
   public KeyboardMouseController() {
     keyListener = new GraphicControllerKeyboardListener();
@@ -42,6 +45,15 @@ public class KeyboardMouseController extends AbstractController {
     waitForInput();
   }
 
+  @Override
+  public String getTextInput() {
+    textInputBuilder = new StringBuilder();
+    while (enteredText == null) {
+      Util.sleep(CHECK_INPUT_DELAY);
+    }
+    return enteredText;
+  }
+
   private boolean hasQueuedInput() {
     return input != null;
   }
@@ -54,7 +66,7 @@ public class KeyboardMouseController extends AbstractController {
 
   private Character waitForInput() {
     while (!hasQueuedInput()) {
-      Util.sleep(100);
+      Util.sleep(CHECK_INPUT_DELAY);
     }
     return getQueuedInput();
   }
@@ -75,10 +87,17 @@ public class KeyboardMouseController extends AbstractController {
   private class GraphicControllerKeyboardListener extends KeyAdapter {
     @Override
     public void keyPressed(KeyEvent e) {
+      if (textInputBuilder != null) {
+        if (e.getKeyCode() == 10) { // code 10 == ENTER key
+          enteredText = textInputBuilder.toString();
+          textInputBuilder = null;
+          System.out.println();
+        } else if (Character.isAlphabetic(e.getKeyChar())) {
+          textInputBuilder.append(e.getKeyChar());
+          System.out.print(e.getKeyChar());
+        }
+      }
       input = e.getKeyChar();
     }
   }
-
-  /*private class GraphicControllerMouseListener extends MouseAdapter {
-  }*/
 }

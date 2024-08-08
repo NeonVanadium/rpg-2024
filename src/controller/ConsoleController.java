@@ -27,6 +27,11 @@ public class ConsoleController extends AbstractController {
     getChoice();
   }
 
+  @Override
+  public String getTextInput() {
+    return null;
+  }
+
   public int pickOption() {
     int selected = -1;
     while (!isValidSelection(selected)) {

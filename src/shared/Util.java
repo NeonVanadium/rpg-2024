@@ -16,6 +16,7 @@ public class Util {
   public static final String SPECIAL_PART_SYMBOL = "> ";
   public static final String COMPONENT_DELINEATOR = ";";
   public static final String COMMENT_START = "//";
+  public static final String TEXT_INSERT_SYMBOL = "~";
 
   /**
    * Reads each line from a file, and calls the provided consumer on each line.

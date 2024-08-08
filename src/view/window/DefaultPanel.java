@@ -2,20 +2,16 @@ package view.window;
 
 import java.awt.Color;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import controller.PipelineToController;
 import shared.Util;
-import view.View;
-import view.ViewConstants;
 
 public class DefaultPanel extends WolgonPanel {
 
-  private final Label title, continuePrompter, body, clock;
+  private final Label title, body, clock, continuePrompter, typePrompter;
   private final Label[] optionLabels;
-  private boolean promptingInput = false;
+  private boolean promptingInput = false, promptingTextInput = false;
   private int updatesSinceFlicker = 0;
   private final static String continuePromptText = "\\/";
   private static final int optionLabelCount = 8;
@@ -38,6 +34,7 @@ public class DefaultPanel extends WolgonPanel {
     optionLabels = new Label[optionLabelCount];
     initOptionLabels();
     continuePrompter = new Label("Continue Prompter", Color.LIGHT_GRAY, 20f, "Body", this);
+    typePrompter = new Label("Type Prompter", Color.LIGHT_GRAY, 20f, "Body", this);
   }
 
   private void getTermToHighlightInText(String rawLine) {
@@ -78,7 +75,7 @@ public class DefaultPanel extends WolgonPanel {
 
   @Override
   public void print(String s) {
-    if (promptingInput) disableContinuePrompter();
+    if (promptingInput) disablePrompters();
     body.setText(body.getText() + s + "\n\n");
     update();
   }
@@ -88,7 +85,7 @@ public class DefaultPanel extends WolgonPanel {
     if (options == null) {
       clearOptions();
     } else {
-      disableContinuePrompter();
+      disablePrompters();
       int i = 0;
       for (String s : options) {
         optionLabels[i].setText(s);
@@ -104,7 +101,7 @@ public class DefaultPanel extends WolgonPanel {
     title.clear();
     body.clear();
     clearOptions();
-    disableContinuePrompter();
+    disablePrompters();
     update();
   }
 
@@ -114,7 +111,8 @@ public class DefaultPanel extends WolgonPanel {
   }
 
   public void promptTextInput() {
-
+    typePrompter.setText("Type your response...");
+    promptingTextInput = true;
   }
 
   @Override
@@ -143,12 +141,16 @@ public class DefaultPanel extends WolgonPanel {
     }
   }
 
-  private void disableContinuePrompter() {
+  private void disablePrompters() {
     if (promptingInput) {
       audioManager.playUserEnter();
     }
     promptingInput = false;
     if (!continuePrompter.getText().isEmpty()) continuePrompter.setText("");
+
+    if (promptingTextInput) {
+      typePrompter.setText("");
+    }
   }
 
   @Override

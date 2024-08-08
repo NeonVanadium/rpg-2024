@@ -1,8 +1,10 @@
-//>> INTRO ; INTRO NOT COMPLETED ;
-//You awaken on hard stone.
-//You rise to your feet, and find yourself atop a strange tower. A steady, warm breeze blows, and a vast jungle expands below.
-//You have no memory--no idea who you are, nor why you're in this place.
-//Whatever is going on, whatever you choose to do, you gain nothing by staying put. You get your bearings, and prepare to get moving.
+>> INTRO ; INTRO NOT COMPLETED ;
+You awaken on hard stone.
+You rise to your feet, and find yourself atop a strange tower. A steady, warm breeze blows, and a vast jungle expands below.
+You have no memory--no idea who you are, nor why you're in this place. Although you have a faint recollection of what might be your name...
+TEXTINPUT SETNAME PLAYER ~
+SAY PLAYER Yes. My name.
+Whatever is going on, whatever you choose to do, you gain nothing by staying put. You get your bearings, and prepare to get moving.
 
 >> INTO_THE_WILDERNESS ; PLAYER INOPENWORLD ; MEET_BEYN COMPLETED
 You step off of the stone and onto the soft, grassy soil.
