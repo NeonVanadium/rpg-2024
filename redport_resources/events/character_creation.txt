@@ -22,14 +22,19 @@ GOTO _CC_CLASS
 
 >> _CC_CLASS
 You are no stranger to combat--or at the very least, your background has prepared you for it. What background would that be?
-CHOICE ; I am a fighter. I use strength and traditional weaponry to defeat my opponents > SETATTRIBUTE PLAYER CLASS FIGHTER ; I am a mage. I am well-versed in magic, and can use spells in a fight if necessary. > SETATTRIBUTE PLAYER CLASS MAGE ; I am a rogue. I have the agility and guile to misdirect and attack my opponents with lethal precision. > SETATTRIBUTE PLAYER CLASS ROGUE ; I am a cleric. By following a higher power, I wield divine energy to defeat my foes. > _CC_CLERIC ;
+CHOICE ; I am a fighter. I use strength and traditional weaponry to defeat my opponents > SETATTRIBUTE PLAYER CLASS FIGHTER ; I am a mage. I am well-versed in magic, and can use spells in a fight if necessary. > SETATTRIBUTE PLAYER CLASS MAGE ; I am a rogue. I have the agility and guile to misdirect and attack my opponents with lethal precision. > SETATTRIBUTE PLAYER CLASS ROGUE ; I am a cleric. By following a higher power, I wield divine energy to defeat my foes. > INSERT _CC_CLERIC ;
+GOTO _CC_COMPLETE
 
 >> _CC_CLERIC
 IF PLAYER HASATTRIBUTE DRAGONBORN ; You are a dragonborn cleric. Do you follow the savior of the dragonborn, Saint Surikenna, the druid who led your people to safety during the Calamitous Invasion?
 IF PLAYER HASATTRIBUTE DRAGONBORN ; CHOICE ; Yes, I follow Saint Surikenna, and channel her powers of life and nature. > SETATTRIBUTE PLAYER SURIKENNIAN ; No, I follow a different higher power. > And which deity would that be? ;
 IF PLAYER NOT HASATTRIBUTE DRAGONBORN ; You gain your strength by following a higher power. Which?
-IF PLAYER NOT HASATTRIBUTE SURIKENNIAN ; CHOICE ; Medranas, Great God of Order > SETATTRIBUTE PLAYER MEDRANASIAN ; Savaras, Great God of Freedom > SETATTRIBUTE PLAYER SAVARASIAN ; Vizendris, Great God of Madness > SETATTRIBUTE PLAYER VIZENDRID; Nokolis, the Missing God of Death > _CC_NOKOLIS; Haldrias, Aspect of Justice > SETATTRIBUTE PLAYER HALDRIAN; Kasidiv, Aspect of Killing, Vengeance, and Carnage > _CC_KASIDIV; Lelerian, Ascended God of Knowledge, Patron Deity of Siddaér > SETATTRIBUTE PLAYER LELERIANITE ;
+IF PLAYER NOT HASATTRIBUTE SURIKENNIAN ; CHOICE ; Medranas, Great God of Order > _CC_MEDRANAS ; Savaras, Great God of Freedom > SETATTRIBUTE PLAYER SAVARASIAN ; Vizendris, Great God of Madness > SETATTRIBUTE PLAYER VIZENDRID; Nokolis, the Missing God of Death > _CC_NOKOLIS; Haldrias, Aspect of Justice > SETATTRIBUTE PLAYER HALDRIAN; Kasidiv, Aspect of Slaughter, Violence, and Vengeance > _CC_KASIDIV; Lelerian, Ascended God of Knowledge, Patron Deity of Siddaér > ;
 
+>> _CC_MEDRANAS
+SETATTRIBUTE PLAYER MEDRANASIAN
+Ah, radiant Medranas, the most-widely worshipped deity here in Kayland. They are the patron of the Order of the Red Moon, one of the most powerful factions on the continent and by far its largest religious organization. The Red Moon provides healing services at affordable prices and works in many capacities as town guards, but are characteristically skeptical of magic and magic-users of all kinds.  What is your relation to them?
+CHOICE ; I am a member of the Order, and have recently joined. > _CC_RED_MOON; I am not a member of its ranks, but I devoutly visit their temples. > CONT ; I do not associate with them at all. > CONT ;
 
 >> _CC_NOKOLIS
 SETATTRIBUTE PLAYER NOKOLID
@@ -39,7 +44,19 @@ Your faith is a dangerous one to hold--be cautious who you let uncover the truth
 
 >> _CC_KASIDIV
 SETATTRIBUTE PLAYER KASIDIVIAN
-Ah, dread Kasidiv. No other deity's name sparks as much fear. His worship is taboo--illegal, even, when done openly. Those who walk the Bloody Path come to it for many reasons. Why have you?
+Ah, dread Kasidiv. No other deity's name sparks so much fear. His worship is taboo--illegal, even, when done openly. Those who walk the Bloody Path come to it for many reasons. Why have you?
 CHOICE ; I just like killing. > CONT ; I was a soldier. Kasidiv gave me meaning amidst the death. > CONT ; My family was killed by a cult. By the power of Kasidiv, I will destroy them in his name and mine. > CONT;
 So be it. Kasidiv will surely be watching your progress.
 CHOICE ; My path is marked in blood. > END ;
+
+>> _CC_LELERIAN
+SETATTRIBUTE PLAYER LELERIANITE
+Ah, learned Lelerian, God of knowledge, patron of mages, and folk hero and state deity of Siddaér. His worship is quite diverse, and many perspectives on this deity have developed. What sect to you prescribe to?
+CHOICE ; I see him as a man ascended to godhood, entirely separate from the other deities, as is standard in Siddaér. > CONT ; I see him as an example of perfect harmony, one who unites the forces of all the Great Four in one being. > SETATTRIBUTE PLAYER HARMONILARIAN ;
+
+>> _CC_RED_MOON
+SETATTRIBUTE PLAYER REDMOON
+The illustrious Order of the Red Moon. In many respects, the true power here in the North. The Grand Hierophant, its leader, is an Elven man by the name of Parel. He is young, gentle by temperament and generally well-respected, though some in the Order still favor the strong, assertive, and anti-magic policies of his predecessor, the late Grand Hierophant Densa. Time will tell which way the Order will go, and where you fit in amongst their ranks.
+
+>> _CC_COMPLETE
+And so you are. The city of Redport awaits you.

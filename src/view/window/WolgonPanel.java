@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import controller.PipelineToController;
 import view.View;
+import view.ViewTime;
 
 // an abstract panel designed for a specific portion of gameplay (world, menu, etc)
 abstract class WolgonPanel extends JPanel implements IRectangle, View {
@@ -16,7 +17,7 @@ abstract class WolgonPanel extends JPanel implements IRectangle, View {
 	public static final int BUFFER = 30; // size of the whitespace buffer for the edges of all zones
 	public static final float DEFAULT_FONT_SIZE = 30f;
 
-	private int ticksPerDay;
+	protected ViewTime time;
 
 	private HashMap<String, PanelZone> zones = new HashMap<String, PanelZone>();
 	private HashMap<String, Label> labels = new HashMap<String, Label>();
@@ -121,8 +122,8 @@ abstract class WolgonPanel extends JPanel implements IRectangle, View {
 	}
 
 	@Override
-	public void setDayLength(int ticksPerDay) {
-		this.ticksPerDay = ticksPerDay;
+	public void setDayLength(int ticksPerDay, int hoursPerDay) {
+		time = new ViewTime(ticksPerDay, hoursPerDay);
 	}
 
 	@Override
@@ -131,15 +132,12 @@ abstract class WolgonPanel extends JPanel implements IRectangle, View {
 	}
 
 	private Color getSkyColor(int curTime) {
-		int ticksPerHour = ticksPerDay / 24; // TODO: get the hours per day from model timekeeper here.
-		double hours = (double) curTime / ticksPerHour;
+		double daytimeParabola = (-1.0/30) * (time.tickToHour(curTime) - time.dawnTime) * (time.tickToHour(curTime) - time.duskTime);
+		daytimeParabola = Math.max(0, Math.min(1, daytimeParabola)); // clip [0, 1].
 
-		double rgbParabola = (-Math.pow(hours, 2) / 48) + (hours / 2) - 2; // a quadratic with a maximum at 1 and roots of 2 (2 am) and 4 (2 pm).
-		rgbParabola = Math.max(0, rgbParabola); // clip negatives into 0.
-
-		int r = (int) (rgbParabola * 40);
-		int g = (int) (rgbParabola * 100);
-		int b = (int) (rgbParabola * 220);
+		int r = (int) (daytimeParabola * 40);
+		int g = (int) (daytimeParabola * 120);
+		int b = (int) (daytimeParabola * 200);
 
 		return new Color(r, g, b);
 	}

@@ -12,8 +12,6 @@ import game.structure.StructureManager;
 import shared.Util;
 import view.View;
 
-import javax.swing.*;
-
 public class GameMaster {
 
   private static View view;
@@ -52,7 +50,9 @@ public class GameMaster {
       if (!EventManager.hasQueuedEvent()) EventManager.checkEventTriggers();
       if (EventManager.hasQueuedEvent()) {
         view.clear();
+        time.pause();
         EventManager.runQueuedEvent(orb);
+        time.resume();
       }
       else if (Player.character.currentStructure == null) {
         MapManager.mapExplorationLoop(orb);

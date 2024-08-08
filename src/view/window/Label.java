@@ -270,10 +270,13 @@ class Label implements IRectangle {
 	}
 
 	public void setText(String s) {
+		if (!s.contains(text)) {
+			typedCharacters = 0;
+		}
 		text = s;
 		markKeywords();
 		textChanged = true;
-		typedCharacters = 0;
+
 	}
 
 	public String getText() {
@@ -367,6 +370,10 @@ class Label implements IRectangle {
 
 	public void instacomplete() {
 		this.typedCharacters = getText().length();
+	}
+
+	public void setTypewriter(boolean value) {
+		this.isTypewriter = value;
 	}
 }
 

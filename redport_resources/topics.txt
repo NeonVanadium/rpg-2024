@@ -2,6 +2,9 @@
 Arena
 House Foxford
 House Raymond
+the Calamity
+the Calamitous Invasion
+Aamalohs
 
 // Geopolitical Terms
 Kayland
@@ -9,6 +12,7 @@ Siddaér
 Tulyra
 Dashi
 Bamvaso
+Redport
 
 // Religious terms
 Medranas
@@ -22,3 +26,6 @@ Saint Surikenna
 Order of the Red Moon
 Red Moon
 the Order
+Grand Hierophant
+Parel
+

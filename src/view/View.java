@@ -17,7 +17,7 @@ public interface View {
 
   void promptAnyInput();
 
-  void setDayLength(int ticksPerDay);
+  void setDayLength(int ticksPerDay, int hoursPerDay);
 
   void setTime(int curTime);
 

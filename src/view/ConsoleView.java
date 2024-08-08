@@ -37,7 +37,7 @@ public class ConsoleView implements View {
   }
 
   @Override
-  public void setDayLength(int ticksPerDay) {
+  public void setDayLength(int ticksPerDay, int hoursPerDay) {
     // nothing.
   }
 

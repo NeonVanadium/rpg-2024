@@ -22,8 +22,6 @@ public class GraphicsManager {
 
   protected final Rectangle bounds = new Rectangle(0, 0, 1000, 800);
   protected final String resourceFolder;
-
-  private PipelineToController pipelineToController;
   private WolgonPanel panel;
 
   public GraphicsManager(String resourcePath) {
@@ -48,9 +46,9 @@ public class GraphicsManager {
     this.frame.addKeyListener(k);
   }
 
-  public void addMouseListener(MouseListener m) {
+  /*public void addMouseListener(MouseListener m) {
     panel.addMouseListener(m);
-  }
+  }*/
 
   public void addControllerPipeline(PipelineToController pipeline) {
     this.panel.setPipelineToController(pipeline);

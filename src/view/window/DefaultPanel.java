@@ -13,8 +13,7 @@ import view.ViewConstants;
 
 public class DefaultPanel extends WolgonPanel {
 
-  private final Label title, continuePrompter;
-  private final Label body;
+  private final Label title, continuePrompter, body, clock;
   private final Label[] optionLabels;
   private boolean promptingInput = false;
   private int updatesSinceFlicker = 0;
@@ -33,6 +32,8 @@ public class DefaultPanel extends WolgonPanel {
 
     title = new Label("Title", Color.WHITE, 30f, AlignmentLocation.Left,
         AlignmentLocation.Top, "WHOLE", this);
+    clock = new Label("Clock", Color.WHITE, 20f, AlignmentLocation.Right, AlignmentLocation.Bottom, "WHOLE", this);
+    clock.setTypewriter(false);
     body = new Label("Body", Color.WHITE, 30f, "Title", this);
     optionLabels = new Label[optionLabelCount];
     initOptionLabels();
@@ -144,5 +145,11 @@ public class DefaultPanel extends WolgonPanel {
     }
     promptingInput = false;
     if (!continuePrompter.getText().isEmpty()) continuePrompter.setText("");
+  }
+
+  @Override
+  public void setTime(int curTime) {
+    super.setTime(curTime);
+    clock.setText(String.format("%d:%s", (int) time.tickToHour(curTime), time.tickToMinute(curTime)));
   }
 }
