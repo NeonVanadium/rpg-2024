@@ -16,6 +16,8 @@ abstract class WolgonPanel extends JPanel implements IRectangle, View {
 	public static final int BUFFER = 30; // size of the whitespace buffer for the edges of all zones
 	public static final float DEFAULT_FONT_SIZE = 30f;
 
+	private int ticksPerDay;
+
 	private HashMap<String, PanelZone> zones = new HashMap<String, PanelZone>();
 	private HashMap<String, Label> labels = new HashMap<String, Label>();
 	
@@ -116,6 +118,30 @@ abstract class WolgonPanel extends JPanel implements IRectangle, View {
 
 	public void setPipelineToController(PipelineToController pipeline) {
 		this.pipelineToController = pipeline;
+	}
+
+	@Override
+	public void setDayLength(int ticksPerDay) {
+		this.ticksPerDay = ticksPerDay;
+	}
+
+	@Override
+	public void setTime(int curTime) {
+		setBackground(getSkyColor(curTime));
+	}
+
+	private Color getSkyColor(int curTime) {
+		int ticksPerHour = ticksPerDay / 24; // TODO: get the hours per day from model timekeeper here.
+		double hours = (double) curTime / ticksPerHour;
+
+		double rgbParabola = (-Math.pow(hours, 2) / 48) + (hours / 2) - 2; // a quadratic with a maximum at 1 and roots of 2 (2 am) and 4 (2 pm).
+		rgbParabola = Math.max(0, rgbParabola); // clip negatives into 0.
+
+		int r = (int) (rgbParabola * 40);
+		int g = (int) (rgbParabola * 100);
+		int b = (int) (rgbParabola * 220);
+
+		return new Color(r, g, b);
 	}
 	
 	//

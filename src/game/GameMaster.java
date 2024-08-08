@@ -12,12 +12,15 @@ import game.structure.StructureManager;
 import shared.Util;
 import view.View;
 
+import javax.swing.*;
+
 public class GameMaster {
 
   private static View view;
   private static Controller controller;
   private static ControlOrb orb;
   private static String resourceFolder;
+  private static Timekeeper time;
 
   private static boolean running = true;
 
@@ -26,6 +29,7 @@ public class GameMaster {
     controller = c;
     GameMaster.resourceFolder = resourceFolder;
     orb = new ControlOrb(view, controller, GameMaster::processPlayerMove);
+    time = new Timekeeper(view);
   }
 
   public static String getResourceFolder() {

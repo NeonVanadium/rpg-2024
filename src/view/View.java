@@ -17,6 +17,10 @@ public interface View {
 
   void promptAnyInput();
 
+  void setDayLength(int ticksPerDay);
+
+  void setTime(int curTime);
+
   /**
    * True if the view has finished drawing or whatever.
    * @return

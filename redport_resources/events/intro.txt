@@ -1,7 +1,7 @@
 >> INTRO ; INTRO NOT COMPLETED
 The sky is clear today, the air pleasantly warm and carrying the subtle scent of sea-salt.
 This is the burgeoning city of Redport. Its buildings, mostly single-story, are iconic for their red-tile roofs and warm, beige walls. Except around a small fort on the east side, it has no walls. It was not built for crowds, but these days it is stuffed to the brim with people.
-As you walk one of its wider streets, you eye is drawn to a massive, brightly-colored poster on a nearby building...
+As you walk one of its wider streets, your eye is drawn to a massive, brightly-colored poster on a nearby building...
 “The House Foxford Arena’s grand opening!" It reads. "Brave gladiators take on fearsome monsters! Riches and titles to be won! Combatants wanted!”
 It is this that has drawn the crowds, and perhaps yourself, to Redport. Whatever one’s calling, there is work, prosperity, and fun to be found around an event like this.
 INSERT CHARACTER_CREATION
