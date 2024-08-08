@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.Set;
 
 class Label implements IRectangle {
 
@@ -24,6 +25,7 @@ class Label implements IRectangle {
 	private PanelZone zone;
 	private boolean isTypewriter = true;
 	private int typedCharacters = 0;
+	private static Set<String> keywords; // these will be highlighted if they appear in the text.
 
 
 	private static final String EMPTY = "";
@@ -77,11 +79,11 @@ class Label implements IRectangle {
 		}
 		if (!doneTyping()) {
 			typedCharacters += TYPE_SPEED;
-			if (typedCharacters < getText().length()
-					&& getText().charAt(typedCharacters) == ViewConstants.TEXT_MODIFIER_START.charAt(0)) { // you'd think strings and chars would compare easier. Alas.
-				// modifiers are of format ^(some character). Make sure we never cut that in half.
+			if (typedCharacters < getText().length() && getText().charAt(typedCharacters - 1) == ViewConstants.TEXT_MODIFIER_START.charAt(0)) { // you'd think strings and chars would compare easier. Alas.
+				// modifiers are of format ~(some character). Make sure we never cut that in half.
 				typedCharacters += 1;
 			}
+
 		}
 		drawText(g);
 	}
@@ -116,22 +118,20 @@ class Label implements IRectangle {
 	private void handleLineWithModifiers(Graphics g, String line, int lineY) {
 		FontMetrics metrics = g.getFontMetrics();
 
-		String toDraw;
+		String toDraw = EMPTY;
 		int widthSoFar = 0;
 		for (String section : line.split(ViewConstants.TEXT_MODIFIER_START)) {
-			if (widthSoFar == 0) {
-				// first line
-				resetTextAndFontColor(g);
+			if (widthSoFar == 0 && !line.startsWith(ViewConstants.TEXT_MODIFIER_START)) {
 				toDraw = section;
 				g.drawString(toDraw, this.getX() + widthSoFar, lineY);
-			} else {
+			} else if (!section.isBlank()) {
 				// one that has a modifier char at the start
 				doModifier(g, section.charAt(0));
 				if (section.length() > 1) {
 					toDraw = section.substring(1);
 					g.drawString(toDraw, this.getX() + widthSoFar, lineY);
 				} else {
-					return;
+					toDraw = EMPTY;
 				}
 			}
 			widthSoFar += metrics.stringWidth(toDraw);
@@ -139,9 +139,13 @@ class Label implements IRectangle {
 	}
 
 	private void doModifier(Graphics g, char modifier) {
-		if (modifier == 'r') {
+		if (modifier == 'r') { // red
 			setTextColor(g, ViewConstants.YELL);
-		} else if (modifier == 'x') {
+		}
+		else if (modifier == 'k') { // keyword
+		 	setTextColor(g, ViewConstants.KEYWORD);
+		}
+		else if (modifier == 'x') {
 			resetColor(g);
 		}
 	}
@@ -163,9 +167,11 @@ class Label implements IRectangle {
 		resetColor(g);
 	}
 
-	// given the text and its container, inserts \n at various locations so that
-	// the text will all appear in its box. Fills relevant fields on the instance.
-	public void wrapText(Graphics g) {
+	/**
+	 * given the text and its container, inserts \n at various locations so that
+	 * the text will fit cleanly in the table. Fills relevant fields on the instance.
+	 */
+	private void wrapText(Graphics g) {
 		wrappedText = EMPTY;
 
 		if (text.isEmpty()) {
@@ -250,8 +256,22 @@ class Label implements IRectangle {
 		wrappedText += curLine + "\n";
 	}
 
+	private void markKeywords() {
+		for (String term : keywords) {
+			if (text.contains(term)) {
+				int index = text.indexOf(term);
+				text = text.substring(0, index) + ViewConstants.TEXT_MODIFIER_START + "k" + term + ViewConstants.TEXT_MODIFIER_START + "x" + text.substring(index + term.length());
+			}
+		}
+	}
+
+	public static void setKeywordList(Set<String> keywords) {
+		Label.keywords = keywords;
+	}
+
 	public void setText(String s) {
 		text = s;
+		markKeywords();
 		textChanged = true;
 		typedCharacters = 0;
 	}
@@ -323,10 +343,6 @@ class Label implements IRectangle {
 	
 	public boolean isTemporary() {
 		return this.isTemporary;
-	}
-
-	protected boolean hasTextChanged() {
-		return this.textChanged;
 	}
 	
 	// to be called when the mouse moves over this label. Empty on this class, but will be overridden on subclass Button.

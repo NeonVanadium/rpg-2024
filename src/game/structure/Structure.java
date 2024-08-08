@@ -2,7 +2,7 @@ package game.structure;
 
 import game.GameObject;
 import game.Movable;
-import game.Util;
+import shared.Util;
 import game.prompts.PromptOption;
 import game.prompts.SelectableInt;
 import java.util.ArrayList;

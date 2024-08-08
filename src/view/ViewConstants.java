@@ -7,5 +7,6 @@ public class ViewConstants {
 
   public static final Color DEFAULT = Color.WHITE;
   public static final Color HOVER = Color.BLUE;
+  public static final Color KEYWORD = Color.CYAN;
   public static final Color YELL = Color.RED;
 }

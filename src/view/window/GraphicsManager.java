@@ -16,11 +16,13 @@ public class GraphicsManager {
   private final JFrame frame = new JFrame();
   private final int TICK_FREQUENCY = 20; //update is called automatically every this many ms
   protected final Rectangle bounds = new Rectangle(0, 0, 1000, 800);
+  protected final String resourceFolder;
   private final Dimension START_SIZE = new Dimension(1000, 800);
 
   private WolgonPanel panel;
 
-  public GraphicsManager() {
+  public GraphicsManager(String resourcePath) {
+    resourceFolder = resourcePath;
     setupFrame();
     Timer t = new Timer(TICK_FREQUENCY, (e) -> panel.update());
     t.start();
@@ -31,7 +33,7 @@ public class GraphicsManager {
     frame.setSize(START_SIZE);
     frame.setBackground(Color.BLACK);
     frame.setTitle("Untitled RPG 2024");
-    setPanel(new DefaultPanel());
+    setPanel(new DefaultPanel(resourceFolder + "/topics.txt"));
     frame.setFocusable(true);
     frame.setFocusTraversalKeysEnabled(false);
     frame.setVisible(true);

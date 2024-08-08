@@ -1,6 +1,6 @@
 package game.events;
 
-import game.Util;
+import shared.Util;
 import java.util.LinkedList;
 import java.util.List;
 

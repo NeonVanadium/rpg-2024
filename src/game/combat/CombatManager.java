@@ -2,7 +2,7 @@ package game.combat;
 
 import game.ControlOrb;
 import game.Player;
-import game.Util;
+import shared.Util;
 import game.characters.CharacterManager;
 import game.characters.CombatWrapper;
 import game.characters.GameCharacter;

@@ -1,6 +1,6 @@
 package game.characters;
 
-import game.Util;
+import shared.Util;
 
 import java.util.Map;
 

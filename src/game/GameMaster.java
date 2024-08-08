@@ -9,6 +9,7 @@ import game.events.EventManager;
 import game.prompts.Selectable;
 import game.structure.Structure;
 import game.structure.StructureManager;
+import shared.Util;
 import view.View;
 
 public class GameMaster {

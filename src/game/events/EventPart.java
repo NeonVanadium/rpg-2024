@@ -1,7 +1,7 @@
 package game.events;
 
 import game.ControlOrb;
-import game.Util;
+import shared.Util;
 import game.prompts.Selectable;
 
 public interface EventPart extends Selectable {

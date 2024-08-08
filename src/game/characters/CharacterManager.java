@@ -2,7 +2,7 @@ package game.characters;
 
 import game.GameMaster;
 import game.Player;
-import game.Util;
+import shared.Util;
 
 import java.util.*;
 
@@ -26,10 +26,6 @@ public class CharacterManager {
     Util.parseFileAndDoEachLine(GameMaster.getResourceFolder() + "stats_and_skills.txt",
         CharacterManager::makeStatsOrSkill);
 
-    for (String s : ATTRIBUTE_CATEGORIES.keySet()) {
-      System.out.println(s);
-    }
-
     characters.put("PLAYER", new GameCharacter("PLAYER", makeCharacterAttributeTemplate(), makeCharacterStatTemplate(), "you."));
     knownNames.put("PLAYER", "The player"); // temp until they enter it, obviously
     Player.character = characters.get("PLAYER");
@@ -41,12 +37,10 @@ public class CharacterManager {
     if (line.startsWith(Util.ENTRY_START_SYMBOL)) {
       buildingAttributeCategory = line.substring(line.indexOf(' ') + 1);
       ATTRIBUTE_CATEGORIES.put(buildingAttributeCategory, new HashMap<>());
-      System.out.println("Initializing category: " + buildingAttributeCategory);
     } else { // no entry-start, so this line is an attribute in the above category
       String[] parts = line.split(" ", 3);
       Attribute toAdd = new Attribute(parts[0].toUpperCase(), parts[1], parts[2]);
       ATTRIBUTE_CATEGORIES.get(buildingAttributeCategory).put(toAdd.name, toAdd);
-      System.out.println("Made attribute: " + toAdd);
     }
   }
 
@@ -67,7 +61,6 @@ public class CharacterManager {
         throw new RuntimeException("Character template doesn't start with required attribute NAME");
       }
       template = line.split(" ");
-      System.out.println();
     }
     else {
       String[] lineParts = line.split(" ", template.length + 2); // + 2 for the starting >> and the optional ending description override.

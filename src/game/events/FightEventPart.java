@@ -1,7 +1,7 @@
 package game.events;
 
 import game.ControlOrb;
-import game.Util;
+import shared.Util;
 import game.combat.CombatManager;
 import java.util.Arrays;
 import java.util.LinkedList;

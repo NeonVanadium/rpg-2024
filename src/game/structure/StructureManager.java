@@ -5,7 +5,7 @@ import game.GameMaster;
 import game.GameObject;
 import game.Movable;
 import game.Player;
-import game.Util;
+import shared.Util;
 import game.characters.CharacterManager;
 import game.characters.GameCharacter;
 import game.map.MapManager;

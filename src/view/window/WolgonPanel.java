@@ -5,58 +5,56 @@ import java.awt.event.*;
 import java.util.*;
 
 import javax.swing.*;
+
+import shared.Util;
 import view.View;
 
 // an abstract panel designed for a specific portion of gameplay (world, menu, etc)
 abstract class WolgonPanel extends JPanel implements IRectangle, View {
 
 	private static final long serialVersionUID = 1L;
+	public static final int BUFFER = 30; // size of the whitespace buffer for the edges of all zones
+	public static final float DEFAULT_FONT_SIZE = 30f;
 
 	private HashMap<String, PanelZone> zones = new HashMap<String, PanelZone>();
 	private HashMap<String, Label> labels = new HashMap<String, Label>();
 	
 	// initialized by other classes only. Names of the labels that need to be removed on update
-	protected String[] tempLabelNames; 
+	// protected String[] tempLabelNames;
 
-	// if the panel was resized last frame. Starts true so all positioners are called on startup.
-	private boolean resized = true; 
-	private Label hoveredOver; // the label currently hovered over by the mouse, if any.
-
-	public static final int BUFFER = 30; // size of the whitespace buffer for the edges of all zones
-	public static final float DEFAULT_FONT_SIZE = 30f;
+	private Label hoveredLabel; // the label currently hovered over by the mouse, if any.
 
 	//protected UserTypeLabel typeBox; // a pointer to the on-panel typable label, if present
 	protected Label hoverTextBox; // a label to hold any text that pops up when a button is hovered over
 
-
 	public WolgonPanel() {
 		this.setFocusable(true);
 		this.setBackground(Color.BLACK);
+		new PanelZone(this); // this zone covers the entire panel. Makes all other subdivisions work.
+		this.initializeMouseFeatures();
+	}
 
-		// this zone represents the entire panel
-		new PanelZone(this);
-
-		this.addMouseListener( new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {	
-				if (hoveredOver != null) {
-					hoveredOver.runFunction();
+	private void initializeMouseFeatures() {
+		this.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (hoveredLabel != null) {
+					hoveredLabel.runFunction();
 				}
-			}		
+			}
 		});
 
-		this.addMouseMotionListener( new MouseMotionListener() {
+		this.addMouseMotionListener(new MouseMotionListener() {
 			public void mouseMoved(MouseEvent e) {
 				// Optimize this more maybe
 				for (Label l : labels.values()) {
 					if (l.contains(e.getPoint())) {
-						if (l != hoveredOver) {
-							if (hoveredOver != null) hoveredOver.unhover();
-							hoveredOver = l;
-							hoveredOver.hover();
+						if (l != hoveredLabel) {
+							if (hoveredLabel != null) hoveredLabel.unhover();
+							hoveredLabel = l;
+							hoveredLabel.hover();
 						}
-					}
-					else if (l == hoveredOver) {
-						hoveredOver = null;
+					} else if (l == hoveredLabel) {
+						hoveredLabel = null;
 						l.unhover();
 					}
 				}
@@ -66,12 +64,6 @@ abstract class WolgonPanel extends JPanel implements IRectangle, View {
 				//nothing
 			}
 		});
-
-		this.addComponentListener( new ComponentAdapter() {  	
-			public void componentResized(ComponentEvent e) {
-				setResized(true);
-			}	
-		});	
 	}
 
 	// redraws the panel and does whatever needs be done each frame
@@ -79,10 +71,7 @@ abstract class WolgonPanel extends JPanel implements IRectangle, View {
 
 	//draws the panel
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);       
-
-		g.setFont(g.getFont().deriveFont(DEFAULT_FONT_SIZE));
-		g.setColor(Color.WHITE);
+		super.paintComponent(g);
 
 		for (Label l : labels.values()) {
 			l.draw(g);
@@ -107,11 +96,6 @@ abstract class WolgonPanel extends JPanel implements IRectangle, View {
 		return labels.get(key);
 	}
 
-	//for use by subclasses
-	protected void setResized(Boolean b) {
-		resized = b;
-	}
-
 	/*protected Point getLastMousePosition() {
 		return lastMousePosition;
 	}
@@ -120,11 +104,11 @@ abstract class WolgonPanel extends JPanel implements IRectangle, View {
 		lastMousePosition = to;
 	}*/
 
-	public void removeTemporaryLabels() {
+	/*public void removeTemporaryLabels() {
 		if (tempLabelNames != null) for (String name : tempLabelNames) {
 			labels.remove(name);
 		}
-	}
+	}*/
 	
 	//
 	// IRECTANGLE METHODS

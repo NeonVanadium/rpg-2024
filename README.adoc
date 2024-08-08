@@ -3,7 +3,7 @@ This is an engine for text-based role-playing games running in Java's built-in g
 All game content is defined in specially formatted text documents. This file documents the formatting of these and explains
 the system's use.
 
-= OVERVIEW
+== OVERVIEW
 
 A game's files must be formatted in a resource folder, within which are a few required files
 and an events folder, which contains an indefinite number of files. Within the event folder, file
@@ -19,15 +19,15 @@ their significant parts:
 - ">>" is the "entry start symbol." It may be useful to think of it as a section-beginning identifier.
 It is used to declare events and other objects that are composed of lines below them.
 - ";" is the standard divider. If only one dividing symbol is used in a structure (e.g. in the _IF_ event part), it is this.
-- ">" is the "special part symbol." In structures that require two dividers (see the _CHOICE_ event part) this works as an additional meaningful divider along with ";". In some cases, at declaration start
-this symbol can contrast with the entry start symbol (When declaring characters, >> marks a 'full character', while > marks
-a 'creep,' or a stock character/monster/etc.
+- ">" is the "special part symbol." In structures that require two dividers (see the _CHOICE_ event part) this works as an
+additional meaningful divider along with ";". In some cases, at declaration start, this symbol can contrast with the entry
+start symbol. As an example, when declaring characters, >> marks a 'full character', while > marks a 'creep,' or a repeatable stock character/monster/etc.
 
 
 === Comments
 For all file types, empty lines and lines starting with "//" are ignored.
 
-= EVENTS
+== EVENTS
 
 Events are choose-your-own adventure or visual novel style sequences of text, choices, and combat.
 They are defined through lines in a text file, and are composed of "event parts."
@@ -55,13 +55,15 @@ triggered automatically by the game state (rather than manually, e.g. through a 
 The game regularly checks over all of these triggerable events and starts them if their conditions
 are met. See the _Event Conditions_ section below for the available conditions and their formatting.
 
-= EVENT PARTS
+== EVENT PARTS
 
 Event parts are the components that make up events. Event declarations (above) are followed by any number of Event Parts, of which there are many types. The types, and how to declare and use them, are defined below.
 
 Note that the "name" of the built-in player character is always PLAYER.
 
-== Visual Event Parts
+'''
+
+=== Visual Event Parts
 These event parts have effects that are visible to the player. They are the most obvious building blocks of an event.
 
 === Line of text
@@ -97,8 +99,10 @@ YELL (Character name) (text)
 
 Identical to SAY, but the spoken text is emphasized. Currently, the text is red.
 
-== Under-the-hood Event Parts
-These event parts have no visual effects, but affect the game state or the event system.
+'''
+
+=== Under-the-hood Event Parts
+These event parts have no or very minor visual effects, but affect the game state or the event system.
 
 === Go-to
 

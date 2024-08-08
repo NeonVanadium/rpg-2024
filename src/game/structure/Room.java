@@ -1,6 +1,6 @@
 package game.structure;
 
-import game.Util;
+import shared.Util;
 import game.prompts.Selectable;
 
 public class Room implements Selectable {

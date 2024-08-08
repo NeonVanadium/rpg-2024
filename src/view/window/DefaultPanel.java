@@ -1,12 +1,15 @@
 package view.window;
 
 import java.awt.Color;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
+import shared.Util;
 import view.View;
 
-public class DefaultPanel extends WolgonPanel implements View {
+public class DefaultPanel extends WolgonPanel {
 
   private final Label title, continuePrompter;
   private final Label body;
@@ -16,8 +19,15 @@ public class DefaultPanel extends WolgonPanel implements View {
   private final static String continuePromptText = "\\/";
   private static final int optionLabelCount = 8;
   private static final AudioManager audioManager = new AudioManager();
+  private static final Set<String> keyTopics = new HashSet<>(); // some words to highlight if they show up in text.
 
-  public DefaultPanel() {
+  public DefaultPanel(String topicPath) {
+    if (keyTopics.isEmpty()) Util.parseFileAndDoEachLine(topicPath, this::getTermToHighlightInText);
+    for (String s : keyTopics) {
+      System.out.println(s);
+    }
+    Label.setKeywordList(keyTopics);
+
     title = new Label("Title", Color.WHITE, 30f, AlignmentLocation.Left,
         AlignmentLocation.Top, "WHOLE", this);
     body = new Label("Body", Color.WHITE, 30f, "Title", this);
@@ -26,6 +36,11 @@ public class DefaultPanel extends WolgonPanel implements View {
     continuePrompter = new Label("Continue Prompter", Color.LIGHT_GRAY, 20f, "Body", this);
   }
 
+  private void getTermToHighlightInText(String rawLine) {
+    keyTopics.add(rawLine.trim());
+  }
+
+
   @Override
   public void update() {
     if (!body.doneTyping()) {
@@ -33,7 +48,7 @@ public class DefaultPanel extends WolgonPanel implements View {
     } else {
       audioManager.signalDoneTyping();
     }
-    if (/*body.doneTyping() &&*/ promptingInput) {
+    if (promptingInput) {
       updatesSinceFlicker++;
       int PROMPT_FLICKER_FREQUENCY = 15;
       if (updatesSinceFlicker == PROMPT_FLICKER_FREQUENCY) {

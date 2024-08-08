@@ -21,7 +21,7 @@ public class Main {
     if (USE_CONSOLE_VIEW) {
       view = new ConsoleView();
     } else {
-      graphicsManager = new GraphicsManager();
+      graphicsManager = new GraphicsManager(RESOURCE_FOLDER);
       view = graphicsManager.getView();
     }
 

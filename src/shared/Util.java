@@ -1,9 +1,8 @@
-package game;
+package shared;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -17,7 +16,6 @@ public class Util {
   public static final String SPECIAL_PART_SYMBOL = "> ";
   public static final String COMPONENT_DELINEATOR = ";";
   public static final String COMMENT_START = "//";
-  public static final String EMPTY = "";
 
   /**
    * Reads each line from a file, and calls the provided consumer on each line.

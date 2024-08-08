@@ -10,7 +10,7 @@ GOTO _CC_CLASS
 
 >> __CC_SIDDAER
 SETATTRIBUTE PLAYER NATIONALITY SIDDAÉR
-Ah, the glorious and learned kingdom of Siddaér. And what is your heritage, then? Are you Elvish mixed with other races, as are the majority? A dragonborn from the city-state of Kalkariesh, perhaps? Or maybe you are one of its many other races?
+Ah, the glorious and learned kingdom of Siddaér. And what is your heritage, then? Are you part-elvish, as are the majority? A dragonborn from the city-state of Kalkariesh, perhaps? Or maybe you are one of its many other races?
 CHOICE ; I am mixed, partly elvish > SETATTRIBUTE PLAYER RACE HALF-ELF ; I am a Dragonborn. > SETATTRIBUTE PLAYER RACE DRAGONBORN ; I am a human. > SETATTRIBUTE PLAYER RACE HUMAN;  I am a full-blooded elf > SETATTRIBUTE PLAYER RACE ELF; I am a dwarf. >> SETATTRIBUTE PLAYER RACE DWARF;
 GOTO _CC_CLASS
 

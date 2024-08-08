@@ -2,7 +2,7 @@ package game.events;
 
 import game.ControlOrb;
 import game.GameMaster;
-import game.Util;
+import shared.Util;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
