@@ -17,6 +17,11 @@ public interface View {
 
   void promptAnyInput();
 
+  /**
+   * prompt the user to enter more than a single key-press.
+   */
+  void promptTextInput();
+
   void setDayLength(int ticksPerDay, int hoursPerDay);
 
   void setTime(int curTime);

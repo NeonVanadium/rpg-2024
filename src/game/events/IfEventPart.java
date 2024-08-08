@@ -17,9 +17,11 @@ public class IfEventPart implements EventPart {
     checkCondition();
 
     if (result) {
-      ifYes.run(orb);
-      if (condition.query.equals("CHECK")) {
-        orb.print("[" + condition.subject + " passed]");
+
+      if (condition.query.equals("CHECK") && ifYes instanceof TextEventPart textPart) {
+          textPart.appendRun("[" + condition.subject + " passed] ", orb);
+      } else {
+        ifYes.run(orb);
       }
     }
   }

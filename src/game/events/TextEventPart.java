@@ -10,6 +10,14 @@ public record TextEventPart(String text) implements EventPart {
     orb.print(text);
   }
 
+  /**
+   * Exists to allow [SKILL passed] tags to be added to text messages that depend on them.
+   */
+  public void appendRun(String toAppend, ControlOrb orb) {
+    orb.clear();
+    orb.print(toAppend + text);
+  }
+
   @Override
   public boolean pauseAfter() {
     return true;

@@ -113,6 +113,10 @@ public class DefaultPanel extends WolgonPanel {
     promptingInput = true;
   }
 
+  public void promptTextInput() {
+
+  }
+
   @Override
   public boolean isFinishedDrawing() {
     return body.doneTyping();

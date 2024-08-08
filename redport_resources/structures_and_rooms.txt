@@ -1,6 +1,6 @@
->> REDPORT_SQUARE - a lively town square with a chapel in its center
+>> REDPORT_SQUARE - a lively town square
 0 ; Redport Square ; The central plaza, two hundred or so feet in width. Stalls and stores with their peddlers and merchants line the perimeter, and your ears are filled with haggling and raucous chatter. There is a large, sturdy tavern here with a notice board outside. A chapel stands in the exact center of the square. ; Exit to the streets. > -1 / Approach the Order Chapel > 1 ;
-1 ; Red Moon Chapel - Patio ; A raised stone platform in front of a small chapel in the center of the town plaza. Prominent on its facade is a downward-facing silver crescent, the emblem of the Order of the Red Moon, glistening in the sunlight. ; Walk out into the plaza > 0
+1 ; Red Moon Chapel - Patio ; A raised stone platform in front of a small chapel in the center of the town plaza. Prominent on its facade is a downward-facing silver crescent, the emblem of the Order of the Red Moon, which glistens in the sunlight. ; Walk out into the plaza > 0
 
 >> THE_ARENA - a grand, circular colosseum
 0 ; Out front of the Arena ; The Foxford Arena, decorated in fluttering blue banners, rises over this small plaza ; Exit into the streets > -1

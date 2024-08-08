@@ -23,8 +23,8 @@ DESCRIBE ELERIE
 IF LORE CHECK 1 ; You recognize her crimson robe as the uniform of the Order of the Red Moon--arguably the most powerful group in the Kingdom and by far its largest religious organization.
 
 >> __EL_LOOKS_AT_GNOLLS_AND_MAGMIN
-The woman kneels down, grimaces at the corpses of the gnolls, and looks over the smoldering carnage left by the strange creature.
-SAY ELERIE This creature was a magmin. Gnolls can be found roaming the world naturally, but not magmins. Someone has to have summoned it. But which came first--the gnolls, or the magmin? Why were they loose in the center of town?
+She kneels down, grimaces at the corpses of the gnolls, and looks over the smoldering carnage left by the strange creature.
+SAY ELERIE A magmin. Who summoned this? Gnolls can be found in the wilds, but this had to have been summoned. And why in the hells were they both loose in the center of town?
 She shakes her head.
 SAY ELERIE Some crazed mage here for the Arena, no doubt. We told the city this tournament was a bad idea, and now look. The games haven't even started yet, and there are monsters running through the streets. Medranas preserve us.
 She looks at you, studying you up and down.
