@@ -31,6 +31,6 @@ public class AddAttributeEventPart implements EventPart{
 
     @Override
     public boolean pauseBefore() {
-        return true;
+        return false;
     }
 }

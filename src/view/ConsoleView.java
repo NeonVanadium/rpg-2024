@@ -38,11 +38,6 @@ public class ConsoleView implements View {
   }
 
   @Override
-  public void setColor(Color c) {
-    // nothing.
-  }
-
-  @Override
   public boolean isFinishedDrawing() {
     return true;
   }

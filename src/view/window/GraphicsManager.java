@@ -6,8 +6,11 @@ import java.awt.Rectangle;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.Timer;
+
+import controller.PipelineToController;
 import view.View;
 
 public class GraphicsManager {
@@ -15,10 +18,12 @@ public class GraphicsManager {
   // the frame which holds a WolgonPanel object.
   private final JFrame frame = new JFrame();
   private final int TICK_FREQUENCY = 20; //update is called automatically every this many ms
-  protected final Rectangle bounds = new Rectangle(0, 0, 1000, 800);
-  protected final String resourceFolder;
   private final Dimension START_SIZE = new Dimension(1000, 800);
 
+  protected final Rectangle bounds = new Rectangle(0, 0, 1000, 800);
+  protected final String resourceFolder;
+
+  private PipelineToController pipelineToController;
   private WolgonPanel panel;
 
   public GraphicsManager(String resourcePath) {
@@ -37,17 +42,18 @@ public class GraphicsManager {
     frame.setFocusable(true);
     frame.setFocusTraversalKeysEnabled(false);
     frame.setVisible(true);
-
-    frame.addMouseListener(new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent e) {
-        getView().hurryUp();
-      }
-    });
   }
 
   public void addKeyListener(KeyListener k) {
     this.frame.addKeyListener(k);
+  }
+
+  public void addMouseListener(MouseListener m) {
+    panel.addMouseListener(m);
+  }
+
+  public void addControllerPipeline(PipelineToController pipeline) {
+    this.panel.setPipelineToController(pipeline);
   }
 
   private void setPanel(WolgonPanel p) {

@@ -16,6 +16,7 @@ class Label implements IRectangle {
 	protected String wrappedText;
 	protected Color color; //text color
 	protected float fontSize;
+	protected String clickValue = null; // what value will be returned to the controller if this label is clicked?
 
 	private Label parent; // may be null, the label relative to which this is positioned
 	private AlignmentLocation vert;
@@ -26,7 +27,6 @@ class Label implements IRectangle {
 	private boolean isTypewriter = true;
 	private int typedCharacters = 0;
 	private static Set<String> keywords; // these will be highlighted if they appear in the text.
-
 
 	private static final String EMPTY = "";
 	
@@ -347,17 +347,22 @@ class Label implements IRectangle {
 	
 	// to be called when the mouse moves over this label. Empty on this class, but will be overridden on subclass Button.
 	public void hover() {
-		setBaseColor(ViewConstants.HOVER);
+		if (this.clickValue != null) {
+			setBaseColor(ViewConstants.HOVER);
+		}
 	}
 	
 	// to be called when the mouse moves off this label. Empty on this class, but will be overriden on subclass button.
 	public void unhover() {
 		setBaseColor(ViewConstants.DEFAULT);
 	}
-	
-	// empty on this class, used on button subclass to call its stored function to be run
-	public void runFunction() { 
-		// nothing
+
+	public void setClickValue(String value) {
+		this.clickValue = value;
+	}
+
+	public Character getClickValue() {
+		return clickValue != null ? clickValue.charAt(0) : ' ';
 	}
 
 	public void instacomplete() {

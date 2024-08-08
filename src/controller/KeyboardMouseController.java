@@ -1,13 +1,15 @@
 package controller;
 
 import shared.Util;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+
+import java.awt.event.*;
 import java.util.List;
 
 public class KeyboardMouseController extends AbstractController {
 
   private GraphicControllerKeyboardListener keyListener;
+
+  protected static Character input;
 
   public KeyboardMouseController() {
     keyListener = new GraphicControllerKeyboardListener();
@@ -40,33 +42,43 @@ public class KeyboardMouseController extends AbstractController {
     waitForInput();
   }
 
+  private boolean hasQueuedInput() {
+    return input != null;
+  }
+
+  private Character getQueuedInput() {
+    Character resp = input;
+    input = null;
+    return resp;
+  }
+
   private Character waitForInput() {
-    while (!keyListener.hasQueuedInput()) {
+    while (!hasQueuedInput()) {
       Util.sleep(100);
     }
-    return keyListener.getQueuedInput();
+    return getQueuedInput();
   }
 
   public KeyAdapter getKeyAdapter() {
     return keyListener;
   }
 
-  private class GraphicControllerKeyboardListener extends KeyAdapter {
-    Character input;
+  public PipelineToController makePipeline() {
+    return new PipelineToController() {
+      @Override
+      public void insertValue(Character s) {
+        KeyboardMouseController.input = s;
+      }
+    };
+  }
 
+  private class GraphicControllerKeyboardListener extends KeyAdapter {
     @Override
     public void keyPressed(KeyEvent e) {
       input = e.getKeyChar();
     }
-
-    public boolean hasQueuedInput() {
-      return input != null;
-    }
-
-    public Character getQueuedInput() {
-      Character resp = input;
-      input = null;
-      return resp;
-    }
   }
+
+  /*private class GraphicControllerMouseListener extends MouseAdapter {
+  }*/
 }

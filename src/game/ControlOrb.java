@@ -86,8 +86,6 @@ public class ControlOrb {
     view.clear();
   }
 
-  public void setColor(Color c) { view.setColor(c); }
-
   public void promptAnyInput() {
     view.promptAnyInput();
   }

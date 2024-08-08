@@ -6,8 +6,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import controller.PipelineToController;
 import shared.Util;
 import view.View;
+import view.ViewConstants;
 
 public class DefaultPanel extends WolgonPanel {
 
@@ -22,6 +24,7 @@ public class DefaultPanel extends WolgonPanel {
   private static final Set<String> keyTopics = new HashSet<>(); // some words to highlight if they show up in text.
 
   public DefaultPanel(String topicPath) {
+    super();
     if (keyTopics.isEmpty()) Util.parseFileAndDoEachLine(topicPath, this::getTermToHighlightInText);
     for (String s : keyTopics) {
       System.out.println(s);
@@ -88,6 +91,7 @@ public class DefaultPanel extends WolgonPanel {
       int i = 0;
       for (String s : options) {
         optionLabels[i].setText(s);
+        optionLabels[i].setClickValue(i + 1 + "");
         i++;
       }
     }
@@ -106,11 +110,6 @@ public class DefaultPanel extends WolgonPanel {
   @Override
   public void promptAnyInput() {
     promptingInput = true;
-  }
-
-  @Override
-  public void setColor(Color c) {
-    //body.setTextColor(c);
   }
 
   @Override

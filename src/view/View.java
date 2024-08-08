@@ -18,11 +18,6 @@ public interface View {
   void promptAnyInput();
 
   /**
-   * Set the text color.
-   */
-  void setColor(Color c);
-
-  /**
    * True if the view has finished drawing or whatever.
    * @return
    */

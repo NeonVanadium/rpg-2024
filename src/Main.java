@@ -31,6 +31,7 @@ public class Main {
     } else {
       controller = new KeyboardMouseController();
       graphicsManager.addKeyListener(((KeyboardMouseController)controller).getKeyAdapter());
+      graphicsManager.addControllerPipeline(((KeyboardMouseController) controller).makePipeline());
     }
 
     GameMaster.init(view, controller, RESOURCE_FOLDER);

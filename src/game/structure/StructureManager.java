@@ -111,13 +111,15 @@ public class StructureManager {
    * @param m
    */
   public static void leaveStructure(Movable m) {
-    m.currentStructure.removeMovableObject(m);
-    m.currentStructure = null;
-    m.currentRoom = -1;
-    MapManager.putGameObject(m);
-    if (m == CharacterManager.player()) {
-      for (GameCharacter member : Player.getPartyMembers()) {
-        leaveStructure(member);
+    if (m.currentStructure != null) {
+      m.currentStructure.removeMovableObject(m);
+      m.currentStructure = null;
+      m.currentRoom = -1;
+      MapManager.putGameObject(m);
+      if (m == CharacterManager.player()) {
+        for (GameCharacter member : Player.getPartyMembers()) {
+          leaveStructure(member);
+        }
       }
     }
   }

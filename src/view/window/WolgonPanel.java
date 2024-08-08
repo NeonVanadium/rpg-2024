@@ -6,7 +6,7 @@ import java.util.*;
 
 import javax.swing.*;
 
-import shared.Util;
+import controller.PipelineToController;
 import view.View;
 
 // an abstract panel designed for a specific portion of gameplay (world, menu, etc)
@@ -26,6 +26,7 @@ abstract class WolgonPanel extends JPanel implements IRectangle, View {
 
 	//protected UserTypeLabel typeBox; // a pointer to the on-panel typable label, if present
 	protected Label hoverTextBox; // a label to hold any text that pops up when a button is hovered over
+	private PipelineToController pipelineToController;
 
 	public WolgonPanel() {
 		this.setFocusable(true);
@@ -38,7 +39,10 @@ abstract class WolgonPanel extends JPanel implements IRectangle, View {
 		this.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (hoveredLabel != null) {
-					hoveredLabel.runFunction();
+					System.out.println(hoveredLabel.getClickValue());
+					pipelineToController.insertValue(hoveredLabel.getClickValue());
+				} else {
+					pipelineToController.insertValue('-'); // junk value, can be anything besides a valid response.
 				}
 			}
 		});
@@ -109,6 +113,10 @@ abstract class WolgonPanel extends JPanel implements IRectangle, View {
 			labels.remove(name);
 		}
 	}*/
+
+	public void setPipelineToController(PipelineToController pipeline) {
+		this.pipelineToController = pipeline;
+	}
 	
 	//
 	// IRECTANGLE METHODS
