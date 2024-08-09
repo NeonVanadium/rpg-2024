@@ -11,6 +11,8 @@ public interface View {
 
   void print(String s);
 
+  void showTypedCharacter(Character c);
+
   void showOptions(List<String> options);
 
   void clear();

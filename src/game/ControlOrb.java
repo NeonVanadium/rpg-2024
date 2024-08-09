@@ -68,11 +68,20 @@ public class ControlOrb {
 
   public String getTextInput() {
     view.promptTextInput();
-    String userInput = "";
-    while (userInput.isBlank()) {
-      userInput = controller.getTextInput();
+    StringBuilder userInputBuilder = new StringBuilder();
+    Character c = controller.getAnyInput();
+    while (userInputBuilder.length() < 1 || c != '\n') {
+      if (c == '\b') {
+        userInputBuilder.delete(userInputBuilder.length() - 1, userInputBuilder.length());
+        view.showTypedCharacter(c);
+      } else if (Character.isLetterOrDigit(c) || c == ' ' || c == '-'){
+        userInputBuilder.append(c);
+        view.showTypedCharacter(c);
+      }
+
+      c = controller.getAnyInput();
     }
-    return userInput;
+    return userInputBuilder.toString();
   }
 
   public void getAnyInput() {

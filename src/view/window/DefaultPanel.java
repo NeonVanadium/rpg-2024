@@ -9,7 +9,7 @@ import shared.Util;
 
 public class DefaultPanel extends WolgonPanel {
 
-  private final Label title, body, clock, continuePrompter, typePrompter;
+  private final Label title, body, clock, continuePrompter, typePrompter, typeBox;
   private final Label[] optionLabels;
   private boolean promptingInput = false, promptingTextInput = false;
   private int updatesSinceFlicker = 0;
@@ -34,7 +34,8 @@ public class DefaultPanel extends WolgonPanel {
     optionLabels = new Label[optionLabelCount];
     initOptionLabels();
     continuePrompter = new Label("Continue Prompter", Color.LIGHT_GRAY, 20f, "Body", this);
-    typePrompter = new Label("Type Prompter", Color.LIGHT_GRAY, 20f, "Body", this);
+    typeBox = new Label("Type box", Color.WHITE, 30f, "Body", this);
+    typePrompter = new Label("Type Prompter", Color.LIGHT_GRAY, 20f, "Type box", this);
   }
 
   private void getTermToHighlightInText(String rawLine) {
@@ -82,6 +83,15 @@ public class DefaultPanel extends WolgonPanel {
       body.setText(body.getText() + s + "\n\n");
     }
     update();
+  }
+
+  @Override
+  public void showTypedCharacter(Character c) {
+    if (c != '\b') {
+      typeBox.setText(typeBox.getText() + c);
+    } else if (!typeBox.getText().isEmpty()) {
+        typeBox.setText(typeBox.getText().substring(0, typeBox.getText().length() - 1));
+    }
   }
 
   @Override
@@ -154,6 +164,7 @@ public class DefaultPanel extends WolgonPanel {
 
     if (promptingTextInput) {
       typePrompter.setText("");
+      typeBox.setText("");
     }
   }
 

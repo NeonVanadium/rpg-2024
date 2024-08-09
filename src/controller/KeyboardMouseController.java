@@ -41,8 +41,8 @@ public class KeyboardMouseController extends AbstractController {
     return isValidSelection(selected) ? selected : INVALID_SELECTION;
   }
 
-  public void getAnyInput() {
-    waitForInput();
+  public Character getAnyInput() {
+    return waitForInput();
   }
 
   @Override
@@ -87,16 +87,6 @@ public class KeyboardMouseController extends AbstractController {
   private class GraphicControllerKeyboardListener extends KeyAdapter {
     @Override
     public void keyPressed(KeyEvent e) {
-      if (textInputBuilder != null) {
-        if (e.getKeyCode() == 10) { // code 10 == ENTER key
-          enteredText = textInputBuilder.toString();
-          textInputBuilder = null;
-          System.out.println();
-        } else if (Character.isAlphabetic(e.getKeyChar())) {
-          textInputBuilder.append(e.getKeyChar());
-          System.out.print(e.getKeyChar());
-        }
-      }
       input = e.getKeyChar();
     }
   }
