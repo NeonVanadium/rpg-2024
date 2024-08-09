@@ -75,8 +75,12 @@ public class DefaultPanel extends WolgonPanel {
 
   @Override
   public void print(String s) {
-    if (promptingInput) disablePrompters();
-    body.setText(body.getText() + s + "\n\n");
+    if (promptingTextInput) {
+      body.setText(body.text + s); // display characters typed by the player
+    } else {
+      if (promptingInput) disablePrompters();
+      body.setText(body.getText() + s + "\n\n");
+    }
     update();
   }
 
