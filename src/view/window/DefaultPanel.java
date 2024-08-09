@@ -15,6 +15,7 @@ public class DefaultPanel extends WolgonPanel {
   private int updatesSinceFlicker = 0;
   private final static String continuePromptText = "\\/";
   private static final int optionLabelCount = 8;
+  private static final String TEXT_PROMPTER_MESSAGE = "Type text and then press ENTER.";
   private static final AudioManager audioManager = new AudioManager();
   private static final Set<String> keyTopics = new HashSet<>(); // some words to highlight if they show up in text.
 
@@ -25,9 +26,7 @@ public class DefaultPanel extends WolgonPanel {
       System.out.println(s);
     }
     Label.setKeywordList(keyTopics);
-
-    title = new Label("Title", Color.WHITE, 30f, AlignmentLocation.Left,
-        AlignmentLocation.Top, "WHOLE", this);
+    title = new Label("Title", Color.WHITE, 30f, AlignmentLocation.Left, AlignmentLocation.Top, "WHOLE", this);
     clock = new Label("Clock", Color.WHITE, 20f, AlignmentLocation.Right, AlignmentLocation.Bottom, "WHOLE", this);
     clock.setTypewriter(false);
     body = new Label("Body", Color.WHITE, 30f, "Title", this);
@@ -35,6 +34,7 @@ public class DefaultPanel extends WolgonPanel {
     initOptionLabels();
     continuePrompter = new Label("Continue Prompter", Color.LIGHT_GRAY, 20f, "Body", this);
     typeBox = new Label("Type box", Color.WHITE, 30f, "Body", this);
+    typeBox.setTypewriter(false);
     typePrompter = new Label("Type Prompter", Color.LIGHT_GRAY, 20f, "Type box", this);
   }
 
@@ -125,7 +125,7 @@ public class DefaultPanel extends WolgonPanel {
   }
 
   public void promptTextInput() {
-    typePrompter.setText("Type your response...");
+    typePrompter.setText(TEXT_PROMPTER_MESSAGE);
     promptingTextInput = true;
   }
 

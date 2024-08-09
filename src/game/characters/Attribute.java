@@ -12,6 +12,14 @@ public class Attribute {
     this.description = description;
   }
 
+  public boolean hasDescription() {
+    return description != null && !description.isBlank();
+  }
+
+  public boolean hasAdjective() {
+    return description != null && !description.isBlank();
+  }
+
   public String toString() {
     return name + " (" + adjective + "): " + description;
   }

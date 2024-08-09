@@ -71,9 +71,6 @@ public class CombatManager {
     orb.clear();
 
     handleAttack(player, target, 8, orb);
-
-    orb.enterToContinue();
-    orb.clear();
   }
 
   private static void handleNPCAction(CombatWrapper npc, ControlOrb orb) {

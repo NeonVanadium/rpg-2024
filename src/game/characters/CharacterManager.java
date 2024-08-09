@@ -2,6 +2,7 @@ package game.characters;
 
 import game.GameMaster;
 import game.Player;
+import game.TagAndTopicManager;
 import shared.Util;
 
 import java.util.*;
@@ -12,37 +13,24 @@ public class CharacterManager {
   private final static Map<String, String> knownNames = new HashMap<>(); // the names the player knows for any given character
   private final static Map<String, String> STATS = new HashMap<>();
   private final static Map<String, Skill> SKILLS = new HashMap<>();
-  private final static Map<String, Map<String, Attribute>> ATTRIBUTE_CATEGORIES = new HashMap<>();
+
   private static String[] template; // derived from the characters file, the format (ie, what attribute is at which position) of a character declaration.
 
   public static final String UNKNOWN_NAME = "???";
   public static final int SKILL_CHECK_DIE = 10; // when a skill check is made, rolls a this-many-sided die.
 
-  private static String buildingAttributeCategory; // used during initialization to track the name of the attribute being initialized.
-
   public static void loadCharacters() {
-    Util.parseFileAndDoEachLine(GameMaster.getResourceFolder() + "attributes.txt",
-        CharacterManager::makeAttributeCategory);
     Util.parseFileAndDoEachLine(GameMaster.getResourceFolder() + "stats_and_skills.txt",
         CharacterManager::makeStatsOrSkill);
 
-    characters.put("PLAYER", new GameCharacter("PLAYER", makeCharacterAttributeTemplate(), makeCharacterStatTemplate(), "you."));
+    characters.put("PLAYER", new GameCharacter("PLAYER", new HashMap<>(), makeCharacterStatTemplate(), "you."));
     knownNames.put("PLAYER", "The player"); // temp until they enter it, obviously
     Player.character = characters.get("PLAYER");
     Util.parseFileAndDoEachLine(GameMaster.getResourceFolder() + "characters.txt",
         CharacterManager::makeCharacterFromLine);
   }
 
-  private static void makeAttributeCategory(String line) {
-    if (line.startsWith(Util.ENTRY_START_SYMBOL)) {
-      buildingAttributeCategory = line.substring(line.indexOf(' ') + 1);
-      ATTRIBUTE_CATEGORIES.put(buildingAttributeCategory, new HashMap<>());
-    } else { // no entry-start, so this line is an attribute in the above category
-      String[] parts = line.split(" ", 3);
-      Attribute toAdd = new Attribute(parts[0].toUpperCase(), parts[1], parts.length > 2 ? parts[2] : "");
-      ATTRIBUTE_CATEGORIES.get(buildingAttributeCategory).put(toAdd.name, toAdd);
-    }
-  }
+
 
   private static void makeStatsOrSkill(String line) {
     if (line.startsWith(Util.ENTRY_START_SYMBOL)) {
@@ -80,15 +68,15 @@ public class CharacterManager {
    */
   private static void makeCharacter(String label, String[] lineParts) {
     String description = null;
-    Map<String, Attribute> attributes = makeCharacterAttributeTemplate();
+    Map<String, String> attributes = new HashMap<>();
 
     for (int i = 2; i < lineParts.length; i++) {
       int templateIndex = i - 1; // -1 to compensate for starting >>, which template does not have.
-      if (templateIndex >= template.length) {
+      if (templateIndex >= template.length) { // we've got more tokens than the template specified -- the rest is description override.
         description = lineParts[i];
       } else {
         String attributeCategory = template[templateIndex];
-        attributes.put(attributeCategory, ATTRIBUTE_CATEGORIES.get(attributeCategory).get(lineParts[i]));
+        attributes.put(attributeCategory, lineParts[i]);
       }
     }
 
@@ -125,14 +113,6 @@ public class CharacterManager {
       map.put(s, 0);
     }
     return map;
-  }
-
-  private static HashMap<String, Attribute> makeCharacterAttributeTemplate() {
-    return new HashMap<>();
-  }
-
-  public static Attribute getAttributeByCategoryAndLabel(String category, String label) {
-    return ATTRIBUTE_CATEGORIES.get(category).get(label);
   }
 
   /**

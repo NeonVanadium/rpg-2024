@@ -35,6 +35,7 @@ public class GameMaster {
   }
 
   public static void start() {
+    TagAndTopicManager.initTopicsAndAttributes();
     EventManager.loadEvents();
     CharacterManager.loadCharacters();
     StructureManager.loadStructures();

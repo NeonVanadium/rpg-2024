@@ -15,7 +15,6 @@ import java.util.Stack;
  */
 public class EventManager {
   private static Map<String, Event> events;
-  private static Collection<String> loggedTags;
   private static Collection<String> topLevelEvents;
   private static Collection<String> completedEvents;
 
@@ -32,7 +31,7 @@ public class EventManager {
     events = new HashMap<>();
     completedEvents = new HashSet<>();
     topLevelEvents = new HashSet<>();
-    loggedTags = new HashSet<>();
+
     eventBeingBuilt = null;
     for (String fileName : new File(eventFilesPath).list()) {
       Util.parseFileAndDoEachLine(eventFilesPath + fileName, EventManager::processLine);
@@ -126,15 +125,6 @@ public class EventManager {
 
   public static boolean isEventCompleted(String title) {
     return completedEvents.contains(title);
-  }
-
-  public static void logTag(String tag) {
-    loggedTags.add(tag);
-    System.out.println("Logged " + tag);
-  }
-
-  public static boolean hasLog(String tag) {
-    return loggedTags.contains(tag);
   }
 
   protected static void pushToEventInsertStack(String eventName) {

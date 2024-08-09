@@ -2,6 +2,7 @@ package game.events;
 
 import game.ControlOrb;
 import game.Player;
+import game.TagAndTopicManager;
 import game.characters.CharacterManager;
 
 /**
@@ -45,7 +46,7 @@ class EventCondition {
       case "WITH" -> CharacterManager.get(subject).isInSameSpotAs(CharacterManager.get(object));
       case "CHECK" -> CharacterManager.skillCheck("PLAYER", subject, Integer.parseInt(object));
       case "HASATTRIBUTE" -> CharacterManager.get(subject).hasAttribute(object);
-      default -> EventManager.hasLog(query); // if the condition is one token long, we simply check if this tag has been logged in the event manager.
+      default -> TagAndTopicManager.hasLog(query); // if the condition is one token long, we simply check if this tag has been logged in the event manager.
     };
     return negated ? !result : result;
   }

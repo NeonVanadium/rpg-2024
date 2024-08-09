@@ -1,6 +1,7 @@
 package game.events;
 
 import game.ControlOrb;
+import game.TagAndTopicManager;
 
 /**
  * Stores a tag in a set, which work as boolean conditions. Will let events hinge on more
@@ -14,7 +15,7 @@ public class LogEventPart implements EventPart{
   }
 
   public void run(ControlOrb orb) {
-    EventManager.logTag(tag);
+    TagAndTopicManager.logTag(tag);
   }
 
   @Override

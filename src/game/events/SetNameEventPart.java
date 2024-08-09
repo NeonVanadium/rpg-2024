@@ -7,7 +7,7 @@ public class SetNameEventPart implements EventPart{
   String characterLabel, newName;
 
   public SetNameEventPart(String rawLine) {
-    String[] parts = rawLine.split(" ");
+    String[] parts = rawLine.split(" ", 3); // the limit enables names with spaces in them.
     this.characterLabel = parts[1].trim();
     this.newName = parts[2].trim();
   }
