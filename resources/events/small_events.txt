@@ -1,7 +1,7 @@
 >> INTRO ; INTRO NOT COMPLETED ;
 You awaken on hard stone.
 You rise to your feet, and find yourself atop a strange tower. A steady, warm breeze blows, and a vast jungle expands below.
-You have no memory--no why you're in this place, and no sense of who you are, beyond a vague recollection of what might be your name...
+You have no memory--no idea why you're in this place, and no sense of who you are beyond a vague recollection of your name...
 TEXTINPUT SETNAME PLAYER ~
 ~PLAYER.NAME. Yes, that sounds right. Your name is ~PLAYER.NAME.
 Whatever is going on, whatever you choose to do, you gain nothing by staying put. You get your bearings, and prepare to get moving.

@@ -1,5 +1,7 @@
 package game;
 
+import shared.Util;
+
 public class Item extends Movable {
   public final String label, simpleName, description;
 
@@ -12,5 +14,15 @@ public class Item extends Movable {
   @Override
   public String getNameToDisplayAsOption() {
     return description;
+  }
+
+  @Override
+  public String getDefiniteDescription() {
+    return "the " + description;
+  }
+
+  @Override
+  public String getIndefiniteDescription() {
+    return Util.addIndefiniteArticle(description);
   }
 }

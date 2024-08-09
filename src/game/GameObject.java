@@ -45,4 +45,14 @@ public abstract class GameObject implements Selectable {
   }
 
   public abstract String getNameToDisplayAsOption();
+
+  /**
+   * "The object."
+   */
+  public abstract String getDefiniteDescription();
+
+  /**
+   * An object."
+   */
+  public abstract String getIndefiniteDescription();
 }

@@ -1,8 +1,8 @@
 // NAME adjective [and the rest is the description]
 
 >> GENDER
-MALE Male a man
-FEMALE Female a woman
+MAN Male a man
+WOMAN Female a woman
 
 >> RACE
 ILV Ilven

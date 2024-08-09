@@ -18,21 +18,6 @@ public class GameCharacter extends game.Movable {
     this.descriptionOverride = describeOverride;
   }
 
-  public String getGenericDescription() {
-    if (!hasAttribute("GENDER")) {
-      return "someone";
-    }
-    return TagAndTopicManager.getAttributeDescription(getAttributeForCategory("GENDER"));
-  }
-
-  public String getDefiniteGenericDescription() {
-    String gender = getAttributeForCategory("GENDER").toUpperCase();
-    if (!gender.equals("MAN") && !gender.equals("WOMAN")) {
-      return "someone";
-    }
-    return "the " + gender;
-  }
-
   public String getDetailedDescription() {
     StringBuilder result = new StringBuilder();
     String start = !this.hasAttribute("GENDER") ? "They are " : getAttributeForCategory("GENDER").equals("FEMALE") ? "She is " : "He is ";
@@ -48,10 +33,32 @@ public class GameCharacter extends game.Movable {
 
   @Override
   public String getNameToDisplayAsOption() {
-    if (CharacterManager.getKnownName(this.label).equals(CharacterManager.UNKNOWN_NAME)) {
-      return getGenericDescription();
-    } else {
+    return getDefiniteDescription();
+  }
+
+  @Override
+  public String getDefiniteDescription() {
+    if (CharacterManager.isKnownByPlayer(this.label)) {
       return CharacterManager.getKnownName(this.label);
+    } else {
+      String gender = getAttributeForCategory("GENDER").toUpperCase();
+      if (!gender.equals("MAN") && !gender.equals("WOMAN")) {
+        return "someone";
+      }
+      return "the " + gender;
+    }
+  }
+
+  @Override
+  public String getIndefiniteDescription() {
+    if (CharacterManager.isKnownByPlayer(this.label)) {
+      return CharacterManager.getKnownName(this.label);
+    } else {
+      String gender = getAttributeForCategory("GENDER").toUpperCase();
+      if (!gender.equals("MAN") && !gender.equals("WOMAN")) {
+        return "someone";
+      }
+      return Util.addIndefiniteArticle(gender);
     }
   }
 

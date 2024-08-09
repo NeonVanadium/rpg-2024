@@ -13,13 +13,13 @@ import java.util.Set;
 
 public class Structure extends GameObject {
 
-  private ArrayList<Room> rooms;
+  private final ArrayList<Room> rooms;
   private Set<Movable> thingsInHere;
-  String distantName; // the name shown to the player when viewed from a distance.
+  String description; // the name shown to the player when viewed from a distance.
 
-  public Structure(String name, String distantName) {
+  public Structure(String name, String description) {
     this.label = name;
-    this.distantName = distantName;
+    this.description = description;
     this.rooms = new ArrayList<>();
   }
 
@@ -31,16 +31,8 @@ public class Structure extends GameObject {
     rooms.add(new Room(parts[1].trim(), parts[2].trim(), parts[3].trim()));
   }
 
-  public String getDistantName() {
-    return distantName;
-  }
-
-  public String getLabel() {
-    return label;
-  }
-
   public boolean isEnterable() {
-    return this.rooms != null && this.rooms.size() > 0;
+    return this.rooms.size() > 0;
   }
 
   public String getRoomName(int id) {
@@ -107,8 +99,20 @@ public class Structure extends GameObject {
   }
 
   private boolean isValidRoomId(int id) {
-    return rooms != null && id >= 0 && id < rooms.size();
+    return id >= 0 && id < rooms.size();
   }
 
-  public String getNameToDisplayAsOption() { return getDistantName(); }
+  public String getNameToDisplayAsOption() { return getDefiniteDescription(); }
+
+  @Override
+  public String getDefiniteDescription() {
+    return "the " + description;
+  }
+
+  @Override
+  public String getIndefiniteDescription() {
+    return Util.addIndefiniteArticle(description);
+  }
+
+
 }

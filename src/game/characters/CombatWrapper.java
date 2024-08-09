@@ -52,6 +52,16 @@ public class CombatWrapper extends GameObject implements game.prompts.Selectable
     return character.getNameToDisplayAsOption();
   }
 
+  @Override
+  public String getDefiniteDescription() {
+    return character.getDefiniteDescription();
+  }
+
+  @Override
+  public String getIndefiniteDescription() {
+    return character.getIndefiniteDescription();
+  }
+
   public String getNameHealthAndEnergy() {
     return String.format("%s (%d Health, %d Energy)", getNameToDisplayAsOption(), this.health, this.energy);
   }

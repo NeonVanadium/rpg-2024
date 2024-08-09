@@ -103,6 +103,10 @@ public class CharacterManager {
 
   public static void setKnownName(String label, String newName) { knownNames.put(label, newName); }
 
+  public static boolean isKnownByPlayer(String label) {
+    return contains(label) && !getKnownName(label).equals(UNKNOWN_NAME);
+  }
+
   public static GameCharacter player() {
     return characters.get("PLAYER");
   }
